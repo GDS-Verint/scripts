@@ -339,15 +339,15 @@ function marginRearrange(obj){
     obj.insertBefore(obj.parent().parent());
 }
 
-function applyNewerStyle(elements){
+function updateStyle(elements){
     //KS: used to apply the JS side of the new styles to elements after _KDF_ready
     //    should be called after chk, mchk, rad are updated - the rest is for completion sake
     //    can accecpt lists
     $.each(elements, function(){
-        individualApplyNewStyle($(this))
+        individualApplyStyle($(this))
     });
 }
-function individualApplyNewStyle(element){
+function individualApplyStyle(element){
     /*TODO
     Add file-limt-#
     */
