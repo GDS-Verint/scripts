@@ -213,7 +213,7 @@ function defaultNewStyle(elements){
         } 
     });
 }}
-function applyNewStyle(elements){
+function applyStyle(elements){
     //KS: shorthand for applying new style with defualts style
     defaultNewStyle(elements)
     applyNewStyle();
