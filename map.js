@@ -295,7 +295,7 @@ function zoomChanged(evt){
 	}else{
 		console.log(' level undefined');
 	    //KS implement default zoom extent
-	    if (evt.lod.level <= 6){
+	    if (evt.lod.level >= 6){
 		    console.log('zoom under default');
 	    //KS zoom is at or more magnified than max level - so draw it
 	        drawAssetLayer();
