@@ -282,19 +282,25 @@ function zoomChanged(evt){
 	//KS won't be implemented due to demo
 	//Should we prevent clicking?
 	if (specifics.assetMaxDrawZoom){
+	    console.log('has level defined');
 	    //KS implement user specified zoom extent 
 	    if (evt.lod.level <= specifics.assetMaxDrawZoom){
+		    console.log('Zoom at or less');
 	        drawAssetLayer();
 	    }else{
+		    console.log('Zoom is more');
 	        //KS remove assets if above extent - aesthetic only
 	        esrimap.graphics.clear();
 	    }
 	}else{
+		console.log(' level undefined');
 	    //KS implement default zoom extent
 	    if (evt.lod.level <= 6){
+		    console.log('zoom under default');
 	    //KS zoom is at or more magnified than max level - so draw it
 	        drawAssetLayer();
 	    }else{
+		    console.log('zoom over default');
 	        //KS remove assets if above extent - aesthetic only
 	        esrimap.graphics.clear();
 	    }
