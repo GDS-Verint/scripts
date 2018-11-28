@@ -276,10 +276,10 @@ function callInfoWindow(content, marker, map){
 }
 
 function zoomChanged(evt){
-	drawAssetLayer();
+	//drawAssetLayer();
 	//console.log(evt)
 	console.log('Zoom: '+evt.lod.level)
-	/*/KS won't be implemented due to demo
+	//KS won't be implemented due to demo
 	//Should we prevent clicking?
 	if (specifics.assetMaxDrawZoom){
 	    //KS implement user specified zoom extent 
@@ -299,7 +299,7 @@ function zoomChanged(evt){
 	        esrimap.graphics.clear();
 	    }
 	}
-	*/
+	
 }
 
 function drawAssetLayer(){
