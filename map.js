@@ -678,7 +678,7 @@ function centreOnEsriResult(geometryX, geometryY, xmax, xmin, ymax, ymin, north,
     
 }
 function addLocate(map, gisContainer){
-	require(["esri/Map", "esri/views/MapView", "esri/widgets/Locate" ],
+	require(["esri/map", "esri/views/MapView", "esri/widgets/Locate" ],
 		function(Map, MapView, Locate) {
 			var view = new MapView({
 				container: gisContainer,
