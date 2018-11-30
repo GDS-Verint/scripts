@@ -677,6 +677,19 @@ function centreOnEsriResult(geometryX, geometryY, xmax, xmin, ymax, ymin, north,
     }
     
 }
-
-
-
+function addLocate(map, gisContainer){
+	require(["esri/Map", "esri/views/MapView", "esri/widgets/Locate" ],
+		function(Map, MapView, Locate) {
+			var view = new MapView({
+				container: gisContainer,
+				map: map,
+				center: [-5.049, 38.485, 78],
+				zoom: 3,
+			});
+			var locateBtn = new Locate({
+				view: view,
+			});
+			view.ui.add(locateBtn, {position: "top-left"});
+		}
+	);
+}
