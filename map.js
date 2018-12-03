@@ -188,6 +188,7 @@ function getAssetInfo(globalX, globalY) {
                             console.log('asset_popup_fields defined');
                         }else{
                             console.log('asset_popup_fields not defined');
+				console.log(value.attributes);
                             if(specifics.popupFields){//KS object is defined (test with empty object, will return true but we might want that, considering default is null)
                                 console.log('specifics.popupFields defined');
                                 specifics.popupFields.forEach(function(element){
