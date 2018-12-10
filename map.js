@@ -345,7 +345,14 @@ function drawAssetLayer(){
               var multiPoints = new esri.geometry.Multipoint(points);  
               //var markerSymbol = new PictureMarkerSymbol('/dformresources/content/map-blue.png', 32, 32);
               //var binSymbol = new PictureMarkerSymbol('https://drive.google.com/file/d/1bOGzVEcTYVEIBvMDQ-N5-qnWJmDMCLVO/view?usp=sharing', 32, 32);
-              var sms = new SimpleMarkerSymbol({
+              //KS: Custom marker - if defined - use the object
+		    var sms;
+			if (specifics.markerSymbol){
+			    //KS: use defind object to create marker
+				sms = new SimpleMarkerSymbol(specifics.markerSymbol);
+		    }else{
+			    //KS: use default marker
+				sms = new SimpleMarkerSymbol({
                   color: redColor,
                   size: "12",
                   outline: {
@@ -353,6 +360,8 @@ function drawAssetLayer(){
                     width: "5px",
                   }
                 });
+		    }
+		    
                 //KS trying to fix the icon offset issue your having - was sms.setOffset(0, 32);
               sms.setOffset(0, 0);
               var graphic = new esri.Graphic(multiPoints, sms);  
