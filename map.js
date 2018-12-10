@@ -704,7 +704,7 @@ function addLocate(map, gisContainer){
 	);
 }
 function isPointInPolygon(point, polygon){
-	//KS: must be same wkid
+	//KS: must be same wkid - and it's a tiny bit off at the edges
 	//KS e.g. isPointInPolygon([1.5,1.5],[[1,1],[1,2],[2,2],[2,1]]);
 	// ray-casting algorithm based on
     // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
