@@ -5,11 +5,11 @@ After a commit, it takes a while for the cache to clear. To get around this go t
 
 Example URL for resource tab:
 
-https://cdn.jsdelivr.net/gh/GDS-Verint/scripts/style-4.css.
+https://cdn.jsdelivr.net/gh/GDS-Verint/scripts@latest/style-4.css.
 
-https://cdn.jsdelivr.net/gh/GDS-Verint/scripts/style-4.js.
+https://cdn.jsdelivr.net/gh/GDS-Verint/scripts@latest/style-4.js.
 
-https://cdn.jsdelivr.net/gh/GDS-Verint/scripts/map.js.
+https://cdn.jsdelivr.net/gh/GDS-Verint/scripts@latest/map.js.
 
 
 Purge URL to clear cache: https://purge.jsdelivr.net/gh/GDS-Verint/scripts@latest/style-4.css.
