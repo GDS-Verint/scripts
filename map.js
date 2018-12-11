@@ -732,30 +732,7 @@ function isPointInPolygon(point, polygon){
     }
     return inside;
 }
-function popupOrZoomTo(aMap, lat, lon, wkid){
-	require(["esri/geometry/Point"],function(Point){
-		var location = new Point(lon, lat, wkid);
-		if (specifics.assetMaxDrawZoom){
-			if (specifics.assetMaxDrawZoom > aMap.getLevel()){
-				//KS: center and zoom
-				aMap.centerAndZoom(location, specifics.assetMaxDrawZoom);
-				return false;
-			}else{
-				//KS: popup window
-				return true;
-			}
-		} else {
-			if (6 > aMap.getLevel()){
-				//KS: center and zoom
-				aMap.centerAndZoom(location, 6);
-				return false;
-			}else{
-				//KS: popup window
-				return true;
-			}
-		}
-	}
-}
+
 function popupOrZoomTo(aMap, aPoint){
 	require(["esri/geometry/Point"],function(Point){
 		var location = aPoint;//new Point(lon, lat, wkid);
