@@ -246,9 +246,11 @@ function getAssetInfo(globalX, globalY) {
             			marker.setAttributes({"value1": '1', "value2": '2', "value3": '3'});
             			newlayer.add(marker);
             			newlayer.on('click', function(event) {
+							console.log('newLayer.on > callInfoWindow');
             				callInfoWindow(content,marker, map);
             			});
             			esrimap.addLayer(newlayer);
+						console.log('Single after newLayer.on > callInfoWindow');
             			callInfoWindow(content, marker, esrimap);
                 });
                     
