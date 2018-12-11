@@ -687,21 +687,25 @@ function centreOnEsriResult(geometryX, geometryY, xmax, xmin, ymax, ymin, north,
     }
     
 }
-function addLocate(map, gisContainer){
-	require(["esri/map", "esri/views/MapView", "esri/widgets/Locate" ],
-		function(Map, MapView, Locate) {
-			var view = new MapView({
-				container: gisContainer,
-				map: map,
-				center: [-5.049, 38.485, 78],
-				zoom: 3,
-			});
-			var locateBtn = new Locate({
-				view: view,
-			});
-			view.ui.add(locateBtn, {position: "top-left"});
-		}
-	);
+function distanceBetweenPoints(lat1, lon1, lat2, lon2){
+	//KS: converted from https://verint-lagan01.squiz.co.uk/generator/form/map_dist_betw_2_points
+	//KS: I don't know how well it'll work with diffrent WKID so may need to convert to WKID:4326 for actual M
+	// Uses the Haversine formula to calculate the distance between two lat/longs 
+        var pi = Math.PI;   
+        var R = 6371e3; // metres
+        var φ1 = lat1*(pi/180);
+        var φ2 = lat2*(pi/180);
+        var Δφ = (lat2-lat1)*(pi/180);
+        var Δλ = (lon2-lon1)*(pi/180);
+
+        var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+            Math.cos(φ1) * Math.cos(φ2) *
+            Math.sin(Δλ/2) * Math.sin(Δλ/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        var d = R * c;
+    
+        return d; 
 }
 function isPointInPolygon(point, polygon){
 	//KS: must be same wkid - and it's a tiny bit off at the edges
