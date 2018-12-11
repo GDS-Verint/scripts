@@ -185,12 +185,12 @@ function getAssetInfo(globalX, globalY) {
                         content = ''; //KS otherwise will display all resukts - maybe update when we're using PopUp
                         if (KDF.getVal('asset_popup_fields')){
                             //KS TODO implement form based way to display fields e.g. on a table that has same information
-                            console.log('asset_popup_fields defined');
+                            //console.log('asset_popup_fields defined');
                         }else{
-                            console.log('asset_popup_fields not defined');
-				console.log(value.attributes);
+                            //console.log('asset_popup_fields not defined');
+				//console.log(value.attributes);
                             if(specifics.popupFields){//KS object is defined (test with empty object, will return true but we might want that, considering default is null)
-                                console.log('specifics.popupFields defined');
+                                //console.log('specifics.popupFields defined');
                                 specifics.popupFields.forEach(function(element){
                                     content += '<b>'+element[0]+'</b>'+ value.attributes[element[1]]+"</br>";
                                 });
@@ -211,7 +211,7 @@ function getAssetInfo(globalX, globalY) {
                                 }
                                 
                                 if (specifics.formName === 'communal_bin') {
-                                        console.log('specifics.popupFields undefined. Value is:');
+                                        //console.log('specifics.popupFields undefined. Value is:');
                                 console.log(value)
                                 //KS what will be default? maybe display all (do we need formatting?)
                                 //KS untill I update it for him, it will be for LB's form
