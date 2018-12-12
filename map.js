@@ -247,15 +247,15 @@ function getAssetInfo(globalX, globalY) {
             			newlayer.add(marker);
             			newlayer.on('click', function(event) {
 							console.log('newLayer.on > callInfoWindow');
-            				if(popupOrZoomTo(esrimap, centerpoint)){
+            				//if(popupOrZoomTo(esrimap, centerpoint)){
 								callInfoWindow(content, marker, esrimap);
-							}
+							//}
             			});
             			esrimap.addLayer(newlayer);
 						console.log('Single after newLayer.on > callInfoWindow');
-						if(popupOrZoomTo(esrimap, centerpoint)){
+						//if(popupOrZoomTo(esrimap, centerpoint)){
 							callInfoWindow(content, marker, esrimap);
-						}
+						//}
                 });
                     
             });
