@@ -771,8 +771,7 @@ KS: Custom gov radio buttons - Start
 }
 /*KS: add red border to input that are required/have an error*/
 .rad-gov  input[type="radio"].dform_fielderror ~ span{
-    border-color: #d45252;
-    /*box-shadow: 0 0 3px 3px #d45252 !important;*/
+    box-shadow: inset 0 0 0 3px #d45252;
 }
 /*KS: The error text when field is invalid*/
 .rad-gov  .dform_validationMessage{
