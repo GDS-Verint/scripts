@@ -485,9 +485,9 @@ function noResultsFound(){
 
 
 
-$(document).on('input', '.txta-gov textarea',txtaLength);
-$(document).on('click', '.detail-title',detailToggle);
-$(document).off('_KDF_search').on('_KDF_search', function(event, kdf, response, type, name) {
+$('#dform_container').on('input', '.txta-gov textarea',txtaLength);
+$('#dform_container').on('click', '.detail-title',detailToggle);
+$('#dform_container').off('_KDF_search').on('_KDF_search', function(event, kdf, response, type, name) {
     //KS: call noResultsFound with 'this' set to the search element that triggered the event
 	noResultsFound.call($('[name="'+name+'_id"]'))
 });
