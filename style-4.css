@@ -782,7 +782,7 @@ KS: Custom gov radio buttons - Start
 }
 .rad-gov > div > fieldset > span  input:focus ~ .rad-check{
     /*border: 3px solid red !important;*/
-    box-shadow: 0 0 0 3px #FFBF47;
+    box-shadow: 0 0 0 3px #FFBF47, inset 0 0 0 3px #007AFF;
 }
 .rad-gov > div > fieldset{
     margin: 0 !important;
