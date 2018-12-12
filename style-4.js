@@ -332,7 +332,8 @@ function applyNewStyle(){
             );
         }
     );
-    
+    //KS: adds the listeners after content has been finalized
+    addStartupListeners()
 }
 
 function marginRearrange(obj){
@@ -484,11 +485,11 @@ function noResultsFound(){
 
 
 
-
-$('#dform_container').on('input', '.txta-gov textarea',txtaLength);
-$('#dform_container').on('click', '.detail-title',detailToggle);
-$('#dform_container').off('_KDF_search').on('_KDF_search', function(event, kdf, response, type, name) {
-    //KS: call noResultsFound with 'this' set to the search element that triggered the event
-	noResultsFound.call($('[name="'+name+'_id"]'))
-});
-//would this work? $(document).off('_KDF_search').on('_KDF_search', {search:$('[name="'+name+'_id"]')}, noResultsFound);
+function addStartupListeners(){
+	$('#dform_container').on('input', '.txta-gov textarea',txtaLength);
+	$('#dform_container').on('click', '.detail-title',detailToggle);
+	$('#dform_container').off('_KDF_search').on('_KDF_search', function(event, kdf, response, type, name) {
+	    //KS: call noResultsFound with 'this' set to the search element that triggered the event
+		noResultsFound.call($('[name="'+name+'_id"]'))
+	});
+}
