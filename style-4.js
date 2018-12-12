@@ -480,12 +480,8 @@ function noResultsFound(){
     }
 }
 
-
-
-
-
-
 function addStartupListeners(){
+	//KS: problem with the listeners being applied as soon as defined - hopefully this will fix
 	$('#dform_container').on('input', '.txta-gov textarea',txtaLength);
 	$('#dform_container').on('click', '.detail-title',detailToggle);
 	$('#dform_container').off('_KDF_search').on('_KDF_search', function(event, kdf, response, type, name) {
