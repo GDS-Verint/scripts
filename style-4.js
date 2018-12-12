@@ -416,7 +416,6 @@ function individualApplyStyle(element){
 function txtaLength(){
     //KS: updates the chars left box for txta-length styled elements
     //    used as the function in the textarea input 
-    console.log("txta-length fire")
     var maxLength = $(this).attr('maxlength');
     if (maxLength !== undefined && maxLength !== 0){
         var currentLength = $(this).val().length;
@@ -430,30 +429,6 @@ function txtaLength(){
     }
 }
 
-/*KS: used to hide GIS help*/
-//function hideGISSplash(closeButton){
-//    closeButton.closest('.gis-splash').css('visibility','hidden');
-    /*Requires a div with .gis-splash to be inserted as the first child of the GIS widget. Allows you to insert div, I recommend having the legend somewhere else then adding that from there - have the close instructions by default but allow them to be removed*
-    EG*/
-    /*<div class="gis-splash" style="position: absolute; background: white; z-index: 1; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%); text-align: center; padding: 4px; visibility: visible;"><p>Instructions</p>
-    <div style="clear: both;margin-bottom: 0px;" data-type="html" data-name="where_text" id="dform_widget_html_where_text" data-active="true" class="dform_widget info-notice dform_widget_type_html dform_widget_where_text"><p><strong>Please first provide us with the location of the incident on the map by
-                        zooming in as required (using the + and - icons) and then clicking with the mouse
-                        at the location of the <span data-mapfrom="typeofissue">pavement defect</span>. &nbsp;You can also search for the location using
-                        the search box in the top left corner of the map. Then click on the "Next"
-                        button.</strong></p>
-        <button id="enhfe" class="btn-orange" data-asset_id="" onclick="hideGISSplash(this)">Close instructions</button>
-        </div>
-</div>*///
-    
-//}
-
-/*$('.detail-title').click(function(){
-    console.log("yeah")
-    $(this).siblings('.detail-block').toggle(
-        function () { $(this).siblings('.detail-block').addClass("detail-block-hidden");}, 
-        function () { $(this).siblings('.detail-block').removeClass("detail-block-hidden");}
-    )
-});*/
 /*KS: here incase I want to implement diffrent indicators
 function detailToggle(){
     //KS: uses default indicator
