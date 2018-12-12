@@ -728,11 +728,12 @@ KS: Custom gov radio buttons - Start
   position: absolute;
   top: 0;
   left: 0;
-  height: 29px;
-  width: 29px;
+  height: 35px;
+  width: 35px;
   background-color: white;/*uncheck background*/
   border-radius: 75%;
-  border: 3px solid #007AFF;
+  /*border: 3px solid #007AFF;Inconsistint sizing between host and VOF*/
+  box-shadow: inset 0 0 0 3px #007AFF;
 }
 /*KS: Create the indicator (the dot/circle - hidden when not checked) */
 .rad-check:after {
@@ -746,8 +747,8 @@ KS: Custom gov radio buttons - Start
 }
 /*KS: Style the indicator (dot/circle) */
 .rad-gov > div > fieldset > span  .rad-check:after {
-  top: 4px;
-  left: 4px;
+  top: 7px;
+  left: 7px;
   width: 21px;
   height: 21px;
   border-radius: 50%;
