@@ -754,6 +754,6 @@ function popupOrZoomTo(aMap, aPoint){
 				//KS: popup window
 				return true;
 			}
-		});
-	}
+		}
+	});
 }
