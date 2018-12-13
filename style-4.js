@@ -213,12 +213,12 @@ function defaultNewStyle(elements){
         } 
     });
 }}
-function applyStyle(elements){
-    //KS: shorthand for applying new style with defualts style
-    defaultNewStyle(elements)
-    applyNewStyle();
-}
 function applyNewStyle(){
+    //KS: since there is no overloading in JS - this is an alternitive
+    if (typeof arguments[0] !== "undefined" && Array.isArray(arguments[0])){
+        //KS: i.e. if there is an array
+        defaultNewStyle(arguments[0])
+    }
     var rad = $('.rad-gov > div > fieldset > span').append('<span class="rad-check"></span>');
     var chk = $('.chk-gov > div').append('<span class="chk-check"></span>');
     var mchk = $('.mchk-gov > div > fieldset > span').append('<span class="mchk-check"></span>');
