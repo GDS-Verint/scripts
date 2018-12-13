@@ -811,11 +811,13 @@ function convertLonLat(lonLatArray, inputSR, outputSR, callbackFunction){
 
 function geolocate(){
 	if( navigator.geolocation ) { 
-	    navigator.geolocation.getCurrentPosition(function(pos){
-	        console.log(pos)
-	        convertXY([pos.coords.longitude, pos.coords.latitude],4326,mapGlobal.WKID,geolocateLogic)//callback function
-	    })
-    }
+		navigator.geolocation.getCurrentPosition(function(pos){
+			console.log(pos)
+			convertXY([pos.coords.longitude, pos.coords.latitude],4326,mapGlobal.WKID,geolocateLogic)//callback function
+		});
+	}else{
+		console.log("navigator.geolocation undefined")
+	}
 }
 
 function geolocateLogic(point){
@@ -830,7 +832,7 @@ function geolocateLogic(point){
 			});
 		}
 	} else {
-		console.log("Couldn't geolocate")	
+		console.log("Couldn't geolocate - point was undefined")	
 	}
 }
 
