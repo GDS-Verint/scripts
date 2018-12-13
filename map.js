@@ -825,7 +825,7 @@ function geolocateLogic(point){
 	require(["esri/geometry/Point","esri/SpatialReference"],function(Point, SpatialReference) {
 		if (point){
 			console.log(point)
-			if (isPointWithinSquare([point.coords.longitude, point.coords.latitude], mapGlobal.extent)){
+			if (isPointWithinSquare([point.x, point.y], mapGlobal.extent)){
 				//KS: zoom to where assets are beginning to be drawn
 				esrimap.centerAndZoom(point, (specifics.assetMaxDrawZoom) ? specifics.assetMaxDrawZoom : 6).then(drawAssetLayer())
 			}else{
