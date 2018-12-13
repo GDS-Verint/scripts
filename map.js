@@ -815,25 +815,27 @@ function geolocate(){
 			console.log(pos)
 			convertLonLat([pos.coords.longitude, pos.coords.latitude],4326,mapGlobal.WKID,geolocateLogic)//callback function
 		});
+		console.log("geolocate working")
 	}else{
 		console.log("navigator.geolocation undefined")
 	}
 }
 
 function geolocateLogic(point){
-	if (point){
-		if (isPointWithinSquare([point.coords.longitude, point.coords.latitude], mapGlobal.extent)){
-			//KS: zoom to where assets are beginning to be drawn
-			esrimap.centerAndZoom(point, (specifics.assetMaxDrawZoom) ? specifics.assetMaxDrawZoom : 6).then(drawAssetLayer())
-		}else{
-			require(["esri/geometry/Point","esri/SpatialReference"],function(Point, SpatialReference) {
+	require(["esri/geometry/Point","esri/SpatialReference"],function(Point, SpatialReference) {
+		if (point){
+			console.log(point)
+			if (isPointWithinSquare([point.coords.longitude, point.coords.latitude], mapGlobal.extent)){
+				//KS: zoom to where assets are beginning to be drawn
+				esrimap.centerAndZoom(point, (specifics.assetMaxDrawZoom) ? specifics.assetMaxDrawZoom : 6).then(drawAssetLayer())
+			}else{
 				var centerPoint = new Point(mapGlobal.centerLonLat.x, mapGlobal.centerLonLat.y, new SpatialReference(mapGlobal.WKID));
 				esrimap.centerAndZoom(centerPoint, mapGlobal.centerZoom);
-			});
+			}
+		} else {
+			console.log("Couldn't geolocate - point was undefined")	
 		}
-	} else {
-		console.log("Couldn't geolocate - point was undefined")	
-	}
+	});
 }
 function addGeolocateButton(le_gis){
 	var locateCharacter = (specifics.locateChar) ? specifics.locateChar : '⌕';
