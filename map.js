@@ -827,7 +827,7 @@ function geolocateLogic(point){
 			require(["esri/geometry/Point","esri/SpatialReference"],function(Point, SpatialReference) {
 				var centerPoint = new Point(mapGlobal.centerLonLat.x, mapGlobal.centerLonLat.y, new SpatialReference(mapGlobal.WKID));
 				esrimap.centerAndZoom(centerPoint, mapGlobal.centerZoom);
-			}
+			});
 		}
 	} else {
 		console.log("Couldn't geolocate")	
