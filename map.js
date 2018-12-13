@@ -1,3 +1,5 @@
+require(["esri/map", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/graphic", "esri/layers/GraphicsLayer", "esri/dijit/InfoWindow", "esri/geometry/Circle", "esri/units", "esri/tasks/GeometryService", "esri/SpatialReference", "esri/Color", "esri/dijit/Popup", "esri/dijit/Geocoder", "esri/dijit/OverviewMap", "esri/tasks/identify", "esri/tasks/find", "dojo/domReady!"],
+	function(Map, Point, SimpleMarkerSymbol, PictureMarkerSymbol, Graphic, GraphicsLayer, InfoWindow, Circle, Units, GeometryService, SpatialReference, Color, Popup, Geocoder, OverviewMap, Identify, Find) {
 //testing only
 
 /*KS 
@@ -21,6 +23,7 @@ In addition some features that I think would be particulary useful - hopefully w
     Use the PopUp instead of the deprecited InfoWindow - simple change that add more functionility, testing is the main thing e.g. can display multiple assets in one window and '<- navagate ->' through them.
     Possibly implement .setFeatureReduction(reduces points into a single larger point) example https://developers.arcgis.com/javascript/3/jssamples/fl_clustering_basic.html
 */
+
 
 var faultReportingSearchResults = new Object();
 var streetAddress='';
@@ -67,26 +70,12 @@ $(document).on('click','#dform_widget_button_but_nextcall',function() {
   console.log('next clicked');
     
     if (esrimap !== null){
-
-     clearPreviousLayer();
-
-        require(["esri/dijit/InfoWindow" ],
-        function(InfoWindow) {
-            esrimap.infoWindow.hide();
-            
-        });
-        
+		clearPreviousLayer();
+		esrimap.infoWindow.hide();
         drawBaseLayer();
-        
         //esrimap.setZoom(2);
-        
-        require(["esri/map", "esri/geometry/Point",  ],
-        function(Map, Point) {
-			var centerpoint = new Point(325375, 673865, new esri.SpatialReference({wkid: 27700}));
-			esrimap.centerAndZoom(centerpoint, 2);
-		});
-		
-		
+        var centerpoint = new Point(325375, 673865, new esri.SpatialReference({wkid: 27700}));
+		esrimap.centerAndZoom(centerpoint, 2);
 		drawAssetLayer();
     }
   
@@ -137,15 +126,10 @@ function postcodeSearch(searchInput) {
                  xcoord=value.location.x;
                  ycoord=value.location.y;
            });
-           
-           hideLoading();
-           
-           	require(["esri/map", "esri/geometry/Point", "esri/dijit/InfoWindow" ],
-            function(Map, Point, InfoWindow) {
-    			var popCenterpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: 27700}));
-    			var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: 27700}));
-    			esrimap.centerAndZoom(centerpoint, 5);
-    		});
+			hideLoading();
+			var popCenterpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: 27700}));
+    		var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: 27700}));
+    		esrimap.centerAndZoom(centerpoint, 5);
 		
         } else {
             KDF.showWidget('html_nosearchfound');
@@ -160,113 +144,104 @@ function getAssetInfo(globalX, globalY) {
 
    clearPreviousLayer();
 
-    require(["esri/map", "esri/geometry/Circle", "esri/units", "esri/geometry/Point"], function(Map, Circle, Units, Point){
-       //var point = new Point(marker.geometry.x, marker.geometry.x, new esri.SpatialReference({wkid: 27700})
+   var point = new Point([globalX, globalY]);
+   var centerpoint = new Point(globalX, globalY, new esri.SpatialReference({wkid: 27700}));
 
-       var point = new Point([globalX, globalY]);
-       var centerpoint = new Point(globalX, globalY, new esri.SpatialReference({wkid: 27700}));
-       
-		var circleGeometry = new Circle(centerpoint,{"radius": 15, "numberOfPoints": 4, "radiusUnit": Units.METERS, "type": "extent"});
-		var esriServiceURL = '';
-		var content = '';
-		
-		showLoading();
-		console.log(circleGeometry);
-		
-        var xmaxE = circleGeometry.getExtent().xmax;
-        var ymaxE = circleGeometry.getExtent().ymax;
-        var xminE = circleGeometry.getExtent().xmin;
-        var yminE = circleGeometry.getExtent().ymin;
+	var circleGeometry = new Circle(centerpoint,{"radius": 15, "numberOfPoints": 4, "radiusUnit": Units.METERS, "type": "extent"});
+	var esriServiceURL = '';
+	var content = '';
 
-            esriServiceURL = getCommunalAssetURl() + '&geometry=%7B%22xmin%22%3A' + xminE + '%2C%22ymin%22%3A' + yminE + '%2C%22xmax%22%3A' + xmaxE + '%2C%22ymax%22%3A' + ymaxE + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A27700%7D%7D';
-			//console.log(esriServiceURL);
-			
-    			$.ajax({url: esriServiceURL, dataType: 'jsonp', crossDomain: true}).done(function(response) {
-                    console.log('Response below: k')
-                    console.log(response)
-                    
-                    hideLoading();
-                    
-                    $.each(response.features, function( key, value ) {
-                        //KS implementation of dynamicly displayed properties
-                        content = ''; //KS otherwise will display all resukts - maybe update when we're using PopUp
-                        if (KDF.getVal('asset_popup_fields')){
-                            //KS TODO implement form based way to display fields e.g. on a table that has same information
-                            //console.log('asset_popup_fields defined');
-                        }else{
-                            //console.log('asset_popup_fields not defined');
-				//console.log(value.attributes);
-                            if(specifics.popupFields){//KS object is defined (test with empty object, will return true but we might want that, considering default is null)
-                                //console.log('specifics.popupFields defined');
-                                specifics.popupFields.forEach(function(element){
-                                    content += '<b>'+element[0]+'</b>'+ value.attributes[element[1]]+"</br>";
-                                });
-                                if (specifics.popupConfirmText){
-                                    //KS defined button text
-                                    content += '</br><button id="" class="mapConfirm btn-continue" data-asset_id="">'+specifics.popupConfirmText+'</button></div>';
-                                }else{
-                                    //KS default text
-                                    content += '</br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm</button></div>';
-                                }
-                            } else if(specifics.formName){
-                                if (specifics.formName === 'road_sign') {
-                                    var bisa=value.attributes;
-            	            
-                    	            content = '<b>Asset ID</b> : ' + bisa.ASSET_ID + '</br><b>Location : </b>' + 
-                    	            bisa.LOCATION + '</br><b>Site Name : </b>' + bisa.SITE_NAME + '</br><b>Type Name : </b>' + bisa.TYPE_NAME
-                    	            + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Report this sign</button></div>' ;
-                                }
-                                
-                                if (specifics.formName === 'communal_bin') {
-                                        //console.log('specifics.popupFields undefined. Value is:');
-                                console.log(value)
-                                //KS what will be default? maybe display all (do we need formatting?)
-                                //KS untill I update it for him, it will be for LB's form
-                                
-                	            content = '<b>Asset ID</b> : ' + value.attributes['ASSET_ID'] + '</br><b>Location : </b>' + 
-                	            value.attributes['feature_location'] + '</br><b>Site Name : </b>' + value.attributes['site_name']
-                	            + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Report this bin</button></div>';
-                                }
-                            } 
-                            
-                            else {
-                                console.log('specifics.popupFields undefined. Value is:');
-                                console.log(value)
-                                //KS what will be default? maybe display all (do we need formatting?)
-                                //KS untill I update it for him, it will be for LB's form
-                                
-                	            content = '<b>Asset ID</b> : ' + value.attributes['ASSET_ID'] + '</br><b>Location : </b>' + 
-                	            value.attributes['feature_location'] + '</br><b>Site Name : </b>' + value.attributes['site_name']
-                	            + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Report this bin</button></div>';
-                            }
-                        }
-        	            
-                    });
-                    
-                    require(["esri/map", "esri/geometry/Circle", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/graphic",  "esri/layers/GraphicsLayer", "dojo/domReady!" ],
-                    function(Map, Circle, Point, SimpleMarkerSymbol, PictureMarkerSymbol, Graphic, GraphicsLayer) {
-                        
-                        var newlayer = new GraphicsLayer();
-                        var markerSymbol = new PictureMarkerSymbol('/dformresources/content/map-blue.png', 64, 64);
-            			markerSymbol.setOffset(0, 32);
-            			var marker = new Graphic(centerpoint, markerSymbol);
-            			marker.setAttributes({"value1": '1', "value2": '2', "value3": '3'});
-            			newlayer.add(marker);
-            			newlayer.on('click', function(event) {
-							console.log('newLayer.on > callInfoWindow');
-            				//if(popupOrZoomTo(esrimap, centerpoint)){
-								callInfoWindow(content, marker, esrimap);
-							//}
-            			});
-            			esrimap.addLayer(newlayer);
-						console.log('Single after newLayer.on > callInfoWindow');
-						//if(popupOrZoomTo(esrimap, centerpoint)){
-							callInfoWindow(content, marker, esrimap);
-						//}
-                });
-                    
-            });
-    });
+	showLoading();
+	console.log(circleGeometry);
+
+	var xmaxE = circleGeometry.getExtent().xmax;
+	var ymaxE = circleGeometry.getExtent().ymax;
+	var xminE = circleGeometry.getExtent().xmin;
+	var yminE = circleGeometry.getExtent().ymin;
+
+		esriServiceURL = getCommunalAssetURl() + '&geometry=%7B%22xmin%22%3A' + xminE + '%2C%22ymin%22%3A' + yminE + '%2C%22xmax%22%3A' + xmaxE + '%2C%22ymax%22%3A' + ymaxE + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A27700%7D%7D';
+		//console.log(esriServiceURL);
+
+			$.ajax({url: esriServiceURL, dataType: 'jsonp', crossDomain: true}).done(function(response) {
+				console.log('Response below: k')
+				console.log(response)
+
+				hideLoading();
+
+				$.each(response.features, function( key, value ) {
+					//KS implementation of dynamicly displayed properties
+					content = ''; //KS otherwise will display all resukts - maybe update when we're using PopUp
+					if (KDF.getVal('asset_popup_fields')){
+						//KS TODO implement form based way to display fields e.g. on a table that has same information
+						//console.log('asset_popup_fields defined');
+					}else{
+						//console.log('asset_popup_fields not defined');
+			//console.log(value.attributes);
+						if(specifics.popupFields){//KS object is defined (test with empty object, will return true but we might want that, considering default is null)
+							//console.log('specifics.popupFields defined');
+							specifics.popupFields.forEach(function(element){
+								content += '<b>'+element[0]+'</b>'+ value.attributes[element[1]]+"</br>";
+							});
+							if (specifics.popupConfirmText){
+								//KS defined button text
+								content += '</br><button id="" class="mapConfirm btn-continue" data-asset_id="">'+specifics.popupConfirmText+'</button></div>';
+							}else{
+								//KS default text
+								content += '</br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm</button></div>';
+							}
+						} else if(specifics.formName){
+							if (specifics.formName === 'road_sign') {
+								var bisa=value.attributes;
+
+								content = '<b>Asset ID</b> : ' + bisa.ASSET_ID + '</br><b>Location : </b>' + 
+								bisa.LOCATION + '</br><b>Site Name : </b>' + bisa.SITE_NAME + '</br><b>Type Name : </b>' + bisa.TYPE_NAME
+								+ '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Report this sign</button></div>' ;
+							}
+
+							if (specifics.formName === 'communal_bin') {
+									//console.log('specifics.popupFields undefined. Value is:');
+							console.log(value)
+							//KS what will be default? maybe display all (do we need formatting?)
+							//KS untill I update it for him, it will be for LB's form
+
+							content = '<b>Asset ID</b> : ' + value.attributes['ASSET_ID'] + '</br><b>Location : </b>' + 
+							value.attributes['feature_location'] + '</br><b>Site Name : </b>' + value.attributes['site_name']
+							+ '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Report this bin</button></div>';
+							}
+						} 
+
+						else {
+							console.log('specifics.popupFields undefined. Value is:');
+							console.log(value)
+							//KS what will be default? maybe display all (do we need formatting?)
+							//KS untill I update it for him, it will be for LB's form
+
+							content = '<b>Asset ID</b> : ' + value.attributes['ASSET_ID'] + '</br><b>Location : </b>' + 
+							value.attributes['feature_location'] + '</br><b>Site Name : </b>' + value.attributes['site_name']
+							+ '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Report this bin</button></div>';
+						}
+					}
+
+				});
+
+				var newlayer = new GraphicsLayer();
+				var markerSymbol = new PictureMarkerSymbol('/dformresources/content/map-blue.png', 64, 64);
+				markerSymbol.setOffset(0, 32);
+				var marker = new Graphic(centerpoint, markerSymbol);
+				marker.setAttributes({"value1": '1', "value2": '2', "value3": '3'});
+				newlayer.add(marker);
+				newlayer.on('click', function(event) {
+					console.log('newLayer.on > callInfoWindow');
+					//if(popupOrZoomTo(esrimap, centerpoint)){
+						callInfoWindow(content, marker, esrimap);
+					//}
+				});
+				esrimap.addLayer(newlayer);
+				console.log('Single after newLayer.on > callInfoWindow');
+				//if(popupOrZoomTo(esrimap, centerpoint)){
+					callInfoWindow(content, marker, esrimap);
+				//}
+		});
 }    
 
 function callInfoWindow(content, marker, map){
@@ -277,16 +252,13 @@ function callInfoWindow(content, marker, map){
             content = '<u>Asset not found.</u></br></br><u>Make sure you do maximum zoom in and select the green circle</u>';
         }
 
-		require(["esri/map", "esri/geometry/Point", "esri/dijit/InfoWindow" ],
-        function(Map, Point, InfoWindow) {
-            var centerpoint = new Point(marker.geometry.x, marker.geometry.y, new esri.SpatialReference({wkid: 27700}));
-            
-			map.infoWindow.setTitle('');
-			map.infoWindow.setContent(content);
-			map.infoWindow.show(centerpoint);
-			//esrimap.centerAndZoom(centerpoint, 18);
-			drawAssetLayer();
-		});
+		var centerpoint = new Point(marker.geometry.x, marker.geometry.y, new esri.SpatialReference({wkid: 27700}));
+
+		map.infoWindow.setTitle('');
+		map.infoWindow.setContent(content);
+		map.infoWindow.show(centerpoint);
+		//esrimap.centerAndZoom(centerpoint, 18);
+		drawAssetLayer();
 }
 
 function zoomChanged(evt){
@@ -431,21 +403,17 @@ $(document).on('change','#dform_widget_fault_reporting_search_results' , functio
 });
 // unused fo now
 function callEsriSearch (searchInput){
- 
-    require(["esri/map", "esri/geometry/Point", "esri/dijit/Popup", "esri/dijit/Geocoder", "esri/dijit/OverviewMap", "esri/tasks/identify", "esri/tasks/find", "dojo/domReady!" ],
-        function(Map, Point, Popup, Geocoder, OverviewMap, identify, find) {
-            var token ='';
-            var findMapService = 'https://edinburghcouncilmaps.info/arcgis/rest/services/Basemaps/BasemapColour/MapServer/find';
-            find = new esri.tasks.FindTask(findMapService);
-	        findparams = new esri.tasks.FindParameters();
-	        findparams.contains = true;
-	        findparams.returnGeometry = true;
-	        findparams.layerIds = [7];
-	        findparams.searchFields = [""];
-            findparams.outSpatialReference = new esri.SpatialReference({wkid: 4326});
-		    findparams.searchText = searchInput;
-		    find.execute(findparams, processResult);
-   });
+	var token ='';
+	var findMapService = 'https://edinburghcouncilmaps.info/arcgis/rest/services/Basemaps/BasemapColour/MapServer/find';
+	find = new esri.tasks.FindTask(findMapService);
+	findparams = new esri.tasks.FindParameters();
+	findparams.contains = true;
+	findparams.returnGeometry = true;
+	findparams.layerIds = [7];
+	findparams.searchFields = [""];
+	findparams.outSpatialReference = new esri.SpatialReference({wkid: 4326});
+	findparams.searchText = searchInput;
+	find.execute(findparams, processResult);
 }
 //unused for now
 function mapClicked(marker, map) {
@@ -470,43 +438,39 @@ function highlightMissingAsset(globalX, globalY) {
     
     clearPreviousLayer();
     showLoading();
-                
-    require(["esri/map", "esri/geometry/Circle", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/graphic",  "esri/layers/GraphicsLayer", "dojo/domReady!" ],
-        function(Map, Circle, Point, SimpleMarkerSymbol, PictureMarkerSymbol, Graphic, GraphicsLayer) {
             
-            var newlayer = new GraphicsLayer();
-			var xcoord = parseInt(globalX);
-			var ycoord = parseInt(globalY);
-			console.log('ini geometry x ' + xcoord);
-			
-			var url = 'https://edinburghcouncilmaps.info/locatorhub/arcgis/rest/services/CAG/ADDRESS/GeocodeServer/reverseGeocode?location=' + xcoord + '%2C+' + ycoord +'&distance=300&outSR=27700&f=json';
-    	    console.log(url);
-    	    
-    	    $.ajax({url: url}).done(function(result) {
-                streetAddress = result.address;
-                console.log(result.address);
-                
-                hideLoading();
-                console.log(streetAddress.Address);
-			 var content = streetAddress.Address + '</br></br>'
-             + '<button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm Location</button></div>' ;
-             
-             var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: 27700}));
-			
-			var markerSymbol = new PictureMarkerSymbol('/dformresources/content/map-blue.png', 64, 64);
-			markerSymbol.setOffset(0, 32);
-			var marker = new Graphic(centerpoint, markerSymbol);
-			marker.setAttributes({"value1": '1', "value2": '2', "value3": '3'});
-			newlayer.add(marker);
-			newlayer.on('click', function(event) {
-				setInfoWindowContent(content,xcoord,ycoord);
-			});
-			esrimap.addLayer(newlayer);
-			
+	var newlayer = new GraphicsLayer();
+	var xcoord = parseInt(globalX);
+	var ycoord = parseInt(globalY);
+	console.log('ini geometry x ' + xcoord);
+
+	var url = 'https://edinburghcouncilmaps.info/locatorhub/arcgis/rest/services/CAG/ADDRESS/GeocodeServer/reverseGeocode?location=' + xcoord + '%2C+' + ycoord +'&distance=300&outSR=27700&f=json';
+	console.log(url);
+
+	$.ajax({url: url}).done(function(result) {
+		streetAddress = result.address;
+		console.log(result.address);
+
+		hideLoading();
+		console.log(streetAddress.Address);
+		 var content = streetAddress.Address + '</br></br>'
+		 + '<button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm Location</button></div>' ;
+
+		 var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: 27700}));
+
+		var markerSymbol = new PictureMarkerSymbol('/dformresources/content/map-blue.png', 64, 64);
+		markerSymbol.setOffset(0, 32);
+		var marker = new Graphic(centerpoint, markerSymbol);
+		marker.setAttributes({"value1": '1', "value2": '2', "value3": '3'});
+		newlayer.add(marker);
+		newlayer.on('click', function(event) {
 			setInfoWindowContent(content,xcoord,ycoord);
-            });
+		});
+		esrimap.addLayer(newlayer);
+
+		setInfoWindowContent(content,xcoord,ycoord);
+	});
 		
-        });
 }
 
 function processResult(searchInput){
@@ -579,15 +543,12 @@ function setInfoWindowContent(content, xcoord, ycoord) {
         KDF.showError('Unable to populate case details, popup does not exist.');
     } else {
         //map.infoWindow.setContent(content);
-		require(["esri/map", "esri/geometry/Point", "esri/dijit/InfoWindow" ],
-        function(Map, Point, InfoWindow) {
-			var popCenterpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: 27700}));
-			esrimap.infoWindow.setTitle('Please confirm street address.');
-			esrimap.infoWindow.setContent(content);
-			esrimap.infoWindow.show(popCenterpoint);
-			var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: 27700}));
-			esrimap.centerAndZoom(centerpoint, 18);
-		});
+		var popCenterpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: 27700}));
+		esrimap.infoWindow.setTitle('Please confirm street address.');
+		esrimap.infoWindow.setContent(content);
+		esrimap.infoWindow.show(popCenterpoint);
+		var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: 27700}));
+		esrimap.centerAndZoom(centerpoint, 18);
 	}
 }
 	
@@ -663,40 +624,30 @@ function clearPreviousLayer(){
 function centreOnEsriResult(geometryX, geometryY, xmax, xmin, ymax, ymin, north, east){
     
     if (geometryY!=''){
-                require(["esri/map", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/graphic",  "esri/layers/GraphicsLayer", "dojo/domReady!" ],
-                    function(Map, Point, SimpleMarkerSymbol, PictureMarkerSymbol, Graphic, GraphicsLayer) {
-                        var newlayer = new GraphicsLayer();
-            			var xcoord = geometryX;
-            			var ycoord = geometryY;
-            			console.log(xcoord);
-            			var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: 27700}));
-            			esrimap.centerAndZoom(new Point(xcoord, ycoord), 20);
-            			var markerSymbol = new PictureMarkerSymbol('/dformresources/content/map-red.png', 64, 64);
-            			markerSymbol.setOffset(0, 32);
-            			var marker = new Graphic(centerpoint, markerSymbol);
-            			marker.setAttributes({"value1": '1', "value2": '2', "value3": '3'});
-            			newlayer.add(marker);
-            			esrimap.addLayer(newlayer);
-                    }
-                );
+		var newlayer = new GraphicsLayer();
+		var xcoord = geometryX;
+		var ycoord = geometryY;
+		console.log(xcoord);
+		var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: 27700}));
+		esrimap.centerAndZoom(new Point(xcoord, ycoord), 20);
+		var markerSymbol = new PictureMarkerSymbol('/dformresources/content/map-red.png', 64, 64);
+		markerSymbol.setOffset(0, 32);
+		var marker = new Graphic(centerpoint, markerSymbol);
+		marker.setAttributes({"value1": '1', "value2": '2', "value3": '3'});
+		newlayer.add(marker);
+		esrimap.addLayer(newlayer);
     } else if (ymin!='') {
-              var spatialref = new esri.SpatialReference({ wkid: 27700 }); //ref to British national grid projected coordinates
-              var selectedExtent = new esri.geometry.Extent(
-                xmax,
-                ymax,
-                xmin,
-                ymin,
-                spatialref
-              );
-              
-              esrimap.setExtent(selectedExtent);
+		  var spatialref = new esri.SpatialReference({ wkid: 27700 }); //ref to British national grid projected coordinates
+		  var selectedExtent = new esri.geometry.Extent(xmax,ymax,xmin,ymin,spatialref);
+
+		  esrimap.setExtent(selectedExtent);
     } else if (north != '') {
-                  var e = parseInt(east);
-    		      var n = parseInt(north);
-                  var spatialref = new esri.SpatialReference({ wkid: 27700 }); //ref to British national grid projected coordinates
-                  var selectedExtent = new esri.geometry.Extent(e - 250, n - 250, e + 250 , n + 250, spatialref);
-                  
-                  esrimap.setExtent(selectedExtent);
+		  var e = parseInt(east);
+		  var n = parseInt(north);
+		  var spatialref = new esri.SpatialReference({ wkid: 27700 }); //ref to British national grid projected coordinates
+		  var selectedExtent = new esri.geometry.Extent(e - 250, n - 250, e + 250 , n + 250, spatialref);
+
+		  esrimap.setExtent(selectedExtent);
     }
     
 }
@@ -704,21 +655,21 @@ function distanceBetweenPoints(lat1, lon1, lat2, lon2){
 	//KS: converted from https://verint-lagan01.squiz.co.uk/generator/form/map_dist_betw_2_points
 	//KS: I don't know how well it'll work with diffrent WKID so may need to convert to WKID:4326 for actual M
 	// Uses the Haversine formula to calculate the distance between two lat/longs 
-        var pi = Math.PI;   
-        var R = 6371e3; // metres
-        var φ1 = lat1*(pi/180);
-        var φ2 = lat2*(pi/180);
-        var Δφ = (lat2-lat1)*(pi/180);
-        var Δλ = (lon2-lon1)*(pi/180);
+	var pi = Math.PI;   
+	var R = 6371e3; // metres
+	var φ1 = lat1*(pi/180);
+	var φ2 = lat2*(pi/180);
+	var Δφ = (lat2-lat1)*(pi/180);
+	var Δλ = (lon2-lon1)*(pi/180);
 
-        var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-            Math.cos(φ1) * Math.cos(φ2) *
-            Math.sin(Δλ/2) * Math.sin(Δλ/2);
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+		Math.cos(φ1) * Math.cos(φ2) *
+		Math.sin(Δλ/2) * Math.sin(Δλ/2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
-        var d = R * c;
-    
-        return d; 
+	var d = R * c;
+
+	return d; 
 }
 function isPointInPolygon(point, polygon){
 	//KS: must be same wkid - and it's a tiny bit off at the edges
@@ -750,63 +701,43 @@ function isPointWithinSquare(lonXLatY, extent){
 }
 
 function popupOrZoomTo(aMap, aPoint){
-	require(["esri/geometry/Point"],function(Point){
-		var location = aPoint;//new Point(lon, lat, wkid);
-		if (specifics.assetMaxDrawZoom){
-			if (specifics.assetMaxDrawZoom > aMap.getLevel()){
-				//KS: center and zoom
-				aMap.centerAndZoom(location, specifics.assetMaxDrawZoom);
-				return false;
-			}else{
-				//KS: popup window
-				return true;
-			}
-		} else {
-			if (6 > aMap.getLevel()){
-				//KS: center and zoom
-				aMap.centerAndZoom(location, 6);
-				return false;
-			}else{
-				//KS: popup window
-				return true;
-			}
+	var location = aPoint;//new Point(lon, lat, wkid);
+	if (specifics.assetMaxDrawZoom){
+		if (specifics.assetMaxDrawZoom > aMap.getLevel()){//KS: center and zoom
+			aMap.centerAndZoom(location, specifics.assetMaxDrawZoom);
+			return false;
+		}else{//KS: popup window
+			return true;
 		}
-	});
+	} else {
+		if (6 > aMap.getLevel()){//KS: center and zoom
+			aMap.centerAndZoom(location, 6);
+			return false;
+		}else{//KS: popup window
+			return true;
+		}
+	}
 }
 
 function convertLonLat(lonLatArray, inputSR, outputSR, callbackFunction){
 	//KS: the callback function is the name (no ()) of the function the return value should call
-	require(["esri/geometry/Point","esri/tasks/GeometryService","esri/SpatialReference","esri/map" ],function(Point, GeometryService, SpatialReference, Map) {
-        var inSR = new SpatialReference({wkid: inputSR});
-        var outSR = new SpatialReference({wkid: outputSR});
-        var inLon = lonLatArray[0];//Y
-        var inLat = lonLatArray[1];//X
-		var outPoint;
-        //var conversion = $.when();
-        
-        var requestURL = 'https://edinburghcouncilmaps.info/arcgis/rest/services/Utilities/Geometry/GeometryServer/project?f=pjson&inSR='
-            +inputSR+'&outSR='
-            +outputSR+'&geometries=%7B%22geometryType%22%3A%22esriGeometryPoint%22%2C%22geometries%22%3A%5B%7B%22x%22%3A'
-            +inLon+'%2C%22y%22%3A'
-            +inLat+'%7D%5D%7D';
-        //KS AJAX request here
-        console.log('Request: '+requestURL)
-		//conversion = conversion.then(function(){
-		//});
-        $.ajax({url: requestURL, dataType: 'jsonp', crossDomain: true,
-				success: function(response){
-					return callbackFunction(Point(response.geometries[0].x, response.geometries[0].y, outSR));
-				}, 
-				error: function(){
-					return callbackFunction(false);
-				}
-		}).done(function(response){
-			return callbackFunction(Point(response.geometries[0].x, response.geometries[0].y, outSR));
-		}).fail(function(response){
-			return callbackFunction(false);
-		});
-		console.log('convert ajax called - awaiting responce')
-    });
+	var inSR = new SpatialReference({wkid: inputSR});
+	var outSR = new SpatialReference({wkid: outputSR});
+	var inLon = lonLatArray[0];//Y
+	var inLat = lonLatArray[1];//X
+	var outPoint;
+
+	var requestURL = 'https://edinburghcouncilmaps.info/arcgis/rest/services/Utilities/Geometry/GeometryServer/project?f=pjson&inSR='
+		+inputSR+'&outSR='
+		+outputSR+'&geometries=%7B%22geometryType%22%3A%22esriGeometryPoint%22%2C%22geometries%22%3A%5B%7B%22x%22%3A'
+		+inLon+'%2C%22y%22%3A'
+		+inLat+'%7D%5D%7D';
+
+	$.ajax({url: requestURL, dataType: 'jsonp', crossDomain: true}).done(function(response){
+		return callbackFunction(Point(response.geometries[0].x, response.geometries[0].y, outSR));
+	}).fail(function(response){
+		return callbackFunction(false);
+	});
 }
 
 function geolocate(){
@@ -822,20 +753,18 @@ function geolocate(){
 }
 
 function geolocateLogic(point){
-	require(["esri/geometry/Point","esri/SpatialReference"],function(Point, SpatialReference) {
-		if (point){
-			console.log(point)
-			if (isPointWithinSquare([point.x, point.y], mapGlobal.extent)){
-				//KS: zoom to where assets are beginning to be drawn
-				esrimap.centerAndZoom(point, (specifics.assetMaxDrawZoom) ? specifics.assetMaxDrawZoom : 6).then(drawAssetLayer())
-			}else{
-				var centerPoint = new Point(mapGlobal.centerLonLat.x, mapGlobal.centerLonLat.y, new SpatialReference(mapGlobal.WKID));
-				esrimap.centerAndZoom(centerPoint, mapGlobal.centerZoom);
-			}
-		} else {
-			console.log("Couldn't geolocate - point was undefined")	
+	if (point){
+		console.log(point)
+		if (isPointWithinSquare([point.x, point.y], mapGlobal.extent)){
+			//KS: zoom to where assets are beginning to be drawn
+			esrimap.centerAndZoom(point, (specifics.assetMaxDrawZoom) ? specifics.assetMaxDrawZoom : 6).then(drawAssetLayer())
+		}else{
+			var centerPoint = new Point(mapGlobal.centerLonLat.x, mapGlobal.centerLonLat.y, new SpatialReference(mapGlobal.WKID));
+			esrimap.centerAndZoom(centerPoint, mapGlobal.centerZoom);
 		}
-	});
+	} else {
+		console.log("Couldn't geolocate - point was undefined")	
+	}
 }
 function addGeolocateButton(le_gis){
 	var locateCharacter = (specifics.locateChar) ? specifics.locateChar : '⌕';
@@ -847,6 +776,6 @@ function addGeolocateButton(le_gis){
 	$('.esriLocateButton').off('click').on('click',geolocate());
 }
 
-
+});
 
 
