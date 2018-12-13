@@ -291,7 +291,7 @@ function zoomChanged(evt){
 	if (specifics.assetMaxDrawZoom){
 	    //console.log('has level defined');
 	    //KS implement user specified zoom extent 
-	    if (evt.lod.level <= specifics.assetMaxDrawZoom){
+	    if (evt.lod.level > specifics.assetMaxDrawZoom){
 		    //console.log('Zoom at or less');
 	        drawAssetLayer();
 	    }else{
