@@ -835,6 +835,15 @@ function geolocateLogic(point){
 		console.log("Couldn't geolocate - point was undefined")	
 	}
 }
+function addGeolocateButton(le_gis){
+	var locateCharacter = (specifics.locateChar) ? specifics.locateChar : '⌕';
+	le_gis.find('> .esriMapContainer').prepend(
+		'<div class="esriSimpleSlider esriLocateButton" style="z-index: 30;top: 82px;left: 20px;"><div title="Locate"><span>'
+		+ locateCharacter +'</span></div></div>'
+	)
+	//KS add (and remove excisitng) event listener
+	$('.esriLocateButton').off('click').on('click',geolocate());
+}
 
 
 
