@@ -30,6 +30,13 @@ function getSpecifics(){return specifics;}//KS accessor to give a level of abstr
 function setSpecifics(obj){specifics = obj;}
 //call to getCommunalAssetURl() would be try to get val from from 
 
+//KS: need to move to a specifc global varible script but will be her for now.
+var mapGlobal = {
+	extent: [334905.5753111506, 310733.193633054, 680181.2782575564, 663544.2449834899],// minX, maxX, minY, maxY
+	WKID: 27700,
+	centerLonLat: {x:325226.83303699945, y:673836.5572347812},
+	centerZoom: 1,
+}
 
 //testing only
 $(document).on('click','#dform_widget_button_but_layerberapa',function() {
@@ -733,6 +740,15 @@ function isPointInPolygon(point, polygon){
     return inside;
 }
 
+function isPointWithinSquare(lonXLatY, extent){
+	//KS: lonXLatY should be in the format lonX, LatY
+	//    extent should be in the formant minLonX, maxLonX, minLatY, maxLatY
+	return isPointInPolygon(
+		[lonXLatY[0], lonXLatY[1]], 
+		[[extent[0],extent[2]],[extent[1],extent[2]],[extent[1],extent[3]],[extent[0],extent[3]]]
+	);
+}
+
 function popupOrZoomTo(aMap, aPoint){
 	require(["esri/geometry/Point"],function(Point){
 		var location = aPoint;//new Point(lon, lat, wkid);
@@ -757,3 +773,67 @@ function popupOrZoomTo(aMap, aPoint){
 		}
 	});
 }
+
+function convertLonLat(lonLatArray, inputSR, outputSR, callbackFunction){
+	//KS: the callback function is the name (no ()) of the function the return value should call
+	require(["esri/geometry/Point","esri/tasks/GeometryService","esri/SpatialReference","esri/map" ],function(Point, GeometryService, SpatialReference, Map) {
+        var inSR = new SpatialReference({wkid: inputSR});
+        var outSR = new SpatialReference({wkid: outputSR});
+        var inLon = lonLatArray[0];//Y
+        var inLat = lonLatArray[1];//X
+		var outPoint;
+        //var conversion = $.when();
+        
+        var requestURL = 'https://edinburghcouncilmaps.info/arcgis/rest/services/Utilities/Geometry/GeometryServer/project?f=pjson&inSR='
+            +inputSR+'&outSR='
+            +outputSR+'&geometries=%7B%22geometryType%22%3A%22esriGeometryPoint%22%2C%22geometries%22%3A%5B%7B%22x%22%3A'
+            +inLon+'%2C%22y%22%3A'
+            +inLat+'%7D%5D%7D';
+        //KS AJAX request here
+        console.log('Request: '+requestURL)
+		//conversion = conversion.then(function(){
+		//});
+        $.ajax({url: requestURL, dataType: 'jsonp', crossDomain: true,
+				success: function(response){
+					return callbackFunction(Point(response.geometries[0].x, response.geometries[0].y, outSR));
+				}, 
+				error: function(){
+					return callbackFunction(false);
+				}
+		}).done(function(response){
+			return callbackFunction(Point(response.geometries[0].x, response.geometries[0].y, outSR));
+		}).fail(function(response){
+			return callbackFunction(false);
+		});
+		console.log('convert ajax called - awaiting responce')
+    });
+}
+
+function geolocate(){
+	if( navigator.geolocation ) { 
+	    navigator.geolocation.getCurrentPosition(function(pos){
+	        console.log(pos)
+	        convertXY([pos.coords.longitude, pos.coords.latitude],4326,mapGlobal.WKID,geolocateLogic)//callback function
+	    })
+    }
+}
+
+function geolocateLogic(point){
+	if (point){
+		if (isPointWithinSquare([point.coords.longitude, point.coords.latitude], mapGlobal.extent)){
+			//KS: zoom to where assets are beginning to be drawn
+			esrimap.centerAndZoom(point, (specifics.assetMaxDrawZoom) ? specifics.assetMaxDrawZoom : 6).then(drawAssetLayer())
+		}else{
+			require(["esri/geometry/Point","esri/SpatialReference"],function(Point, SpatialReference) {
+				var centerPoint = new Point(mapGlobal.centerLonLat.x, mapGlobal.centerLonLat.y, new SpatialReference(mapGlobal.WKID));
+				esrimap.centerAndZoom(centerPoint, mapGlobal.centerZoom);
+			}
+		}
+	} else {
+		console.log("Couldn't geolocate")	
+	}
+}
+
+
+
+
