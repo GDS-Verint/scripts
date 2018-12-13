@@ -813,7 +813,7 @@ function geolocate(){
 	if( navigator.geolocation ) { 
 		navigator.geolocation.getCurrentPosition(function(pos){
 			console.log(pos)
-			convertXY([pos.coords.longitude, pos.coords.latitude],4326,mapGlobal.WKID,geolocateLogic)//callback function
+			convertLonLat([pos.coords.longitude, pos.coords.latitude],4326,mapGlobal.WKID,geolocateLogic)//callback function
 		});
 	}else{
 		console.log("navigator.geolocation undefined")
