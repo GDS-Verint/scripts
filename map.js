@@ -1,3 +1,5 @@
+//KS: use this to get status
+var mapScriptStatus = jQuery.Deferred();
 //testing only
 
 /*KS 
@@ -42,7 +44,7 @@ var mapGlobal = {
 
 require(["esri/map", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/graphic", "esri/layers/GraphicsLayer", "esri/dijit/InfoWindow", "esri/geometry/Circle", "esri/units", "esri/tasks/GeometryService", "esri/SpatialReference", "esri/Color", "esri/dijit/Popup", "esri/dijit/Geocoder", "esri/dijit/OverviewMap", "esri/tasks/identify", "esri/tasks/find", "dojo/domReady!"],
 	function(Map, Point, SimpleMarkerSymbol, PictureMarkerSymbol, Graphic, GraphicsLayer, InfoWindow, Circle, Units, GeometryService, SpatialReference, Color, Popup, Geocoder, OverviewMap, Identify, Find) {
-
+mapScriptStatus.resolve();//KS allows you to identify when classes are loaded
 
 //testing only
 $(document).on('click','#dform_widget_button_but_layerberapa',function() {
