@@ -784,6 +784,7 @@ function addGeolocateButton(le_gis){
 		+ locateCharacter +'</span></div></div>'
 	)
 	//KS add (and remove excisitng) event listener
-	$('.esriLocateButton').off('click').on('click',geolocate());
+	$('.esriLocateButton').off('click').on('click',function(){
+		geolocate();
+	});
 }
-//KS: jsdelivr sucks!
