@@ -108,8 +108,13 @@ function getCommunalAssetURl() {
     }
     if (specifics.formName){//LB
         if (specifics.formName === 'road_sign'){
-            specifics.assetURL = 'https://edinburghcouncilmaps.info/arcgis/rest/services/CouncilAssets/ConfirmAssets2/MapServer/7/query?f=pjson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=27700&outFields=*&outSR=27700&transformForward=false';
-            return specifics.assetURL;
+	    if (KDF.getVal('rad_problem_type') === 'unlit' ){
+		specifics.assetURL = 'https://edinburghcouncilmaps.info/arcgis/rest/services/CouncilAssets/ConfirmAssets2/MapServer/7/query?f=pjson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=27700&outFields=*&outSR=27700&transformForward=false';
+		return specifics.assetURL;
+	    } else if (KDF.getVal('rad_problem_type') === 'lit' ){
+		specifics.assetURL = 'https://edinburghcouncilmaps.info/arcgis/rest/services/CouncilAssets/ConfirmAssets2/MapServer/3/query?f=pjson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=27700&outFields=*&outSR=27700&transformForward=false';
+		return specifics.assetURL;
+	    }   
         }
         
     }
