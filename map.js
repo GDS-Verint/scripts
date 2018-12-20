@@ -9,7 +9,13 @@ require(["esri/map", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "
 		mapScriptStatus.resolve();//KS allows you to identify when classes are loaded
 	}
 );
-//testing only
+/*KS Temp*/
+function regexSearch(regex){
+	$(".search-gov input:text").attr('pattern',regex);
+}
+$('#dform_container').off('_KDF_ready').on('_KDF_ready', function() {
+	    regexSearch("^[A-Za-z0-9 _]*$");
+	});
 
 /*KS 
 In order to have this working with more forms in the future but not requiring a script per page I think that we have an an object with optional params and (if they're required) implement defaults.
@@ -61,9 +67,11 @@ $(document).on('click','#dform_widget_button_but_layerberapa',function() {
  
 // listen to enter key pressed to start searching on search textbox
 $(document).on('keypress','#dform_widget_txt_postcode',function() {
-  if (event.keyCode == 13) {
-    searchBegin();
-  }
+	if (event.keyCode == 13) {
+		if (!$(this).hasClass('dform_fielderror')){//KS: prevent search if it has an error
+			searchBegin();  
+		}
+	}
 });
 
 // Jquery event delegate so when the confirm location button clicked it can call another function
@@ -73,7 +81,9 @@ $(document).on('click','.mapConfirm',function() {
  });
  
 $(document).on('click','#dform_widget_button_but_search',function() {
-  searchBegin();
+  if (!$(this).hasClass('dform_fielderror')){//KS: prevent search if it has an error
+	searchBegin();  
+  }
 });
 
 
