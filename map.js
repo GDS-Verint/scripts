@@ -11,9 +11,9 @@ require(["esri/map", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "
 );
 /*KS Temp*/
 function regexSearch(regex){
-	$(".search-gov input:text").attr('pattern',regex);
+	$(".search-gov input:text, #dform_widget_txt_postcode").attr('pattern',regex);
 }
-$('#dform_container').off('_KDF_ready').on('_KDF_ready', function() {
+$('#dform_container').ready(function() {
 	    regexSearch("^[A-Za-z0-9 _]*$");
 	});
 
@@ -68,7 +68,7 @@ $(document).on('click','#dform_widget_button_but_layerberapa',function() {
 // listen to enter key pressed to start searching on search textbox
 $(document).on('keypress','#dform_widget_txt_postcode',function() {
 	if (event.keyCode == 13) {
-		if (!$(this).hasClass('dform_fielderror')){//KS: prevent search if it has an error
+		if (!$('#dform_widget_txt_postcode').hasClass('dform_fielderror')){//KS: prevent search if it has an error
 			searchBegin();  
 		}
 	}
@@ -81,7 +81,8 @@ $(document).on('click','.mapConfirm',function() {
  });
  
 $(document).on('click','#dform_widget_button_but_search',function() {
-  if (!$(this).hasClass('dform_fielderror')){//KS: prevent search if it has an error
+	
+  if (!$('#dform_widget_txt_postcode').hasClass('dform_fielderror')){//KS: prevent search if it has an error
 	searchBegin();  
   }
 });
