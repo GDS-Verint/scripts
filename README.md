@@ -18,6 +18,7 @@ Purge URL to clear cache: https://purge.jsdelivr.net/gh/GDS-Verint/scripts@lates
 
 Purge URL to clear cache: https://purge.jsdelivr.net/gh/GDS-Verint/scripts@latest/map.js
 
+To bypass the insecure origin stopping geolocation - go to chrome://flags/#unsafely-treat-insecure-origin-as-secure - enable it and add http://win-vfa56rd7v6n:9081 in the text area
 
 Why are we using jsdelivr.net rather than using the raw?
 Because the raw view has a MIME of (text/plain) which prevents the scripts from being used
