@@ -14,8 +14,10 @@ function regexSearch(regex){
 	$(".search-gov input:text, #dform_widget_txt_postcode").attr('pattern',regex);
 }
 $('#dform_container').ready(function() {
-	    regexSearch("^[A-Za-z0-9 _]*$");
-	});
+	regexSearch("^[A-Za-z0-9 _]*$");
+	var mapElement = (specifics.mapElement) ? specifics.mapElement : $('#dform_widget_le_gis');
+	addGeolocateButton(mapElement);
+});
 
 /*KS 
 In order to have this working with more forms in the future but not requiring a script per page I think that we have an an object with optional params and (if they're required) implement defaults.
