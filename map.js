@@ -276,7 +276,11 @@ function callInfoWindow(content, marker, map){
         console.log(content);
 
         if(content == null || content==''){
-            content = '<u>Asset not found.</u></br></br><u>Make sure you do maximum zoom in and select the green circle</u>';
+            if(specifics.defaultPopupContent){
+			    content = specifics.defaultPopupContent;
+			} else{
+				content = '<u>Asset not found.</u></br></br><u>Make sure you do maximum zoom in and select the green circle</u>';
+			}
         }
 
 		var centerpoint = new Point(marker.geometry.x, marker.geometry.y, new esri.SpatialReference({wkid: 27700}));
