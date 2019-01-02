@@ -15,8 +15,6 @@ function regexSearch(regex){
 }
 $('#dform_container').ready(function() {
 	regexSearch("^[A-Za-z0-9 _]*$");
-	var mapElement = (specifics.mapElement) ? specifics.mapElement : $('#dform_widget_le_gis');
-	addGeolocateButton(mapElement);
 });
 
 /*KS 
