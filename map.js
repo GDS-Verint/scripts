@@ -53,7 +53,8 @@ var mapGlobal = {
 	extent: [334905.5753111506, 310733.193633054, 680181.2782575564, 663544.2449834899],// minX, maxX, minY, maxY
 	WKID: 27700,
 	WKIDProj4: '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs',
-	geolocateProj4:'+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs',//likely is the proj4 for 4326
+	geolocateWKID: 4326,
+	geolocateWKIDProj4:'+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs',//likely is the proj4 for 4326
 	centerLonLat: {x:325226.83303699945, y:673836.5572347812},
 	centerZoom: 1,
 	geometryServer: 'https://edinburghcouncilmaps.info/arcgis/rest/services/Utilities/Geometry/GeometryServer',
@@ -798,7 +799,12 @@ function geolocate(){
 			console.log(pos)
 			//convertLonLat([pos.coords.longitude, pos.coords.latitude],4326,mapGlobal.WKID,geolocateLogic)//callback function
 			//KS revision to avoid ajax call (thanks jon) - still works should they want to use their own
-			convertLonLat([pos.coords.longitude, pos.coords.latitude],mapGlobal.geolocateProj4,mapGlobal.WKIDProj4,geolocateLogic)//callback function
+			convertLonLat(
+				[pos.coords.longitude, pos.coords.latitude],
+				{WKID:mapGlobal.geolocateWKID, projection:mapGlobal.geolocateWKIDProj4, type:'Proj4'},
+				{WKID:mapGlobal.WKID, projection:mapGlobal.WKIDProj4, type:'Proj4'},
+				geolocateLogic//callback function
+			);
 		});
 		console.log("geolocate working")
 	}else{
