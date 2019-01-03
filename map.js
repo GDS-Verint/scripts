@@ -52,8 +52,12 @@ function setSpecifics(obj){specifics = obj;}
 var mapGlobal = {
 	extent: [334905.5753111506, 310733.193633054, 680181.2782575564, 663544.2449834899],// minX, maxX, minY, maxY
 	WKID: 27700,
+	WKIDProj4: '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs',
+	geolocateProj4:'+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs',//likely is the proj4 for 4326
 	centerLonLat: {x:325226.83303699945, y:673836.5572347812},
 	centerZoom: 1,
+	geometryServer: 'https://edinburghcouncilmaps.info/arcgis/rest/services/Utilities/Geometry/GeometryServer',
+	
 }
 
 
@@ -751,31 +755,50 @@ function popupOrZoomTo(aMap, aPoint){
 }
 
 function convertLonLat(lonLatArray, inputSR, outputSR, callbackFunction){
-	//KS: the callback function is the name (no ()) of the function the return value should call
-	var inSR = new SpatialReference({wkid: inputSR});
-	var outSR = new SpatialReference({wkid: outputSR});
-	var inLon = lonLatArray[0];//Y
-	var inLat = lonLatArray[1];//X
-	var outPoint;
+	if (inputSR.type && inputSR.type == 'Proj4'){
+		//E.G. convertLonLat([0,0],{},{},)
+		//KS is there anyway to convert the Proj4 projection to a SpatialReference? then we could drop the outputSR.wkid
+		var conversion = proj4(inputSR.projection, outputSR.projection, lonLatArray);
+		callbackFunction({
+			x:conversion[0],
+			y:conversion[1],
+			WKID:outputSR.WKID
+		});
+	}else {
+		//KS: the callback function is the name (no ()) of the function the return value should call
+		var inLon = lonLatArray[0];//Y
+		var inLat = lonLatArray[1];//X
+		var inSR = new SpatialReference({wkid: inputSR});
+		var outSR = new SpatialReference({wkid: outputSR});
 
-	var requestURL = 'https://edinburghcouncilmaps.info/arcgis/rest/services/Utilities/Geometry/GeometryServer/project?f=pjson&inSR='
-		+inputSR+'&outSR='
-		+outputSR+'&geometries=%7B%22geometryType%22%3A%22esriGeometryPoint%22%2C%22geometries%22%3A%5B%7B%22x%22%3A'
-		+inLon+'%2C%22y%22%3A'
-		+inLat+'%7D%5D%7D';
+		var outPoint;
 
-	$.ajax({url: requestURL, dataType: 'jsonp', crossDomain: true}).done(function(response){
-		return callbackFunction(Point(response.geometries[0].x, response.geometries[0].y, outSR));
-	}).fail(function(response){
-		return callbackFunction(false);
-	});
+		var requestURL = mapGlobal.geometryServer+'/project?f=pjson&inSR='
+			+inputSR+'&outSR='
+			+outputSR+'&geometries=%7B%22geometryType%22%3A%22esriGeometryPoint%22%2C%22geometries%22%3A%5B%7B%22x%22%3A'
+			+inLon+'%2C%22y%22%3A'
+			+inLat+'%7D%5D%7D';
+
+		$.ajax({url: requestURL, dataType: 'jsonp', crossDomain: true}).done(function(response){
+			return callbackFunction({
+				x:response.geometries[0].x,
+				y:response.geometries[0].y,
+				WKID:outSR
+			});
+		}).fail(function(response){
+			return callbackFunction(false);
+		});
+	}
+	
 }
 
 function geolocate(){
 	if( navigator.geolocation ) { 
 		navigator.geolocation.getCurrentPosition(function(pos){
 			console.log(pos)
-			convertLonLat([pos.coords.longitude, pos.coords.latitude],4326,mapGlobal.WKID,geolocateLogic)//callback function
+			//convertLonLat([pos.coords.longitude, pos.coords.latitude],4326,mapGlobal.WKID,geolocateLogic)//callback function
+			//KS revision to avoid ajax call (thanks jon) - still works should they want to use their own
+			convertLonLat([pos.coords.longitude, pos.coords.latitude],mapGlobal.geolocateProj4,mapGlobal.WKIDProj4,geolocateLogic)//callback function
 		});
 		console.log("geolocate working")
 	}else{
@@ -783,8 +806,9 @@ function geolocate(){
 	}
 }
 
-function geolocateLogic(point){
-	if (point){
+function geolocateLogic(lonLatWkid){
+	if (lonLatWkid){
+		var point = new Point(lonLatWkid.x, lonLatWkid.y, lonLatWkid.WKID);
 		console.log(point)
 		if (isPointWithinSquare([point.x, point.y], mapGlobal.extent)){
 			//KS: zoom to where assets are beginning to be drawn
