@@ -1,3 +1,14 @@
+//KS Testing start
+var testObj = {
+	uniqueField:'OBJECTID',
+	selectedAssets:[11888932,11888933,11888934,11888935],
+	selectSymbol:{color:[25, 135, 6], size:"8", outline:{color: [6, 6, 89],width: "1"}}
+};
+function replaceSymbol(graphicLayer, fieldID, selectArray, selectSymbol){
+	
+}
+//KS Testing end
+
 //KS: use this to get status
 var mapScriptStatus = jQuery.Deferred();
 
@@ -400,6 +411,10 @@ function drawAssetLayer(){
                   //console.log(esrimap.graphics.graphics[i])
                   esrimap.graphics.remove(esrimap.graphics.graphics[i]);
               }
+			//KS change symbol of those within selected array
+			console.log('graphic layer:')
+			console.log(esrimap.graphics.graphics[0])
+			replaceSymbol(esrimap.graphics.graphics[0],testObj.uniqueField,testObj.selectedAssets,testObj.selectSymbol);
           
         });
           
