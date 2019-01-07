@@ -7,6 +7,15 @@ var testObj = {
 function replaceSymbol(graphicLayer, fieldID, selectArray, selectSymbol){
 	
 }
+$('#dform_container').off('_KDF_mapReady').on('_KDF_mapReady', function(event, kdf, type, name, map, positionLayer, markerLayer, marker, projection) {
+	console.log('Script side _KDF_mapReady tiggered');
+	if (mapGlobal.geolocateButton){
+		addGeolocateButton($("[data-type='gis']"));
+	}
+	if (mapGlobal.geolocateAuto){
+		geolocate();
+	}
+}
 //KS Testing end
 
 //KS: use this to get status
@@ -64,6 +73,8 @@ var mapGlobal = {
 	extent: [334905.5753111506, 310733.193633054, 680181.2782575564, 663544.2449834899],// minX, maxX, minY, maxY
 	WKID: 27700,
 	WKIDProj4: '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs',
+	geolocateButton: true,
+	geolocateAuto: false,
 	geolocateWKID: 4326,
 	geolocateWKIDProj4:'+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs',//likely is the proj4 for 4326
 	centerLonLat: {x:325226.83303699945, y:673836.5572347812},
