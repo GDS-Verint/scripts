@@ -421,6 +421,7 @@ function drawAssetLayer(){
               for (var i = 0; i < esrimap.graphics.graphics.length -1; i++){
                   //KS Remove all but last layer
                   //console.log(esrimap.graphics.graphics[i])
+		  //KS~ need to refactor for possible selected assets layer in addition - does graphic == esrimap.graphics.graphics.length -1
                   esrimap.graphics.remove(esrimap.graphics.graphics[i]);
               }
 			//KS change symbol of those within selected array
