@@ -8,6 +8,7 @@ function replaceSymbol(graphicLayer, fieldID, selectArray, selectSymbol){
 	
 }
 $('#dform_container').off('_KDF_mapReady').on('_KDF_mapReady', function(event, kdf, type, name, map, positionLayer, markerLayer, marker, projection) {
+	//KS currently not working with map like _KDF_search is in style-4.js is
 	console.log('Script side _KDF_mapReady tiggered');
 	if (mapGlobal.geolocateButton){
 		addGeolocateButton($("[data-type='gis']"));
