@@ -15,7 +15,7 @@ $('#dform_container').off('_KDF_mapReady').on('_KDF_mapReady', function(event, k
 	if (mapGlobal.geolocateAuto){
 		geolocate();
 	}
-}
+});
 //KS Testing end
 
 //KS: use this to get status
