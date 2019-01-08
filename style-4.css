@@ -1167,7 +1167,7 @@ KS: Custom gov multi-checkbox - Start
     text-align: right;
 }
 .text-align-center-label div:first-child{
-    text-align: right;
+    text-align: center;
 }
 .text-align-left-label div:first-child{
     text-align: left;
