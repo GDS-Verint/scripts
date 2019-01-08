@@ -1161,3 +1161,14 @@ KS: Custom gov multi-checkbox - Start
 }
 .visibility-hidden{visibility: hidden;}
 .visibility-visible{visibility: visible;}
+
+/*KS - for use in optional rule - to make all lables right aligned*/
+.text-align-right-label div:first-child{
+    text-align: right;
+}
+.text-align-center-label div:first-child{
+    text-align: right;
+}
+.text-align-left-label div:first-child{
+    text-align: left;
+}
