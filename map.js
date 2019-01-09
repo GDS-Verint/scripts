@@ -579,7 +579,7 @@ function processResult(searchInput){
 	                    centreOnEsriResult('', '', resultAssetArray.xmax, resultAssetArray.xmin, resultAssetArray.ymax, resultAssetArray.ymin, '', '');
 	              });
 	          } else {
-	               $('label[for=dform_widget_fault_reporting_search_results]').html('<label for="dform_widget_fault_reporting_search_results">We have found more than one location that matches your search terms, select your desired result below:</label>');
+	               $('label[for=dform_widget_fault_reporting_search_results]').html('<label for="dform_widget_fault_reporting_search_results">Multiple results, please select one:</label>');
 	               $('#dform_widget_fault_reporting_search_results').append($('<option>', {value: 'Please select a location',text: 'Please select'}))
 	               $.each(resultAssetArray, function(key, resultAssetArray2 ) {
 	                   console.log(resultAssetArray2.site_name);
