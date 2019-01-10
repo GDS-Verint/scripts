@@ -410,12 +410,13 @@ function drawAssetLayer(){
               sms.setOffset(0, 0);
               var graphic = new esri.Graphic(multiPoints, sms);  
               
-              graphic.setAttributes({"title": ''});
+              graphic.setAttributes({"title": 'base'});
               
               //console.log(graphic)
               if(graphic.geometry.points.length > 0){
                   //KS prevent error of adding graphic layer with no points
                   esrimap.graphics.add(graphic);
+		  console.log('graphic pre add:'+graphic)
               }
               //esrimap.graphics.add(graphic);
               for (var i = 0; i < esrimap.graphics.graphics.length -1; i++){
@@ -426,7 +427,7 @@ function drawAssetLayer(){
               }
 			//KS change symbol of those within selected array
 			console.log('graphic layer:')
-			console.log(esrimap.graphics.graphics[0])
+			console.log('graphic post ass:'+esrimap.graphics.graphics[0])
 			replaceSymbol(esrimap.graphics.graphics[0],testObj.uniqueField,testObj.selectedAssets,testObj.selectSymbol);
           
         });
