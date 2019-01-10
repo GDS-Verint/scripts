@@ -426,6 +426,7 @@ function drawAssetLayer(){
 		  esrimap.graphics.remove(esrimap.graphics.graphics[i]);
               }
 			//KS change symbol of those within selected array
+		    console.log(esrimap.graphics.graphics[0]==graphic);
 			replaceSymbol(esrimap.graphics.graphics[0],testObj.uniqueField,testObj.selectedAssets,testObj.selectSymbol);
           
         });
