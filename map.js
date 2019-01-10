@@ -416,19 +416,16 @@ function drawAssetLayer(){
               if(graphic.geometry.points.length > 0){
                   //KS prevent error of adding graphic layer with no points
                   esrimap.graphics.add(graphic);
-		  console.log('graphic pre add:')
-		  console.log(graphic)
               }
               //esrimap.graphics.add(graphic);
               for (var i = 0; i < esrimap.graphics.graphics.length -1; i++){
                   //KS Remove all but last layer
                   //console.log(esrimap.graphics.graphics[i])
 		  //KS~ need to refactor for possible selected assets layer in addition - does graphic == esrimap.graphics.graphics.length -1
-                  esrimap.graphics.remove(esrimap.graphics.graphics[i]);
+                  console.log(esrimap.graphics.graphics[i]==graphic);
+		  esrimap.graphics.remove(esrimap.graphics.graphics[i]);
               }
 			//KS change symbol of those within selected array
-			console.log('graphic post add:');
-		        console.log(esrimap.graphics.graphics[0]);
 			replaceSymbol(esrimap.graphics.graphics[0],testObj.uniqueField,testObj.selectedAssets,testObj.selectSymbol);
           
         });
