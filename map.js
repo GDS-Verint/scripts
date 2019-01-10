@@ -409,7 +409,9 @@ function drawAssetLayer(){
                 //KS trying to fix the icon offset issue your having - was sms.setOffset(0, 32);
               sms.setOffset(0, 0);
               var graphic = new esri.Graphic(multiPoints, sms);  
-              
+              var activeLayers = [graphic];
+			
+			
               graphic.setAttributes({"title": 'base'});
               
               //console.log(graphic)
@@ -418,15 +420,18 @@ function drawAssetLayer(){
                   esrimap.graphics.add(graphic);
               }
               //esrimap.graphics.add(graphic);
-              for (var i = 0; i < esrimap.graphics.graphics.length -1; i++){
+              for (var i = 0; i < esrimap.graphics.graphics.length; i++){
                   //KS Remove all but last layer
                   //console.log(esrimap.graphics.graphics[i])
-		  //KS~ need to refactor for possible selected assets layer in addition - does graphic == esrimap.graphics.graphics.length -1
-                  console.log(esrimap.graphics.graphics[i]==graphic);
-		  esrimap.graphics.remove(esrimap.graphics.graphics[i]);
+	              //KS~ need to refactor for possible selected assets layer in addition - does graphic == esrimap.graphics.graphics.length -1
+		          var keep = false;
+				  activeLayers.forEach(function(layer){
+					  //ks keep only layers that will be displayed
+					  if (esrimap.graphics.graphics[i]==layer) keep = true;
+				  });
+				  esrimap.graphics.remove(esrimap.graphics.graphics[i]);
               }
 			//KS change symbol of those within selected array
-		    console.log(esrimap.graphics.graphics[0]==graphic);
 			replaceSymbol(esrimap.graphics.graphics[0],testObj.uniqueField,testObj.selectedAssets,testObj.selectSymbol);
           
         });
