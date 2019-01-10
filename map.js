@@ -416,7 +416,8 @@ function drawAssetLayer(){
               if(graphic.geometry.points.length > 0){
                   //KS prevent error of adding graphic layer with no points
                   esrimap.graphics.add(graphic);
-		  console.log('graphic pre add:'+graphic)
+		  console.log('graphic pre add:')
+		  console.log(graphic)
               }
               //esrimap.graphics.add(graphic);
               for (var i = 0; i < esrimap.graphics.graphics.length -1; i++){
@@ -426,8 +427,8 @@ function drawAssetLayer(){
                   esrimap.graphics.remove(esrimap.graphics.graphics[i]);
               }
 			//KS change symbol of those within selected array
-			console.log('graphic layer:')
-			console.log('graphic post ass:'+esrimap.graphics.graphics[0])
+			console.log('graphic post add:');
+		        console.log(esrimap.graphics.graphics[0]);
 			replaceSymbol(esrimap.graphics.graphics[0],testObj.uniqueField,testObj.selectedAssets,testObj.selectSymbol);
           
         });
