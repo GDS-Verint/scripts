@@ -576,13 +576,13 @@ function processResult(searchInput){
 	              var xmax, xmin, ymax, ymin;
 	              $.each(resultAssetArray, function(key, resultAssetArray ) {
 					  
-					  xmax = parseFloat(resultAssetArray.xmax);
+		          xmax = parseFloat(resultAssetArray.xmax);
 	                  xmin = parseFloat(resultAssetArray.xmin);
 	                  ymax = parseFloat(resultAssetArray.ymax);
 	                  ymin = parseFloat(resultAssetArray.ymin);
 	              });
 				  
-				  centreOnEsriResult('', '', resultAssetArray.xmax, resultAssetArray.xmin, resultAssetArray.ymax, resultAssetArray.ymin, '', '');
+	                centreOnEsriResult('', '', xmax, xmin, ymax, ymin, '', '');
 	          } else {
 	               $('label[for=dform_widget_fault_reporting_search_results]').html('<label for="dform_widget_fault_reporting_search_results">Multiple results, please select one:</label>');
 	               $('#dform_widget_fault_reporting_search_results').append($('<option>', {value: 'Please select a location',text: 'Please select'}))
