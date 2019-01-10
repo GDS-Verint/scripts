@@ -354,92 +354,66 @@ function zoomChanged(evt){
 }
 
 function drawAssetLayer(){
-    KDF.hideMessages();
-    //console.log('draassetlayer');
-    var xmaxE = esrimap.extent.xmax;
-    var ymaxE = esrimap.extent.ymax;
-    var xminE = esrimap.extent.xmin;
-    var yminE = esrimap.extent.ymin;
-    
-    var eachPoints=[];
-    
-    var esriAssetUrl = getCommunalAssetURl() + '&geometry=%7B%22xmin%22%3A' + xminE + '%2C%22ymin%22%3A' + yminE + '%2C%22xmax%22%3A' + xmaxE + '%2C%22ymax%22%3A' + ymaxE + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A27700%7D%7D';
-    //console.log(esriAssetUrl)
-    
-    $.ajax({url: esriAssetUrl, dataType: 'jsonp', crossDomain: true
-	}).done(function(response) {
-	    
-	    //console.log(response.features);
-	    
-	    $.each(response.features, function( key, value ) {
-	        //console.log(value.geometry.x);
-	        
-	        eachPoints.push([value.geometry.x, value.geometry.y]);
-	    });
-	    
-	    require([ "esri/symbols/SimpleMarkerSymbol", "esri/graphic", "esri/Color", "dojo/domReady!" ],
-        function(SimpleMarkerSymbol,  Graphic,  Color) {
-    	     var points = {   
-                "points": eachPoints,   
-                "spatialReference": ({ "wkid": 27700 })  
-              };  
-              
-              var redColor = Color.fromArray([0, 204, 153]);
-              
-              var multiPoints = new esri.geometry.Multipoint(points);  
-              //var markerSymbol = new PictureMarkerSymbol('/dformresources/content/map-blue.png', 32, 32);
-              //var binSymbol = new PictureMarkerSymbol('https://drive.google.com/file/d/1bOGzVEcTYVEIBvMDQ-N5-qnWJmDMCLVO/view?usp=sharing', 32, 32);
-              //KS: Custom marker - if defined - use the object
-		    var sms;
-			if (specifics.markerSymbol){
-			    //KS: use defind object to create marker
-				sms = new SimpleMarkerSymbol(specifics.markerSymbol);
-		    }else{
-			    //KS: use default marker
-				sms = new SimpleMarkerSymbol({
-                  color: redColor,
-                  size: "12",
-                  outline: {
-                    color: [0, 153, 255],
-                    width: "5px",
-                  }
-                });
-		    }
-		    
-                //KS trying to fix the icon offset issue your having - was sms.setOffset(0, 32);
-              sms.setOffset(0, 0);
-              var graphic = new esri.Graphic(multiPoints, sms);  
-              var activeLayers = [graphic];
-			
-			
-              graphic.setAttributes({"title": 'base'});
-              
-              //console.log(graphic)
-              if(graphic.geometry.points.length > 0){
-                  //KS prevent error of adding graphic layer with no points
-                  esrimap.graphics.add(graphic);
-              }
-              //esrimap.graphics.add(graphic);
-              for (var i = 0; i < esrimap.graphics.graphics.length; i++){
-                  //KS Remove all but last layer
-                  //console.log(esrimap.graphics.graphics[i])
-	              //KS~ need to refactor for possible selected assets layer in addition - does graphic == esrimap.graphics.graphics.length -1
-		          var keep = false;
-				  activeLayers.forEach(function(layer){
-					  //ks keep only layers that will be displayed
-					  if (esrimap.graphics.graphics[i]==layer) keep = true;
-				  });
-				  esrimap.graphics.remove(esrimap.graphics.graphics[i]);
-              }
-			//KS change symbol of those within selected array
-			replaceSymbol(esrimap.graphics.graphics[0],testObj.uniqueField,testObj.selectedAssets,testObj.selectSymbol);
-          
-        });
-          
-	    //console.log(eachPoints);
+	KDF.hideMessages();
+	var xmaxE = esrimap.extent.xmax;
+	var ymaxE = esrimap.extent.ymax;
+	var xminE = esrimap.extent.xmin;
+	var yminE = esrimap.extent.ymin;
+	//KS maybe use multiplyer to expand search radius
+	var eachPoints=[];
+	
+	//KS call url builder - can't assume it's in specified format in the future
+	var esriAssetUrl = getCommunalAssetURl() + '&geometry=%7B%22xmin%22%3A' + xminE + '%2C%22ymin%22%3A' + yminE + '%2C%22xmax%22%3A' + xmaxE + '%2C%22ymax%22%3A' + ymaxE + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A27700%7D%7D';
+	
+	$.ajax({url: esriAssetUrl, dataType: 'jsonp', crossDomain: true}).done(function(response) {
+		response.features.forEach(function(point){
+			eachPoints.push([point.geometry.x, point.geometry.y]);
+		});
+		
+		//KS use saved wkid
+		var points = {"points": eachPoints,"spatialReference": ({ "wkid": 27700 })};  
+		var multiPoints = new esri.geometry.Multipoint(points);  
+		
+		//KS: Custom marker - if defined - use the object
+		var sms;
+		if (specifics.markerSymbol){
+			//KS: use defind object to create marker
+			sms = new SimpleMarkerSymbol(specifics.markerSymbol);
+		}else{
+			//KS: use default marker
+			sms = new SimpleMarkerSymbol({
+				color: [0, 204, 153],
+				size: "12",
+				outline: {
+					color: [0, 153, 255],
+					width: "5px",
+				}
+			});
+		}
+		
+		var graphic = new esri.Graphic(multiPoints, sms);  
+		var activeLayers = [graphic];
+
+		graphic.setAttributes({"title": "base"});
+		
+		if(graphic.geometry.points.length > 0){
+			//KS prevent error of adding graphic layer with no points
+			esrimap.graphics.add(graphic);
+		}
+		removeLayers(esrimap.graphics, activeLayers);
 	}).fail(function() {
-	    KDF.showError('It looks like the connection to our mapping system has failed, please try to log the fault again');
+		KDF.showError('It looks like the connection to our mapping system has failed, please try to log the fault again');
 	});	
+}
+function removeLayers(esriGraphics, layersToKeep){
+	for (var i = 0; i < esriGraphics.graphics.length; i++){
+		var remove = false;
+		layersToKeep.forEach(function(layer){
+			//ks keep only layers from layersToKeep
+			if (esriGraphics.graphics[i]==layer) remove = false;
+		});
+		if (remove) esriGraphics.remove(esriGraphics.graphics[i]);
+	}
 }
 
 $(document).on('change','#dform_widget_fault_reporting_search_results' , function() {
