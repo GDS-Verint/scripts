@@ -40,7 +40,6 @@ $('#dform_container').ready(function() {
 
 /*KS 
 In order to have this working with more forms in the future but not requiring a script per page I think that we have an an object with optional params and (if they're required) implement defaults.
-
 If we do we'll be getting fimilar with this expression: Object.is(x, undefined) ? y : x;
 Maybe for the displying popup we could have something like the object below... 
 {
@@ -50,7 +49,6 @@ Maybe for the displying popup we could have something like the object below...
     //ABV: this would allow use to illiterate through all the fields and display what we'd like.
 }
 The defaults for the above would be something like 'Confirm' for the confirmText and a check before illitering infoWindowFields that would display text simalar to 'Location of asset'
-
 In addition some features that I think would be particulary useful - hopefully we get time to develop them together in the future:
     Draw assets when at or below specified zoom level
     Once clicked, zoom into map. Maybe default of 3rd level from maximum - possibily configuable if we consider the levels set in designer
@@ -97,6 +95,7 @@ $(document).on('click','#dform_widget_button_but_layerberapa',function() {
 $(document).on('keypress','#dform_widget_txt_postcode',function() {
 	if (event.keyCode == 13) {
 		if (!$('#dform_widget_txt_postcode').hasClass('dform_fielderror')){//KS: prevent search if it has an error
+			event.preventDefault();
 			searchBegin();  
 		}
 	}
@@ -307,7 +306,8 @@ function callInfoWindow(content, marker, map){
             if(specifics.defaultPopupContent){
 			    content = specifics.defaultPopupContent;
 			} else{
-				content = '<u>Asset not found.</u></br></br><u>Make sure you do maximum zoom in and select the green circle</u>';
+				content = '<u><b>Asset not found.</b></u></br></br><u><b>If you believe there is an asset here please click below button to report.</b></u>'
+            + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Report this location</button></div>';
 			}
         }
 
@@ -573,11 +573,16 @@ function processResult(searchInput){
 	          //console.log(resultAssetArray[value.Abbreviation].xmax);
 	          
 	          if(resultCount == 1){
-	              console.log('haha');
+	              var xmax, xmin, ymax, ymin;
 	              $.each(resultAssetArray, function(key, resultAssetArray ) {
-	                  console.log(resultAssetArray.xmax);
-	                    centreOnEsriResult('', '', resultAssetArray.xmax, resultAssetArray.xmin, resultAssetArray.ymax, resultAssetArray.ymin, '', '');
+					  
+					  xmax = parseFloat(resultAssetArray.xmax);
+	                  xmin = parseFloat(resultAssetArray.xmin);
+	                  ymax = parseFloat(resultAssetArray.ymax);
+	                  ymin = parseFloat(resultAssetArray.ymin);
 	              });
+				  
+				  centreOnEsriResult('', '', resultAssetArray.xmax, resultAssetArray.xmin, resultAssetArray.ymax, resultAssetArray.ymin, '', '');
 	          } else {
 	               $('label[for=dform_widget_fault_reporting_search_results]').html('<label for="dform_widget_fault_reporting_search_results">Multiple results, please select one:</label>');
 	               $('#dform_widget_fault_reporting_search_results').append($('<option>', {value: 'Please select a location',text: 'Please select'}))
