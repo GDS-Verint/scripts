@@ -73,6 +73,7 @@ function defaultNewStyle(elements){
        elements.forEach(function(element){
         switch(element){
             case "all":
+            case"recommended:"
                 defineDefaultNewStyles();
                 break;
             case "mchk":
