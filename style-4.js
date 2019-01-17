@@ -466,3 +466,6 @@ function addStartupListeners(){
 		noResultsFound.call($('[name="'+name+'_id"]'))
 	});
 }
+function regexSearch(regex){
+	$(".search-gov input:text, #dform_widget_txt_postcode, .regex input:text").attr('pattern',regex);
+}
