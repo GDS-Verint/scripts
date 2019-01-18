@@ -1062,15 +1062,26 @@ KS: Custom gov multi-checkbox - Start
     background: #00823b;
     margin-bottom: 6px;
 }
-.box-green fieldset{
+.box-blue{
+    background: #007AFF;
+    margin-bottom: 6px;
+}
+.box-orange{
+    background: #FA6E1E;
+    margin-bottom: 6px;
+}
+.box-green fieldset, .box-blue fieldset, .box-orange fieldset{
     border: none !important;
 }
-.box-green legend{
+.box-green legend,.box-blue legend,.box-orange legend{
     color: white !important;
     font-weight: 700 !important;
     font-size: 35px !important;
     text-align: center;
 }
+
+
+
 [data-type='html'] a[href] {
     color: blue !important;
 }
