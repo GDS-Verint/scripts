@@ -466,6 +466,14 @@ function addStartupListeners(){
 		noResultsFound.call($('[name="'+name+'_id"]'))
 	});
 }
+
+$('#dform_container').on('keypress','.search-gov [type="text"], .txt-enter-trigger-btn [type="text"]',function() {
+	if (event.keyCode == 13) {
+		$(this).parent().parent().parent().find('[type="button"]').trigger('click');
+	}
+});
+
 function regexSearch(regex){
-	$(".search-gov input:text, #dform_widget_txt_postcode, .regex input:text").attr('pattern',regex);
+    //KS E.G.: regexSearch("[0-9A-Za-z ]{3,}")
+	$(".search-gov input:text, .apply-regex, #dform_widget_txt_postcode").attr('pattern',regex);
 }
