@@ -1133,6 +1133,7 @@ KS: Custom gov multi-checkbox - Start
     height: inherit;
 }
 .detail-title > p,.detail-title{
+    font-size: 1.5em;
     margin: 0px;
 }
 .rad-no-margin legend, .mchk-no-margin legend{
