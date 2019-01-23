@@ -232,7 +232,8 @@ function applyNewStyle(){
     //file.after(file.parent().find(".helptext"))
     file.after('<span class="file-gov-icon"><span class="file-gov-icon-a"></span><span class="file-gov-icon-b"></span><label class="file-gov-text">Select Files...</label></span>');
     file.parent().css('position', 'relative');
-    
+	//KS: prevent WCAG error
+    $("[type='file']").attr('title', 'File upload');
     $('.file-gov .helptext').each(function(){
         //KS: used to rearrange elements
         $(this).insertAfter($(this).parent().find(".file-gov-icon"));
@@ -392,6 +393,8 @@ function individualApplyStyle(element){
         el.append('<span class="chk-check"></span>');
         el.find(".helptext").insertAfter(element.find("label"));
     }else if (element.hasClass('file-gov')){
+	    //KS: avoid WCAG error
+	    $("[type='file']").attr('title', 'File upload');
         var el = element.find('input').not(":has(.file-gov-icon-a)");
         el.after('<span class="file-gov-icon"><span class="file-gov-icon-a"></span><span class="file-gov-icon-b"></span><label class="file-gov-text">Select Files...</label></span>');
         el.parent().css('position', 'relative');
