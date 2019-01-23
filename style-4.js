@@ -256,7 +256,7 @@ function applyNewStyle(){
     };*/
     
     //if rad-no-margin mchk-no-margin .not(":has(.rad-no-margin)" ) .not(":has(.mchk-no-margin)")
-    $('.mchk-margin-8' ).find('legend').addClass('mchk-margin--8' ).each(function(){$(this).insertBefore($(this).parent().parent());});
+    /*$('.mchk-margin-8' ).find('legend').addClass('mchk-margin--8' ).each(function(){$(this).insertBefore($(this).parent().parent());});
     $('.rad-margin-8'  ).find('legend').addClass('rad-margin--8'  ).each(function(){$(this).insertBefore($(this).parent().parent());});
     $('.mchk-margin-16').find('legend').addClass('mchk-margin--16').each(function(){$(this).insertBefore($(this).parent().parent());});
     $('.rad-margin-16' ).find('legend').addClass('rad-margin--16' ).each(function(){$(this).insertBefore($(this).parent().parent());});
@@ -278,7 +278,30 @@ function applyNewStyle(){
     $('.rad-margin-83' ).find('legend').addClass('rad-margin--83' ).each(function(){$(this).insertBefore($(this).parent().parent());});
     $('.mchk-margin-91').find('legend').addClass('mchk-margin--91').each(function(){$(this).insertBefore($(this).parent().parent());});
     $('.rad-margin-91' ).find('legend').addClass('rad-margin--91' ).each(function(){$(this).insertBefore($(this).parent().parent());});
-    
+    */
+	$('.mchk-margin-8 legend').each(function(){marginArrange($(this),'mchk-margin--8')});
+	$('.rad-margin-8 legend').each(function(){marginArrange($(this),'rad-margin--8')});
+	$('.mchk-margin-16 legend').each(function(){marginArrange($(this),'mchk-margin--16')});
+	$('.rad-margin-16 legend').each(function(){marginArrange($(this),'rad-margin--16')});
+	$('.mchk-margin-25 legend').each(function(){marginArrange($(this),'mchk-margin--25')});
+	$('.rad-margin-25 legend').each(function(){marginArrange($(this),'rad-margin--25')});
+	$('.mchk-margin-33 legend').each(function(){marginArrange($(this),'mchk-margin--33')});
+	$('.rad-margin-33 legend').each(function(){marginArrange($(this),'rad-margin--33')});
+	$('.mchk-margin-41 legend').each(function(){marginArrange($(this),'mchk-margin--41')});
+	$('.rad-margin-41 legend').each(function(){marginArrange($(this),'rad-margin--41')});
+	$('.mchk-margin-50 legend').each(function(){marginArrange($(this),'mchk-margin--50')});
+	$('.rad-margin-50 legend').each(function(){marginArrange($(this),'rad-margin--50')});
+	$('.mchk-margin-58 legend').each(function(){marginArrange($(this),'mchk-margin--58')});
+	$('.rad-margin-58 legend').each(function(){marginArrange($(this),'rad-margin--58')});
+	$('.mchk-margin-66 legend').each(function(){marginArrange($(this),'mchk-margin--66')});
+	$('.rad-margin-66 legend').each(function(){marginArrange($(this),'rad-margin--66')});
+	$('.mchk-margin-75 legend').each(function(){marginArrange($(this),'mchk-margin--75')});
+	$('.rad-margin-75 legend').each(function(){marginArrange($(this),'rad-margin--75')});
+	$('.mchk-margin-83 legend').each(function(){marginArrange($(this),'mchk-margin--83')});
+	$('.rad-margin-83 legend').each(function(){marginArrange($(this),'rad-margin--83')});
+	$('.mchk-margin-91 legend').each(function(){marginArrange($(this),'mchk-margin--91')});
+	$('.rad-margin-91 legend').each(function(){marginArrange($(this),'rad-margin--91')});
+	
     
     //KS: makes detail
     $('.detail-gov > p:first-child').each(
@@ -338,9 +361,6 @@ function applyNewStyle(){
     addStartupListeners()
 }
 
-function marginRearrange(obj){
-    obj.insertBefore(obj.parent().parent());
-}
 
 function applyNewerStyle(elements){updateStyle(elements);}//KS: backwards compatability
 function updateStyle(elements){
@@ -413,7 +433,8 @@ function individualApplyStyle(element){
                 $(this).find('> p').wrapAll('<div class="detail-block"></div>');
             }
         )
-    }else{
+    }
+	else{
         console.log("style wasn't applied to an element as it wasn't defined as restylable")
     }
 }
@@ -479,4 +500,18 @@ $('#dform_container').on('keypress','.search-gov [type="text"], .txt-enter-trigg
 function regexSearch(regex){
     //KS E.G.: regexSearch("[0-9A-Za-z ]{3,}")
 	$(".search-gov input:text, .apply-regex, #dform_widget_txt_postcode").attr('pattern',regex);
+}
+function marginRevertArrange(element){
+	//KS 'element' should be the rad/mchk element as jquery object (supports multiple at once) e.g. $('.rad-gov,.mack-gov') is everything
+	element.find('> legend').remove();
+	element.find('fieldset legend').removeClass('display-none')
+	element.removeClass(function(index, className){
+		//KS: removes mchk-margin-* and rad-margin-* classes. Update if names change or include another '|' if more is added
+		return (className.match (/\b(mchk-margin-|rad-margin-)\S+/g) || []).join(' ');
+	})
+}
+function marginArrange(legend, style){
+	//KS: should be passed the style and legend (eg $('.rad-margin-50 legend').each(function(){marginArrange($(this),'rad-margin--50')});)
+	legend.clone().addClass(style).insertBefore(legend.parent().parent());
+	legend.addClass('display-none');
 }
