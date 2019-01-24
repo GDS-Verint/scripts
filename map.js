@@ -67,8 +67,8 @@ function removeLayers(esriGraphics, layersToKeep){
 		if (remove) esriGraphics.remove(esriGraphics.graphics[i]);
 	}
 }
-function replaceSymbol(graphicLayer, fieldID, selectArray, selectSymbol){
-	//KS select 
+function replaceSymbol(graphicLayer, selectSymbol){
+	//KS
 }
 function removeSelectedAssets(graphicLayer){
 	
@@ -130,7 +130,13 @@ var streetAddress='';
 
 var specifics = {};//KS allows form to override defaults
 function getSpecifics(){return specifics;}//KS accessor to give a level of abstraction when we need it
-function setSpecifics(obj){specifics = obj;}
+function setSpecifics(obj){
+	//KS Overwrites properties
+	for(var property in obj){
+		specifics[property] = obj[property];
+	}
+}
+
 //call to getCommunalAssetURl() would be try to get val from from 
 
 //KS: need to move to a specifc global varible script but will be her for now.
