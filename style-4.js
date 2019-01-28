@@ -515,3 +515,18 @@ function marginArrange(legend, style){
 	legend.clone().addClass(style).insertBefore(legend.parent().parent());
 	legend.addClass('display-none');
 }
+function paramElementChange(possibleToChange){
+    //KS: possibleToChange is an array of element names which can set to values from the params
+    var params = KDF.getParams();
+    var defaultParams = ['wss', 'lwssinline', 'token'];
+    if (params.wss == 'true'){
+        $.each( params, function( key, value ) {
+            if (possibleToChange.includes(key) && !defaultParams.includes(defaultParams)){
+                KDF.setVal(key, value);
+                console.log('wss loaded element '+key+' with '+value);
+                //KS: Really should include trigger - NEED TO BIND AT START - DO IN FUNCTION LATER
+                $('#dform_container').trigger('_style_paramElementChanged');
+            }
+        });
+    }
+}
