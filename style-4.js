@@ -327,7 +327,7 @@ function applyNewStyle(){
     $('.detail-gov > p:first-child').each(
         function(){
             $(this).text("►"+$(this).text());
-            $(this).wrap('<a class="detail-title" href="#"></a>');
+            $(this).wrap('<a class="detail-title" href="#" onclick="(function(e){e.preventDefault();})(event)"></a>');
             $(this).contents().unwrap();
         }
     )
@@ -444,7 +444,7 @@ function individualApplyStyle(element){
         element.find('> p:first-child').each(
             function(){
                 $(this).text("►"+$(this).text());
-                $(this).wrap('<a class="detail-title" href="#"></a>');
+                $(this).wrap('<a class="detail-title" href="#" onclick="(function(e){e.preventDefault();})(event)"></a>');
                 $(this).contents().unwrap();
             }
         )
