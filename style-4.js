@@ -530,6 +530,7 @@ function paramElementChange(possibleToChange){
         });
     }
 }
+
 function luminanace(r, g, b) {
 //source: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
     var a = [r, g, b].map(function (v) {
@@ -542,8 +543,8 @@ function luminanace(r, g, b) {
 }
 function contrast(rgb1, rgb2) {
 //source: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
-    return (luminanace(rgb1[0], rgb1[1], rgb1[2]) + 0.05)
-         / (luminanace(rgb2[0], rgb2[1], rgb2[2]) + 0.05);
+    return (luminanace(rgb1['r'], rgb1['g'], rgb1['b']) + 0.05)
+         / (luminanace(rgb2['r'], rgb2['g'], rgb2['b']) + 0.05);
 }
 function rgbToHex(r, g, b) {
 //source: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
