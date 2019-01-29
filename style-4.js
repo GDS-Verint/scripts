@@ -2,6 +2,21 @@
 defaultNewStyle(["all"]);//KS: see 'Non-recommended defaults' within 'defaultNewStyle(elements)' for optional defaults
 applyNewStyle();*/
 
+function simpleColorCheck(bgColor, fgIfWhite, fgIfNot){
+    //KS: if white, use a non-white colour, if non-white use white
+    var whiteDef = ['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)', 'white', '#fff', '#ffffff'];
+    if ($.inArray(bgColor.toLowerCase(), whiteDef) != -1){
+        return fgIfWhite;
+    } else {
+        return fgIfNot;
+    }
+}
+function requiredColorCheck(jQueryObject){
+    var color = simpleColorCheck(jQueryObject.css("background-color"),'#b03535', 'white');
+    return color;
+}
+
+
 function highlightRequired() {
     //Finds the legend of required input elements and adds a red star to the end of them
 	$(document).find(':required').each(function() {
@@ -9,28 +24,33 @@ function highlightRequired() {
 	        var legend = $(this).parent().parent().find('legend');
 	        
 	        if ($(legend).find('span').size() <= 0) {
-	                $(legend).append('<span style="color: #b03535;">*</span>');
+	                var obj1 = $(legend);
+	                obj1.append('<span style="color: '+requiredColorCheck(obj1)+';">*</span>');
 	        }
 	    } else {
 			
     		var label = $('label[for="'+$(this).attr('id')+'"]');
     		if ($(label).find('span').length === 0) {
-    			$('label[for="'+$(this).attr('id')+'"]').append('<span style="color: #b03535; font-weight: bold;">*</span>');
+    			var obj2 = $('label[for="'+$(this).attr('id')+'"]');
+    			obj2.append('<span style="color: '+requiredColorCheck(obj2)+'; font-weight: bold;">*</span>');
     		}
 	    }
 	    //KS: added to cover single check box without messing with code too much
 	    if($(this).attr('type') == 'checkbox' && $(this).parent().is("div")){
 	        //KS: ensures that only single checkboxes have required *
-	        $(this).parent().find('> label').append('<span style="color: #b03535;">*</span>');
+	        var obj3 = $(this).parent().find('> label');
+	        obj3.append('<span style="color: '+requiredColorCheck(obj3)+';">*</span>');
 	    }
 	});	
 	$("[data-type='search'][data-required='true'] > legend").each(function(){
 	    //Code for all searches
 	    if ($(this).find('span').size() <= 0) {
-	        $(this).append('<span style="color: #b03535;">*</span>');
+	        var obj4 = $(this);
+	        obj4.append('<span style="color: '+requiredColorCheck(obj4)+';">*</span>');
 	    }
 	});
 }
+
 
 function defineDefaultNewStyles(){
     //KS: adds the recommended default styling
