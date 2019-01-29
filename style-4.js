@@ -544,3 +544,6 @@ function contrast(rgb1, rgb2) {
     return (luminanace(rgb1[0], rgb1[1], rgb1[2]) + 0.05)
          / (luminanace(rgb2[0], rgb2[1], rgb2[2]) + 0.05);
 }
+function rgbToHex(r, g, b) {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
