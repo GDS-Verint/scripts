@@ -8,7 +8,7 @@ KS: searches - Start
 }
 .cs-gov fieldset, .ss-gov fieldset, .ps-gov fieldset, .os-gov fieldset, .search-gov fieldset {
     border: none !important;
-    border-left: 5px solid #007AFF !important;
+    border-left: 5px solid #0072ef !important;
     border-radius: 0 !important;
     
 }
@@ -17,7 +17,7 @@ KS: searches - Start
     left: -15px !important;
     padding-left: 20px !important;
     font-weight: bold !important;
-    background: #007aff !important;
+    background: #0072ef !important;
     color: white !important;
     
 }
@@ -49,14 +49,14 @@ KS: area Start
 .area-gov > fieldset{
     border: none !important;
     border-radius: 0 !important;
-    border-left: 5px solid #007AFF !important;
+    border-left: 5px solid #0072ef !important;
 }
 .area-gov > fieldset > legend{
     position: relative !important;
     left: -15px !important;
     padding-left: 20px !important;
     font-weight: bold !important;
-    background: #007aff !important;
+    background: #0072ef !important;
     color: white !important;
 }
 
@@ -70,7 +70,7 @@ KS: area Start
 .area-no-group > fieldset > legend, .cs-no-group legend, .ss-no-group legend, .ps-no-group legend, .os-no-group legend, .search-no-group legend{
     left: 0 !important;
     padding-left: 0 !important;
-    color: #007aff !important;
+    color: #0072ef !important;
     background: none !important;
 }
 
@@ -99,90 +99,77 @@ KS: btn Start
 Need to deside on new generic button - the continue should be promanant - maybe have the basic be blue
 -----------------------------------------------
 */
-
-.btn-gov{
+.btn-gov, .btn-gov:hover, .btn-orange, .btn-orange:hover, .btn-continue, .btn-continue:hover,.btn-green,.btn-green:hover {
     color: #fff !important;
-    box-shadow: inset 0 -2px 0 /*#003618*/ #00529B !important;
     border: none !important;
     border-radius: 0px !important;
     outline-offset: -1px;
     width: auto !important;
-    background: /*#00823b*/ #007AFF!important;
     white-space: nowrap;
+    padding: 0.3em 0.6em !important;
+    font-size: 18.7px !important;
+}
+
+/*btn-gov------------------------------------*/
+.btn-gov{
+    box-shadow: inset 0 -2px 0 /*#003618*/ #00529B !important;
+    background: /*#00823b*/ #0072ef!important;
 }
 .btn-gov:hover{
-    color: #fff !important;
     box-shadow: inset 0 -2px 0 /*#003618*/ #00529B !important;
-    border: none !important;
-    border-radius: 0px !important;
-    outline-offset: -1px;
-    width: auto !important;
     background: /*#00682e*/ #006be0!important;
-    white-space: nowrap;
     
 }
 .btn-gov:focus{
     box-shadow: inset 0 -2px 0 /*#003618*/ #00529B, 0 0 0 3px #FFBF47 !important;
 }
 
-/*btn-bold------------------------------------*/
-
-.btn-bold{
-    font-weight: bold !important;
-}
-
   
 /*btn-orange----------------------------------*/
 .btn-orange{
-    color: #fff !important;
     box-shadow: inset 0 -2px 0 /*#003618*/ #bc5114 !important;
-    border: none !important;
-    border-radius: 0px !important;
-    outline-offset: -1px;
-    width: auto !important;
     background: /*#00823b*/ #FA6E1E!important;
-    white-space: nowrap;
 }
 .btn-orange:hover{
-    color: #fff !important;
     box-shadow: inset 0 -2px 0 /*#003618*/ #bc5114 !important;
-    border: none !important;
-    border-radius: 0px !important;
-    outline-offset: -1px;
-    width: auto !important;
     background: /*#00682e*/ #d35b17!important;
-    white-space: nowrap;
     
 }
 .btn-orange:focus{
     box-shadow: inset 0 -2px 0 /*#003618*/ #bc5114, 0 0 0 3px #FFBF47 !important;
 }
 
+/*btn-green---------------------------------*/
+.btn-green{
+    box-shadow: inset 0 -2px 0 #003618 !important;
+    background: #00823b!important;
+}
+.btn-green:hover{
+    box-shadow: inset 0 -2px 0 #003618 !important;
+    background: #00682e!important;
+}
+.btn-green:focus{
+    box-shadow: inset 0 -2px 0 #003618, 0 0 0 3px #FFBF47 !important;
+}
+/*KS: If not used by mobile - normal sized button*/
+@media (max-width: 768px){
+    .btn-gov,.btn-gov:hover,.btn-continue,.btn-continue:hover,.btn-orange,.btn-orange:hover,.btn-green,.btn-green:hover  {
+        width: 100% !important;
+    }
+}  
 
 /*btn-continue---------------------------------*/
 
 /*KS: Customizes the help text */
 .btn-continue{
-    color: #fff !important;
     box-shadow: inset 0 -2px 0 #003618 !important;
-    border: none !important;
-    border-radius: 0px !important;
-    outline-offset: -1px;
-    width: auto !important;
     background: #00823b!important;
     font-weight: bold !important;
-    white-space: nowrap;
 }
 .btn-continue:hover{
-    color: #fff !important;
     box-shadow: inset 0 -2px 0 #003618 !important;
-    border: none !important;
-    border-radius: 0px !important;
-    outline-offset: -1px;
-    width: auto !important;
     background: #00682e!important;
     font-weight: bold !important;
-    white-space: nowrap;
 }
 .btn-continue:focus{
     box-shadow: inset 0 -2px 0 #003618, 0 0 0 3px #FFBF47 !important;
@@ -194,6 +181,11 @@ Need to deside on new generic button - the continue should be promanant - maybe 
     }
 }  
 
+/*btn-bold------------------------------------*/
+
+.btn-bold{
+    font-weight: bold !important;
+}
 
 
 /*btn-back------------------------------------*/
@@ -305,16 +297,16 @@ KS: file-gov Start
     width: 100% !important;/*📱*/
     margin-bottom: 2px !important;
 }
+
 .file-gov .dform_filenames span{
-    /*background-color: #00529B;*/
-    color: #007AFF !important;
+    display: inline-block;
+    /*KS: removed to be up to WCAG2AAA
+    color: #0072ef !important;
     padding: 2px;
     margin: 2px;
-    display: inline-block;
     border-radius: 5px;
     margin-right: 2px !important;
-    border: 2px solid #007AFF;
-    
+    border: 2px solid #0072ef;*/
 }
 /*KS: removes the >> before file names*/
 .file-gov .dform_filenames span:before{
@@ -355,7 +347,7 @@ KS: file-gov Start
   border: none;
   border-radius: 0px;
   outline-offset: -1px;
-  background: #007AFF; /*Verint blue*/
+  background: #0072ef; /*Verint blue*/
   
   
   /*KS: too subtle to notice change: -webkit-transition: background 0.5s ease-out; -moz-transition: background 0.5s ease-out;   -o-transition: background 0.5s ease-out;    transition: background 0.5s ease-out;*/
@@ -416,10 +408,10 @@ KS: file-gov Start
     visibility: visible;
     height: 30px !important;
     margin: 5px !important;
-    border: 2px solid #007AFF !important;/*Verint blue*/ 
+    border: 2px solid #0072ef !important;/*Verint blue*/ 
 }
 .file-progress .dform_fileupload_progressbar > div{
-    background: #007AFF !important; /*Verint blue*/
+    background: #0072ef !important; /*Verint blue*/
 }
 
 /*File-no-legend-------------------------------*/
@@ -732,8 +724,8 @@ KS: Custom gov radio buttons - Start
   width: 35px;
   background-color: white;/*uncheck background*/
   border-radius: 75%;
-  /*border: 3px solid #007AFF;Inconsistint sizing between host and VOF*/
-  box-shadow: inset 0 0 0 3px #007AFF;
+  /*border: 3px solid #0072ef;Inconsistint sizing between host and VOF*/
+  box-shadow: inset 0 0 0 3px #0072ef;
 }
 /*KS: Create the indicator (the dot/circle - hidden when not checked) */
 .rad-check:after {
@@ -752,7 +744,7 @@ KS: Custom gov radio buttons - Start
   width: 21px;
   height: 21px;
   border-radius: 50%;
-  background: #007AFF;
+  background: #0072ef;
 }
 /*KS: Customizes the help text */
 .rad-gov > div > fieldset .helptext {
@@ -781,7 +773,7 @@ KS: Custom gov radio buttons - Start
 }
 .rad-gov > div > fieldset > span  input:focus ~ .rad-check{
     /*border: 3px solid red !important;*/
-    box-shadow: 0 0 0 3px #FFBF47, inset 0 0 0 3px #007AFF;
+    box-shadow: 0 0 0 3px #FFBF47, inset 0 0 0 3px #0072ef;
 }
 .rad-gov > div > fieldset{
     margin: 0 !important;
@@ -827,12 +819,12 @@ KS: gov checkbox Start
   left: 0;
   height: 29px;
   width: 29px;
-  border: 3px solid #007AFF;
+  border: 3px solid #0072ef;
   border-radius: 15%;
 }
 /*KS: When the checkbox is checked, add a blue background */
 .chk-gov > div  input:checked ~ .chk-check {
-  background-color: #007AFF;
+  background-color: #0072ef;
 }
 /*KS: Create the indicator (the dot/circle - hidden when not checked) */
 .chk-check:after {
@@ -932,11 +924,11 @@ KS: Custom gov multi-checkbox - Start
   width: 29px;
   background-color: white;/*uncheck background*/
   border-radius: 15%;
-  border: 3px solid #007AFF;
+  border: 3px solid #0072ef;
 }
 /*KS: When checked, it fills background*/
 .mchk-gov > div > fieldset > span  input:checked ~ .mchk-check {
-    background-color: #007AFF;
+    background-color: #0072ef;
 }
 /*KS: Create the indicator (the dot/circle - hidden when not checked) */
 .mchk-check:after {
@@ -1063,7 +1055,7 @@ KS: Custom gov multi-checkbox - Start
     margin-bottom: 6px;
 }
 .box-blue{
-    background: #007AFF;
+    background: #0072ef;
     margin-bottom: 6px;
 }
 .box-orange{
@@ -1117,7 +1109,7 @@ KS: Custom gov multi-checkbox - Start
     height: 0px;
 }
 .detail-block{
-    border-left: 5px solid #007AFF;
+    border-left: 5px solid #0072ef;
     padding-left: 10px;
     position: relative;
     top: -7px;
