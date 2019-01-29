@@ -531,7 +531,7 @@ function paramElementChange(possibleToChange){
     }
 }
 function luminanace(r, g, b) {
-	//KS: source https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
+//source: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
     var a = [r, g, b].map(function (v) {
         v /= 255;
         return v <= 0.03928
@@ -541,9 +541,20 @@ function luminanace(r, g, b) {
     return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
 }
 function contrast(rgb1, rgb2) {
+//source: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
     return (luminanace(rgb1[0], rgb1[1], rgb1[2]) + 0.05)
          / (luminanace(rgb2[0], rgb2[1], rgb2[2]) + 0.05);
 }
 function rgbToHex(r, g, b) {
+//source: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+function hexToRgb(hex) {
+//source: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
 }
