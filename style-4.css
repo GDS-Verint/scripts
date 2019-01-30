@@ -506,7 +506,10 @@ KS: txt (and text like fields) Start
     /*KS: but I added this just incase you want that functionality again*/
     min-height: 1px !important;
 }
-
+.txt-gov input[readonly],.dt-gov input[readonly],.eml-gov input[readonly],.num-gov input[readonly],.pas-gov input[readonly],.tel-gov input[readonly],.time-gov input[readonly],.field-gov input[readonly] {
+    border-color: #DDD !important;
+    background: #DDD;
+}
 /*KS: txt (and text like fields) end
 -----------------------------------------------*/
 
@@ -557,7 +560,10 @@ KS: txta Start
     font-size: 16px !important;
     font-weight: bold !important;
 }
-
+.txta-gov input[readonly] {
+    border-color: #DDD !important;
+    background: #DDD;
+}
 /*txta-length----------------------------------*/
 
 .txta-length-message{
@@ -1193,4 +1199,16 @@ KS: Custom gov multi-checkbox - Start
 }
 .display-none{
     display:none !important;   
+}
+.paragraph-normal{
+    margin:0;
+    font-size:1rem;
+}
+.paragraph-medium{
+    margin:0;
+    font-size:1.5rem;
+}
+.paragraph-large{
+    margin:0;
+    font-size:2rem;
 }
