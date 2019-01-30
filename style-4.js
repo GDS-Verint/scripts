@@ -383,80 +383,94 @@ function applyNewStyle(){
 
 
 function applyNewerStyle(elements){updateStyle(elements);}//KS: backwards compatability
-function updateStyle(elements){
+function updateStyle(elements, optionalName){
     //KS: used to apply the JS side of the new styles to elements after _KDF_ready
     //    should be called after chk, mchk, rad are updated - the rest is for completion sake
     //    can accecpt lists
     $.each(elements, function(){
-        individualApplyStyle($(this))
+        individualApplyStyle($(this), optionalName);
     });
 }
-function individualApplyStyle(element){
-    /*TODO
-    Add file-limt-#
-    */
-    //KS: used to apply the JS side of the new styles to elements after _KDF_ready
-    //    should be called after chk, mchk, rad are updated - the rest is for completion sake
-    
-    
-    if (element.hasClass('mchk-gov')){
-        
-        //KS: I don't know how it handels multiple updated styles - to be safe call it how many styles are added
-        var el = element.find('> div > fieldset > span').not(":has(span)");
+//KS: defined as functions within array to make it reusable and easy to expand
+var updateStyleFunctions = {
+	'mchk-gov': function(element){
+		var el = element.find('> div > fieldset > span').not(":has(span)");
         el.append('<span class="mchk-check"></span>');
-        
-        //TODO add queue based approch to allow multiple classes on one element
-        
-    }else if (element.hasClass('rad-gov')){
-        
-        //KS: I don't know how it handels multiple updated styles - to be safe call it how many styles are added
-        var el = element.find('> div > fieldset > span').not(":has(span)");
+	},
+	'rad-gov': function(element){
+		var el = element.find('> div > fieldset > span').not(":has(span)");
         el.append('<span class="rad-check"></span>');
-        
-        //TODO add queue based approch to allow multiple classes on one element
-    
-    }else if (element.hasClass('warning-notice')){
-        var el = element.not(":has(.warning-notice-icon-a)");
+	},
+	'warning-notice': function(element){
+		var el = element.not(":has(.warning-notice-icon-a)");
         el.append('<span class="warning-notice-icon"><span class="warning-notice-icon-a"></span><span class="warning-notice-icon-b"></span><span class="warning-notice-icon-c"></span></span>');
-    }else if (element.hasClass('info-notice')){
-        var el = element.not(":has(.info-notice-icon-a)");
+	},
+	'info-notice': function(element){
+		var el = element.not(":has(.info-notice-icon-a)");
         el.append('<span class="info-notice-icon"><span class="info-notice-icon-a"></span><span class="info-notice-icon-b"></span><span class="info-notice-icon-c"></span></span>');
-    }else if (element.hasClass('search-gov')){
-        //KS since it's not adding any elements, there's no need for 
-        element.find('.dform_widget_searchfield').addClass('txt-gov');
-        element.find('button').addClass('btn-gov');
-    }else if (element.hasClass('txta-gov')){  
-        var el = element.find('> div:last-child').not(":has(.txta-length-message)");
+	},
+	'txta-gov': function(element){
+		var el = element.find('> div:last-child').not(":has(.txta-length-message)");
         el.append('<div class="txta-length-message"></div>');
-    }else if (element.hasClass('chk-gov')){
-        var el = element.find('> div').not(":has(span)");
+	},
+	'search-gov': function(element){
+		element.find('.dform_widget_searchfield').addClass('txt-gov');
+        element.find('button').addClass('btn-gov');
+	},
+	'chk-gov': function(element){
+		var el = element.find('> div').not(":has(span)");
         el.append('<span class="chk-check"></span>');
         el.find(".helptext").insertAfter(element.find("label"));
-    }else if (element.hasClass('file-gov')){
-	    //KS: avoid WCAG error
-	    $("[type='file']").attr('title', 'File upload');
+	},
+	'file-gov': function(element){
+		$("[type='file']").attr('title', 'File upload');//KS: avoid WCAG error
         var el = element.find('input').not(":has(.file-gov-icon-a)");
         el.after('<span class="file-gov-icon"><span class="file-gov-icon-a"></span><span class="file-gov-icon-b"></span><label class="file-gov-text">Select Files...</label></span>');
         el.parent().css('position', 'relative');
         el.find("input").insertAfter(el.find(".file-gov-icon"));
-    }else if (element.hasClass('detail-gov')){
-        //KS: requires testing but should works as is
-        element.find('> p:first-child').each(
-            function(){
+	},
+	'detail-gov': function(element){
+		element.find('> p:first-child').each(function(){
                 $(this).text("►"+$(this).text());
                 $(this).wrap('<a class="detail-title" href="#" onclick="(function(e){e.preventDefault();})(event)"></a>');
                 $(this).contents().unwrap();
-            }
-        )
-        element.each(
-            function(){
-                $(this).find('> p').wrapAll('<div class="detail-block"></div>');
-            }
-        )
-    }
-	else{
-        console.log("style wasn't applied to an element as it wasn't defined as restylable")
-    }
+        });
+        element.each(function(){
+            $(this).find('> p').wrapAll('<div class="detail-block"></div>');
+        });
+	},
+}
+
+function individualApplyStyle(element, specificVal){
+	if (specificVal !== null){//KS: when provided with a style name
+		if(updateStyleFunctions[specificVal] !== null){//KS: update style when valid
+			updateStyleFunctions[specificVal](element);
+		}else{//KS: can't find style - tell them so within collapsable group
+			console.groupCollapsed('Style not updated');
+				console.log('Style name was '+specificVal+' and element was:');
+				console.log(element);
+				console.log('Try a valid name from "updateStyleFunctions" or try it without a name for default functionility');
+			console.groupEnd();
+		}
+	}else{//KS: when no style name is provided, attempt to apply one based on class
+		//KS: use the first style that it tests true for (so order matters)
+		var testableClasses = ['mchk-gov','rad-gov','warning-notice','info-notice','search-gov','txta-gov','chk-gov','file-gov','detail-gov'];
+		var hasAddedStyle = false;
+		for (var i = 0; i < testableClasses.length; i++){
+			if (element.hasClass(testableClasses[i])){
+				updateStyleFunctions[testableClasses[i]](element);
+				hasAddedStyle = true;
+				break;
+			}
+		}
+		if (!hasAddedStyle) {//KS: just a log to update them that something went wrong
+			console.groupCollapsed('Style not updated');
+				console.log('No name provided, and failed class checks. Element was:');
+				console.log(element);
+				console.log('Try a valid name from "updateStyleFunctions" as the second param to specify type of update');
+			console.groupEnd();
+		}
+	}
 }
 
 function txtaLength(){
