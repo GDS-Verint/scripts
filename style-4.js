@@ -96,57 +96,29 @@ function defaultNewStyle(elements){
             case"recommended":
                 defineDefaultNewStyles();
                 break;
-            case "mchk":
-                $("[data-type='multicheckbox']").addClass('mchk-gov');    
-                break;
-            case "chk":
-                $("[data-type='checkbox']").addClass('chk-gov');          
-                break;
-            case "rad":
-                $("[data-type='radio']").addClass('rad-gov');             
-                break;
-            case "txt":
-                $("[data-type='text']").addClass('txt-gov');              
-                break;
-             case "dt":
-                $("[data-type='date']").addClass('dt-gov');              
-                break;
-            case "eml":
-                $("[data-type='email']").addClass('eml-gov');              
-                break;
-            case "num":
-                $("[data-type='number']").addClass('num-gov');              
-                break;
-            case "pas":
-                $("[data-type='password']").addClass('pas-gov');              
-                break;
-            case "tel":
-                $("[data-type='tel']").addClass('tel-gov');              
-                break;
-            case "time":
-                $("[data-type='time']").addClass('time-gov');              
-                break;
-            case "txta":
-                $("[data-type='textarea']").addClass('txta-gov');         
-                break;
-            case "sel":
-                $("[data-type='select']").addClass('sel-gov');            
-                break;
-            case "file":
-                $("[data-type='file']").addClass('file-gov');             
-                break;
-            case "btn":
-                $("[data-type='button']").addClass('btn-gov');            
-                break;
+            case "mchk":$("[data-type='multicheckbox']").addClass('mchk-gov');break;
+            case "chk":$("[data-type='checkbox']").addClass('chk-gov');break;
+            case "rad":$("[data-type='radio']").addClass('rad-gov');break;
+            case "txt":$("[data-type='text']").addClass('txt-gov');break;
+             case "dt":$("[data-type='date']").addClass('dt-gov');break;
+            case "eml":$("[data-type='email']").addClass('eml-gov');break;
+            case "num":$("[data-type='number']").addClass('num-gov');break;
+            case "pas":$("[data-type='password']").addClass('pas-gov');break;
+            case "tel":$("[data-type='tel']").addClass('tel-gov');break;
+            case "time":$("[data-type='time']").addClass('time-gov');break;
+            case "txta":$("[data-type='textarea']").addClass('txta-gov');break;
+            case "sel":$("[data-type='select']").addClass('sel-gov');break;
+            case "file":$("[data-type='file']").addClass('file-gov');break;
+            case "btn":$("[data-type='button']").addClass('btn-gov');break;
+			case "search":$(".dform_widget_type_search").addClass('search-gov');break;
+				
             case "txta-length"://KS: allows optout of the maxchar feature as default
                 $("[data-type='textarea'] > div:last-child").addClass('txta-length');        
                 break;
             case "highlightRequired"://KS: Ruths code to add required star
                 highlightRequired();
                 break;
-            case "search":
-                $(".dform_widget_type_search").addClass('search-gov');
-                break;
+            
                 
             case "detail-gov":
                 
@@ -269,36 +241,7 @@ function applyNewStyle(){
     
     $('.search-gov .dform_widget_searchfield').addClass('txt-gov');
     $('.search-gov button').addClass('btn-gov');
-    
-    /*$('.mchk-margin').each()function(){
-        //KS: used to move the legend in a easyer to work with place
-        $(this).prepend($(this).find('legend').addClass('.mchk-margin-25'))
-    };*/
-    
-    //if rad-no-margin mchk-no-margin .not(":has(.rad-no-margin)" ) .not(":has(.mchk-no-margin)")
-    /*$('.mchk-margin-8' ).find('legend').addClass('mchk-margin--8' ).each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.rad-margin-8'  ).find('legend').addClass('rad-margin--8'  ).each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.mchk-margin-16').find('legend').addClass('mchk-margin--16').each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.rad-margin-16' ).find('legend').addClass('rad-margin--16' ).each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.mchk-margin-25').find('legend').addClass('mchk-margin--25').each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.rad-margin-25' ).find('legend').addClass('rad-margin--25' ).each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.mchk-margin-33').find('legend').addClass('mchk-margin--33').each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.rad-margin-33' ).find('legend').addClass('rad-margin--33' ).each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.mchk-margin-41').find('legend').addClass('mchk-margin--41').each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.rad-margin-41' ).find('legend').addClass('rad-margin--41' ).each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.mchk-margin-50').find('legend').addClass('mchk-margin--50').each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.rad-margin-50' ).find('legend').addClass('rad-margin--50' ).each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.mchk-margin-58').find('legend').addClass('mchk-margin--58').each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.rad-margin-58' ).find('legend').addClass('rad-margin--58' ).each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.mchk-margin-66').find('legend').addClass('mchk-margin--66').each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.rad-margin-66' ).find('legend').addClass('rad-margin--66' ).each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.mchk-margin-75').find('legend').addClass('mchk-margin--75').each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.rad-margin-75' ).find('legend').addClass('rad-margin--75' ).each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.mchk-margin-83').find('legend').addClass('mchk-margin--83').each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.rad-margin-83' ).find('legend').addClass('rad-margin--83' ).each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.mchk-margin-91').find('legend').addClass('mchk-margin--91').each(function(){$(this).insertBefore($(this).parent().parent());});
-    $('.rad-margin-91' ).find('legend').addClass('rad-margin--91' ).each(function(){$(this).insertBefore($(this).parent().parent());});
-    */
+ 
 	$('.mchk-margin-8 legend').each(function(){marginArrange($(this),'mchk-margin--8')});
 	$('.rad-margin-8 legend').each(function(){marginArrange($(this),'rad-margin--8')});
 	$('.mchk-margin-16 legend').each(function(){marginArrange($(this),'mchk-margin--16')});
@@ -377,6 +320,8 @@ function applyNewStyle(){
             );
         }
     );
+	
+	updateStyle($('.required-notice'), 'required-notice');
     //KS: adds the listeners after content has been finalized
     addStartupListeners()
 }
@@ -438,6 +383,13 @@ var updateStyleFunctions = {
         element.each(function(){
             $(this).find('> p').wrapAll('<div class="detail-block"></div>');
         });
+	},
+	'required-notice': function(element){
+		var requiredMessage = 'Required fields will be marked with an asterisk*';
+		var classStyle = 'paragraph-medium';//KS: better of as class - but needs implemented quickly
+		element.prepend("<p>"+requiredMessage+"</p>");
+		updateStyle(element.addClass('info-notice width-fit-content'), 'info-notice');
+		element.find('p, li').addClass(classStyle);
 	},
 }
 
