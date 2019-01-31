@@ -202,8 +202,27 @@ Need to deside on new generic button - the continue should be promanant - maybe 
     padding: 2.5px 5px 2px 5px!important;
 }
 .btn-back:focus{
-    box-shadow: inset 0 0 0px 5px #FFBF47 !important;
+    background: #FFBF47 !important;
 }
+
+/*btn-link------------------------------------*/
+.btn-link{
+    color:#0072ef!important;
+    background: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    text-decoration: underline !important;
+    box-shadow: none !important;
+    border-color: rgba(0,0,0,0) !important;
+    outline: none !important;
+    padding: 2.5px 5px 2px 5px!important;
+    font-size: 18.7px !important;
+    font-weight: bold !important;
+}
+.btn-link:focus{
+    background: #FFBF47 !important;
+}
+
 /*KS: btn end
 -----------------------------------------------*/
 
@@ -1139,7 +1158,7 @@ KS: Custom gov multi-checkbox - Start
     text-align: left !important;
 }
 
-.search-no-results{
+.search-no-results .dform_widget_search_closeresults{
     font-family: sans-serif !important;
     padding: 10px;
     margin-left: 0 !important;
