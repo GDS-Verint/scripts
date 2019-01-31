@@ -1,6 +1,6 @@
-/*//KS: put in _KDF_ready
-defaultNewStyle(["all"]);//KS: see 'Non-recommended defaults' within 'defaultNewStyle(elements)' for optional defaults
-applyNewStyle();*/
+/*//KS: put in _KDF_ready - uses all the reccomended styles - can add optional
+applyStyle(['recommended']);
+//KS: see 'Non-recommended defaults' within 'defaultNewStyle(elements)' for optional defaults*/
 
 function simpleColorCheck(bgColor, fgIfWhite, fgIfNot){
     //KS: if white, use a non-white colour, if non-white use white
@@ -16,6 +16,12 @@ function requiredColorCheck(jQueryObject){
     return color;
 }
 
+/*REFACTOR*/
+$('#dform_container').on('keypress','.search-gov [type="text"], .txt-enter-trigger-btn [type="text"]',function() {
+	if (event.keyCode == 13) {
+		$(this).parent().parent().parent().find('[type="button"]').trigger('click');
+	}
+});
 
 function highlightRequired() {
     //Finds the legend of required input elements and adds a red star to the end of them
@@ -52,39 +58,25 @@ function highlightRequired() {
 }
 
 
-function defineDefaultNewStyles(){
-    //KS: adds the recommended default styling
-    //KS: central place for changing default
-    $("[data-type='multicheckbox']").addClass('mchk-gov');
-    $("[data-type='checkbox']").addClass('chk-gov');
-    $("[data-type='radio']").addClass('rad-gov');
-    
-    $("[data-type='text']").addClass('txt-gov');
-    $("[data-type='date']").addClass('dt-gov');
-    $("[data-type='email']").addClass('eml-gov');
-    $("[data-type='number']").addClass('num-gov');
-    $("[data-type='password']").addClass('pas-gov');
-    $("[data-type='tel']").addClass('tel-gov');
-    $("[data-type='time']").addClass('time-gov');
-    
-    $("[data-type='textarea']").addClass('txta-gov');
-    $("[data-type='select']").addClass('sel-gov');
-    $("[data-type='file']").addClass('file-gov');
-    $("[data-type='button']").addClass('btn-gov');
-    
-    $(".dform_widget_type_search").addClass('search-gov');
-    highlightRequired();
+function defineDefaultStyle(){
+	//KS: can define listeners here, but can't later on, need to call 
+    //KS: adds the recommended default styling - and acts a single location to change them
+	//KS: for the love of StackExchange don't put 'all' or 'recommended' in here
+    var recommended = [
+        'mchk','chk','rad','txt','dt','eml','num','pas','tel','time','txta','sel','file','btn','search','highlightRequired','txta-length','txta-length-listener','detailToggle','noResultsFound','txt-enter-trigger-btn',
+    ];
+    defaultNewStyle(recommended);
 }
+
 function defaultNewStyle(elements){
     //KS: adds styling to elemnts in an inefficent mannor but without the need to access custom.css
-    //KS: feature call is defaultNewStyle(["mchk","chk","rad","txt","txta","sel","file","btn","txta-length"]) - emiminate where required
-    //KS: shorthand for all is defaultNewStyle("all")
+    //KS: adds the classes that are used for styling as well as for indication where functionility should be added in applyNewStyle
     if (elements === null){
         return "Not valid - valid elements are ['mchk', 'chk', 'rad', 'txt', 'dt', 'eml', 'num', 'pas', 'tel', 'time', 'txta', 'sel', 'file', 'btn', 'txta-length','search','highlightRequired', 'file-progress',  'txt-no-min-height',  'sel-fill']";
     }
-    if (elements == "all"){
+    if (elements == "all" || elements == "recommended"){
         //KS: adds the recommended default styling
-        defineDefaultNewStyles();
+        defineDefaultStyle();
         return;
     }else{
         /*TODO
@@ -94,7 +86,7 @@ function defaultNewStyle(elements){
         switch(element){
             case "all":
             case"recommended":
-                defineDefaultNewStyles();
+                defineDefaultStyle();
                 break;
             case "mchk":$("[data-type='multicheckbox']").addClass('mchk-gov');break;
             case "chk":$("[data-type='checkbox']").addClass('chk-gov');break;
@@ -203,6 +195,19 @@ function defaultNewStyle(elements){
             case "field-text-align-right":
                 $("[data-type='text'], [data-type='date'], [data-type='email'], [data-type='number'], [data-type='password'], [data-type='tel'], [data-type='time']").addClass('text-align-right');
                 break;
+			//KS: LISTENERS - if after _KDF_ready, apply them with addStyleListeners(['a_listenerFunctions_property','it_supports_lists'])
+            case'txta-length-listener':
+                listenerFunctions['txta-length']();
+                break;
+            case'detailToggle':
+                listenerFunctions['detailToggle']();
+                break;
+            case'noResultsFound':
+                listenerFunctions['noResultsFound']();
+                break;
+            case'txt-enter-trigger-btn':
+                listenerFunctions['txt-enter-trigger-btn']();
+                break;
         } 
     });
 }}
@@ -212,126 +217,35 @@ function applyNewStyle(){
         //KS: i.e. if there is an array
         defaultNewStyle(arguments[0])
     }
-    var rad = $('.rad-gov > div > fieldset > span').append('<span class="rad-check"></span>');
-    var chk = $('.chk-gov > div').append('<span class="chk-check"></span>');
-    var mchk = $('.mchk-gov > div > fieldset > span').append('<span class="mchk-check"></span>');
-    var warning = $('.warning-notice').append('<span class="warning-notice-icon"><span class="warning-notice-icon-a"></span><span class="warning-notice-icon-b"></span><span class="warning-notice-icon-c"></span></span>');
-    var info = $('.info-notice').append('<span class="info-notice-icon"><span class="info-notice-icon-a"></span><span class="info-notice-icon-b"></span><span class="info-notice-icon-c"></span></span>');
-    var txta = $('.txta-gov > div:last-child').append('<div class="txta-length-message"></div>');//KS: remove to prevent char left 
-    var file = $('.file-gov input');
-    $("[data-type='text'] div:first-child .dform_hidden").parent().addClass("txt-hidden");
-    
-    //file.after(file.parent().find(".helptext"))
-    file.after('<span class="file-gov-icon"><span class="file-gov-icon-a"></span><span class="file-gov-icon-b"></span><label class="file-gov-text">Select Files...</label></span>');
-    file.parent().css('position', 'relative');
-	//KS: prevent WCAG error
-    $("[type='file']").attr('title', 'File upload');
-    $('.file-gov .helptext').each(function(){
-        //KS: used to rearrange elements
-        $(this).insertAfter($(this).parent().find(".file-gov-icon"));
-    });
-    //KS: prevent legend from beinbg clickable
-    $('.file-gov > div > label').removeAttr("for");
-    
-    $('.chk-gov .helptext').each(function(){
-        //KS: used to rearrange elements
-        $(this).insertAfter($(this).parent().find("label"));
-    });
-    
-    
-    $('.search-gov .dform_widget_searchfield').addClass('txt-gov');
-    $('.search-gov button').addClass('btn-gov');
- 
-	$('.mchk-margin-8 legend').each(function(){marginArrange($(this),'mchk-margin--8')});
-	$('.rad-margin-8 legend').each(function(){marginArrange($(this),'rad-margin--8')});
-	$('.mchk-margin-16 legend').each(function(){marginArrange($(this),'mchk-margin--16')});
-	$('.rad-margin-16 legend').each(function(){marginArrange($(this),'rad-margin--16')});
-	$('.mchk-margin-25 legend').each(function(){marginArrange($(this),'mchk-margin--25')});
-	$('.rad-margin-25 legend').each(function(){marginArrange($(this),'rad-margin--25')});
-	$('.mchk-margin-33 legend').each(function(){marginArrange($(this),'mchk-margin--33')});
-	$('.rad-margin-33 legend').each(function(){marginArrange($(this),'rad-margin--33')});
-	$('.mchk-margin-41 legend').each(function(){marginArrange($(this),'mchk-margin--41')});
-	$('.rad-margin-41 legend').each(function(){marginArrange($(this),'rad-margin--41')});
-	$('.mchk-margin-50 legend').each(function(){marginArrange($(this),'mchk-margin--50')});
-	$('.rad-margin-50 legend').each(function(){marginArrange($(this),'rad-margin--50')});
-	$('.mchk-margin-58 legend').each(function(){marginArrange($(this),'mchk-margin--58')});
-	$('.rad-margin-58 legend').each(function(){marginArrange($(this),'rad-margin--58')});
-	$('.mchk-margin-66 legend').each(function(){marginArrange($(this),'mchk-margin--66')});
-	$('.rad-margin-66 legend').each(function(){marginArrange($(this),'rad-margin--66')});
-	$('.mchk-margin-75 legend').each(function(){marginArrange($(this),'mchk-margin--75')});
-	$('.rad-margin-75 legend').each(function(){marginArrange($(this),'rad-margin--75')});
-	$('.mchk-margin-83 legend').each(function(){marginArrange($(this),'mchk-margin--83')});
-	$('.rad-margin-83 legend').each(function(){marginArrange($(this),'rad-margin--83')});
-	$('.mchk-margin-91 legend').each(function(){marginArrange($(this),'mchk-margin--91')});
-	$('.rad-margin-91 legend').each(function(){marginArrange($(this),'rad-margin--91')});
-	
-    
-    //KS: makes detail
-    $('.detail-gov > p:first-child').each(
-        function(){
-            $(this).text("►"+$(this).text());
-            $(this).wrap('<a class="detail-title" href="#" onclick="(function(e){e.preventDefault();})(event)"></a>');
-            $(this).contents().unwrap();
-        }
-    )
-    $('.detail-gov').each(
-        function(){
-            //console.log($(this));
-            $(this).children(':not(a)').wrapAll('<div class="detail-block"></div>');
-            //$(this).find('> p').wrapAll('<div class="detail-block"></div>');
-        }
-    )
-    $('.search-no-results .dform_widget_search_closeresults').addClass('btn-continue').addClass('search-no-results').text('Search again')
-    
-    
-    $('.file-limit-1, .file-limit-2, .file-limit-3, .file-limit-4, .file-limit-5, .file-limit-6, .file-limit-7, .file-limit-8, .file-limit-9, .file-limit-10').each(
-        function(){
-            var fileLimit = 1;
-            for(var i = 1; i < 10; i++){
-                if ($(this).hasClass('file-limit-'+i)){
-                    //KS: presumed lowest is one to be useder
-                    fileLimit = i;
-                    break;
-                }
+    //KS: code for controlling what gets updated
+    //KS: it's the JQuery selector then the function name from updateStyleFunctions that should be applied 
+    //KS:- if there is no function name the it presumes the function name is the selector excluding the first (.)
+    var elementsToUpdate = [
+        //KS: single class name
+        ['.rad-gov'], ['.chk-gov'], ['.mchk-gov'], ['.warning-notice'], ['.info-notice'], ['.txta-gov'], ['.file-gov'], ['.search-gov'], ['.detail-gov'], ['.search-no-results'], ['.required-notice'],
+        //KS: grouped class names
+        ['.file-gov[class*="file-limit-"]','file-limit'],
+        ['[data-type="text"] div:first-child .dform_hidden','txt-hidden'],
+        ['.mchk-gov[class*="mchk-margin-"]','mchk-margin'],
+        ['.rad-gov[class*="rad-margin-"]','rad-margin'],
+    ];
+    elementsToUpdate.forEach(function(item){
+        var elements = $(item[0]);
+        if (elements.length > 0){//KS: skip if none selected - improve performance
+            if (item.length == 1){//KS: presumed the selector is the function name (with first '.' removed)
+                updateStyle(elements, item[0].replace('.', ''));
+            }else{//KS: the selector 
+                updateStyle(elements, item[1]);
             }
-            $(this).find('.file-gov-text').text('Select up to '+fileLimit+' files');
-            $(this).find('.dform_filenames').bind('DOMNodeInserted DOMNodeRemoved', 
-                function(event) {
-                    if (event.type == 'DOMNodeInserted'){
-                        //console.log('Second $this - would like to match');console.log($(this));
-                        var current = $(this).children('span').length;
-                        if(current >= fileLimit){
-                            //console.log($(this).parent().find('input'))
-                            $(this).parent().find('input').addClass('visibility-hidden');
-                            
-                            $(this).parent().find('.file-gov-text').text('Storage Full');
-                        }else{
-                            //KS: TODO update images left
-                            console.log($(this))
-                            $(this).parent().find('.file-gov-text').text('Select up to '+fileLimit+' files');
-                        }
-                    } else {
-                        //KS: presume this is removing a file
-                        $(this).parent().find('input').removeClass('visibility-hidden');
-                        $(this).parent().find('.file-gov-text').text('Select up to '+fileLimit+' files');
-                        //console.log('KS: TODO remove code to prevent adding mre files')
-                    }
-                }
-            );
         }
-    );
-	
-	updateStyle($('.required-notice'), 'required-notice');
-    //KS: adds the listeners after content has been finalized
-    addStartupListeners()
+    });
 }
 
 
 function applyNewerStyle(elements){updateStyle(elements);}//KS: backwards compatability
 function updateStyle(elements, optionalName){
-    //KS: used to apply the JS side of the new styles to elements after _KDF_ready
-    //    should be called after chk, mchk, rad are updated - the rest is for completion sake
-    //    can accecpt lists
+    //KS: used to apply the JS side of the new styles to elements
+    //KS: call directly after _KDF_ready if you need to add the style JS to a new/chnaged element (like after adding a check in a rad)
     $.each(elements, function(){
         individualApplyStyle($(this), optionalName);
     });
@@ -369,19 +283,25 @@ var updateStyleFunctions = {
 	},
 	'file-gov': function(element){
 		$("[type='file']").attr('title', 'File upload');//KS: avoid WCAG error
+		element.find('> div > label').removeAttr("for");//KS: prevent legend from beinbg clickable
         var el = element.find('input').not(":has(.file-gov-icon-a)");
         el.after('<span class="file-gov-icon"><span class="file-gov-icon-a"></span><span class="file-gov-icon-b"></span><label class="file-gov-text">Select Files...</label></span>');
         el.parent().css('position', 'relative');
         el.find("input").insertAfter(el.find(".file-gov-icon"));
+		//KS if element selector is used, then it won't update elements that already have be updated
+        element.find('.helptext').each(function(){
+            //KS: used to rearrange elements
+            $(this).insertAfter($(this).parent().find(".file-gov-icon"));
+        });
 	},
 	'detail-gov': function(element){
 		element.find('> p:first-child').each(function(){
                 $(this).text("►"+$(this).text());
-                $(this).wrap('<a class="detail-title" href="#" onclick="(function(e){e.preventDefault();})(event)"></a>');
+                $(this).wrap('<button class="detail-title btn-link"></button>');
                 $(this).contents().unwrap();
         });
         element.each(function(){
-            $(this).find('> p').wrapAll('<div class="detail-block"></div>');
+            $(this).children(':not(button)').wrapAll('<div class="detail-block"></div>');
         });
 	},
 	'required-notice': function(element){
@@ -391,9 +311,98 @@ var updateStyleFunctions = {
 		updateStyle(element.addClass('info-notice width-fit-content'), 'info-notice');
 		element.find('p, li').addClass(classStyle);
 	},
+	'file-limit': function(element){//KS: need to test what happens if over limit when it's applied
+    	var classes = element.attr('class').split(/\s+/);
+    	var hasClass = false;
+    	for (var i = 0; i < classes.length; i++){
+    		if (classes[i].startsWith('file-limit-')){
+    			hasClass=classes[i];
+    		}
+    	}
+    	if (hasClass){//KS: get the number
+    		var number = hasClass.substring(11, hasClass.length);
+    		number = parseInt(number,10);
+    		if (!(Number.isInteger(number) && number > 0 && number < 32)){
+    		    //Error - assume default of 3
+    			number = 3;
+    		}
+    		element.find('.file-gov-text').text('Select up to '+number+' files');
+    		element.find('.dform_filenames').off('DOMNodeInserted DOMNodeRemoved').on('DOMNodeInserted DOMNodeRemoved', function(event) {
+    			if (event.type == 'DOMNodeInserted'){//KS: adding a file
+    				var current = $(this).children('span').length;
+    				if(current >= number){//KS: Can't add more
+    					$(this).parent().find('input').addClass('visibility-hidden');
+    					$(this).parent().find('.file-gov-text').text('Storage Full');
+    				}else{//KS: Can add more
+    					$(this).parent().find('.file-gov-text').text('Select up to '+number+' files');
+    				}
+    			} else {//KS: removing a file
+    				$(this).parent().find('input').removeClass('visibility-hidden');
+    				$(this).parent().find('.file-gov-text').text('Select up to '+number+' files');
+    			}
+    		});
+    	}else{
+    		console.log("A file limit couldn't be applied to an element because it didn't have a file-limit-[number] style ")
+    	}
+    },
+	'search-no-results': function(element){//KS: param object op
+        element.find('select').css('margin-right','0.25rem')
+		var el = element.find('.dform_widget_search_closeresults');/*.not(":has(.btn-continue)");*/
+		el.addClass('btn-continue');
+		el.text('Search again');
+	},
+	'txt-hidden': function(element){
+	    element.parent().addClass('txt-hidden');
+	},
+	'rad-margin': function(element){//KS: need to test what happens if over limit when it's applied
+	    //KS: change for a reusable function like: function getClassNumberWhenInRange(element, startsWith, [minNmber, maxNumber])
+    	var classes = element.attr('class').split(/\s+/);
+    	var hasClass = false;
+    	var startString = 'rad-margin-';
+    	for (var i = 0; i < classes.length; i++){
+    		if (classes[i].startsWith(startString)){
+    			hasClass=classes[i];
+    		}
+    	}
+    	if (hasClass){//KS: get the number
+    		var number = hasClass.substring(startString.length, hasClass.length);
+    		number = parseInt(number,10);
+    		if (Number.isInteger(number) && number >= 0 && number <= 100){//KS: since it is %, unlikely to go over
+    		    element.find('legend').addClass('rad-margin-'+number+'-legend').each(function(){$(this).insertBefore($(this).parent().parent());})
+    		}else{
+    		    console.log(hasClass + 'is not a valid rad-margin, try rad-margin-50');
+    		}
+    	}else{
+    	    console.log('Could not add rad-margin to element. Try adding the class rad-margin-# (e.g. rad-margin-50) first')
+    	}
+	},
+	'mchk-margin': function(element){//KS: need to test what happens if over limit when it's applied
+	    //KS: change for a reusable function like: function getClassNumberWhenInRange(element, startsWith, [minNmber, maxNumber])
+    	var classes = element.attr('class').split(/\s+/);
+    	var hasClass = false;
+    	var startString = 'mchk-margin-';
+    	for (var i = 0; i < classes.length; i++){
+    		if (classes[i].startsWith(startString)){
+    			hasClass=classes[i];
+    		}
+    	}
+    	if (hasClass){//KS: get the number
+    		var number = hasClass.substring(startString.length, hasClass.length);
+    		number = parseInt(number,10);
+    		if (Number.isInteger(number) && number >= 0 && number <= 100){//KS: since it is %, unlikely to go over
+    		    element.find('legend').addClass('mchk-margin-'+number+'-legend').each(function(){$(this).insertBefore($(this).parent().parent());})
+    		}else{
+    		    console.log(hasClass + 'is not a valid mchk-margin, try mchk-margin-50');
+    		}
+    	}else{
+    	    console.log('Could not add mchk-margin to element. Try adding the class mchk-margin-# (e.g. mchk-margin-50) first')
+    	}
+	},
 }
 
 function individualApplyStyle(element, specificVal){
+	//KS: used to update elements that have be edited and require their JS functionility updated/refreshed
+    //KS: i.e. this is for JS functionility after _KDF_ready
 	if (specificVal !== null){//KS: when provided with a style name
 		if(updateStyleFunctions[specificVal] !== null){//KS: update style when valid
 			updateStyleFunctions[specificVal](element);
@@ -404,13 +413,19 @@ function individualApplyStyle(element, specificVal){
 				console.log('Try a valid name from "updateStyleFunctions" or try it without a name for default functionility');
 			console.groupEnd();
 		}
-	}else{//KS: when no style name is provided, attempt to apply one based on class
+	}else{//KS: DEFAULTS when no style name is provided, attempt to apply one based on class
 		//KS: use the first style that it tests true for (so order matters)
-		var testableClasses = ['mchk-gov','rad-gov','warning-notice','info-notice','search-gov','txta-gov','chk-gov','file-gov','detail-gov'];
+		var testableClasses = [
+			//KS: if tests true for a class name matching the testableClasses[i][0], use the update function found in testableClasses[i][1]
+			//KS, seems redundant right now, but being able to use diffrent class or use something like ['margin',function(element.marginSize){switch(this)...return value}]
+			//KS, will be useful in future for polymorphism
+			['mchk-gov','mchk-gov'], ['rad-gov','rad-gov'], ['warning-notice','warning-notice'], ['info-notice','info-notice'],
+			['search-gov','search-gov'], ['txta-gov','txta-gov'], ['chk-gov','chk-gov'], ['file-gov','file-gov'], ['detail-gov','detail-gov'],
+		];
 		var hasAddedStyle = false;
 		for (var i = 0; i < testableClasses.length; i++){
-			if (element.hasClass(testableClasses[i])){
-				updateStyleFunctions[testableClasses[i]](element);
+			if (element.hasClass(testableClasses[i][0])){
+				updateStyleFunctions[testableClasses[i][1]](element);
 				hasAddedStyle = true;
 				break;
 			}
@@ -450,7 +465,7 @@ function detailToggle(){
 function detailToggle(){
     //KS: this expands/collapses the detail tab and chnages the indicator
     //    the indictor is an array in which the collapsed indicor is first and the expanded indicator is second
-    
+    //KS: update to use value of attributes like closedChar='►' openedChar='▼' - ensures uses defined chars
     if($(this).text().indexOf('►') >= 0){
         $(this).text($(this).text().replace(new RegExp('►','g'), '▼'))
         $(this).siblings('.detail-block').addClass("detail-block-visible");
@@ -466,22 +481,38 @@ function noResultsFound(){
         $(this).html('<option hidden>No results found</option>')
     }
 }
-
-function addStartupListeners(){
-	//KS: problem with the listeners being applied as soon as defined - hopefully this will fix
-	$('#dform_container').on('input', '.txta-gov textarea',txtaLength);
-	$('#dform_container').on('click', '.detail-title',detailToggle);
-	$('#dform_container').off('_KDF_search').on('_KDF_search', function(event, kdf, response, type, name) {
-	    //KS: call noResultsFound with 'this' set to the search element that triggered the event
-		noResultsFound.call($('[name="'+name+'_id"]'))
-	});
+var listenerFunctions = {
+	'txta-length-listener':function(){
+		$('#dform_container').on('input', '.txta-gov textarea',txtaLength);
+	},
+	'detailToggle':function(){
+		$('#dform_container').on('click', '.detail-title',detailToggle);
+	},
+	'noResultsFound':function(){
+		$('#dform_container').off('_KDF_search').on('_KDF_search', function(event, kdf, response, type, name) {
+			//KS: call noResultsFound with 'this' set to the search element that triggered the event
+			noResultsFound.call($('[name="'+name+'_id"]'))
+		});
+	},
+	'txt-enter-trigger-btn':function(){
+		$('#dform_container').on('keypress','.search-gov [type="text"], .txt-enter-trigger-btn [type="text"]',function() {
+			if (event.keyCode == 13) {
+				$(this).parent().parent().parent().find('[type="button"]').trigger('click');
+			}
+		});
+	},
+}
+function addStyleListeners(listenerNameArray){
+    listenerNameArray.forEach(function(listenerName){
+        listenerFunctions[listenerName]();
+    });
 }
 
-$('#dform_container').on('keypress','.search-gov [type="text"], .txt-enter-trigger-btn [type="text"]',function() {
+/*$('#dform_container').on('keypress','.search-gov [type="text"], .txt-enter-trigger-btn [type="text"]',function() {
 	if (event.keyCode == 13) {
 		$(this).parent().parent().parent().find('[type="button"]').trigger('click');
 	}
-});
+});*/
 
 function regexSearch(regex){
     //KS E.G.: regexSearch("[0-9A-Za-z ]{3,}")
