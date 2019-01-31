@@ -203,7 +203,7 @@ function defaultNewStyle(elements){
                 break;
 			//KS: LISTENERS - if after _KDF_ready, apply them with addStyleListeners(['a_listenerFunctions_property','it_supports_lists'])
             case'txta-length-listener':
-                listenerFunctions['txta-length']();
+                listenerFunctions['txta-length-listener']();
                 break;
             case'detailToggle':
                 listenerFunctions['detailToggle']();
