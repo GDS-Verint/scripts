@@ -1212,3 +1212,6 @@ KS: Custom gov multi-checkbox - Start
     margin:0;
     font-size:2rem;
 }
+/*KS for search button on same line as search text - i.e. text and button on same line*/
+.txt-btn-inline > button{float:left;}
+.txt-btn-inline [type='text'] {float:left; margin-right: 0.3rem !important;}
