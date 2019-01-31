@@ -1,3 +1,4 @@
+var debug = true;
 /*//KS: put in _KDF_ready - uses all the reccomended styles - can add optional
 applyStyle(['recommended']);
 //KS: see 'Non-recommended defaults' within 'defaultNewStyle(elements)' for optional defaults*/
@@ -24,6 +25,7 @@ $('#dform_container').on('keypress','.search-gov [type="text"], .txt-enter-trigg
 });
 
 function highlightRequired() {
+	if (debug) console.log('highlight in')
     //Finds the legend of required input elements and adds a red star to the end of them
 	$(document).find(':required').each(function() {
 	    if ($(this).attr('type') == 'radio' || $(this).attr('type') == 'checkbox') {
@@ -55,10 +57,12 @@ function highlightRequired() {
 	        obj4.append('<span style="color: '+requiredColorCheck(obj4)+';">*</span>');
 	    }
 	});
+	if (debug) console.log('highlight out')
 }
 
 
 function defineDefaultStyle(){
+	if (debug) console.log('defineDefault in')
 	//KS: can define listeners here, but can't later on, need to call 
     //KS: adds the recommended default styling - and acts a single location to change them
 	//KS: for the love of StackExchange don't put 'all' or 'recommended' in here
@@ -66,9 +70,11 @@ function defineDefaultStyle(){
         'mchk','chk','rad','txt','dt','eml','num','pas','tel','time','txta','sel','file','btn','search','highlightRequired','txta-length','txta-length-listener','detailToggle','noResultsFound','txt-enter-trigger-btn',
     ];
     defaultNewStyle(recommended);
+	if (debug) console.log('define default out')
 }
 
 function defaultNewStyle(elements){
+	if (debug) console.log('default style in')
     //KS: adds styling to elemnts in an inefficent mannor but without the need to access custom.css
     //KS: adds the classes that are used for styling as well as for indication where functionility should be added in applyNewStyle
     if (elements === null){
@@ -210,8 +216,10 @@ function defaultNewStyle(elements){
                 break;
         } 
     });
-}}
+	if (debug) console.log('default style out')
+}
 function applyNewStyle(){
+	if (debug) console.log('apply style in')
     //KS: since there is no overloading in JS - this is an alternitive
     if (typeof arguments[0] !== "undefined" && Array.isArray(arguments[0])){
         //KS: i.e. if there is an array
@@ -239,16 +247,19 @@ function applyNewStyle(){
             }
         }
     });
+	if (debug) console.log('apply style out')
 }
 
 
 function applyNewerStyle(elements){updateStyle(elements);}//KS: backwards compatability
 function updateStyle(elements, optionalName){
+	if (debug) console.log('update style in')
     //KS: used to apply the JS side of the new styles to elements
     //KS: call directly after _KDF_ready if you need to add the style JS to a new/chnaged element (like after adding a check in a rad)
     $.each(elements, function(){
         individualApplyStyle($(this), optionalName);
     });
+	if (debug) console.log('update style out')
 }
 //KS: defined as functions within array to make it reusable and easy to expand
 var updateStyleFunctions = {
@@ -401,6 +412,7 @@ var updateStyleFunctions = {
 }
 
 function individualApplyStyle(element, specificVal){
+	if (debug) console.log('individual style in')
 	//KS: used to update elements that have be edited and require their JS functionility updated/refreshed
     //KS: i.e. this is for JS functionility after _KDF_ready
 	if (specificVal !== null){//KS: when provided with a style name
@@ -438,6 +450,7 @@ function individualApplyStyle(element, specificVal){
 			console.groupEnd();
 		}
 	}
+	if (debug) console.log('individual style out')
 }
 
 function txtaLength(){
@@ -455,13 +468,7 @@ function txtaLength(){
         }
     }
 }
-
-/*KS: here incase I want to implement diffrent indicators
-function detailToggle(){
-    //KS: uses default indicator
-    console.log("yeah")
-    detailToggle(['►','▼']);
-}*/
+	
 function detailToggle(){
     //KS: this expands/collapses the detail tab and chnages the indicator
     //    the indictor is an array in which the collapsed indicor is first and the expanded indicator is second
@@ -503,16 +510,12 @@ var listenerFunctions = {
 	},
 }
 function addStyleListeners(listenerNameArray){
+	if (debug) console.log('add listener in')
     listenerNameArray.forEach(function(listenerName){
         listenerFunctions[listenerName]();
     });
+	if (debug) console.log('add listeners out')
 }
-
-/*$('#dform_container').on('keypress','.search-gov [type="text"], .txt-enter-trigger-btn [type="text"]',function() {
-	if (event.keyCode == 13) {
-		$(this).parent().parent().parent().find('[type="button"]').trigger('click');
-	}
-});*/
 
 function regexSearch(regex){
     //KS E.G.: regexSearch("[0-9A-Za-z ]{3,}")
