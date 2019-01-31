@@ -17,13 +17,6 @@ function requiredColorCheck(jQueryObject){
     return color;
 }
 
-/*REFACTOR*/
-$('#dform_container').on('keypress','.search-gov [type="text"], .txt-enter-trigger-btn [type="text"]',function() {
-	if (event.keyCode == 13) {
-		$(this).parent().parent().parent().find('[type="button"]').trigger('click');
-	}
-});
-
 function highlightRequired() {
 	if (debug) console.log('highlight in')
     //Finds the legend of required input elements and adds a red star to the end of them
@@ -89,134 +82,135 @@ function defaultNewStyle(elements){
         Add file-limt-#
         */
        elements.forEach(function(element){
-        switch(element){
-            case "all":
-            case"recommended":
-                defineDefaultStyle();
-                break;
-            case "mchk":$("[data-type='multicheckbox']").addClass('mchk-gov');break;
-            case "chk":$("[data-type='checkbox']").addClass('chk-gov');break;
-            case "rad":$("[data-type='radio']").addClass('rad-gov');break;
-            case "txt":$("[data-type='text']").addClass('txt-gov');break;
-             case "dt":$("[data-type='date']").addClass('dt-gov');break;
-            case "eml":$("[data-type='email']").addClass('eml-gov');break;
-            case "num":$("[data-type='number']").addClass('num-gov');break;
-            case "pas":$("[data-type='password']").addClass('pas-gov');break;
-            case "tel":$("[data-type='tel']").addClass('tel-gov');break;
-            case "time":$("[data-type='time']").addClass('time-gov');break;
-            case "txta":$("[data-type='textarea']").addClass('txta-gov');break;
-            case "sel":$("[data-type='select']").addClass('sel-gov');break;
-            case "file":$("[data-type='file']").addClass('file-gov');break;
-            case "btn":$("[data-type='button']").addClass('btn-gov');break;
-			case "search":$(".dform_widget_type_search").addClass('search-gov');break;
-				
-            case "txta-length"://KS: allows optout of the maxchar feature as default
-                $("[data-type='textarea'] > div:last-child").addClass('txta-length');        
-                break;
-            case "highlightRequired"://KS: Ruths code to add required star
-                highlightRequired();
-                break;
-            
-                
-            case "detail-gov":
-                
-                break;
-                
-                
-                //KS: Non-recommended defaults below
-            case "sel-fill"://KS: mostly just an example of how to add optional default styles
-                $("[data-type='select']").addClass('sel-fill');
-                break;
-            case "file-progress"://KS: add back the progress bar
-                $("[data-type='file']").addClass('file-progress');             
-                break;
-            case "txt-no-min-height"://KS: bobs request to remove margin on hidden left feilds
-                $("[data-type='text']").addClass('txt-no-min-height');             
-                break;
-            case "field-mob"://KS: 
-                $("[type='text'], [type='date'], [type='email'], [type='number'], [type='password'], [type='tel'], [type='time']").addClass('field-mob');
-                break;
-            case "search-no-results":
-                $('.dform_widget_type_search').addClass('search-no-results');
-                break;
-                
-            case "rad-margin-8":$("[data-type='radio']").addClass(          'rad-margin-8'  );break;
-            case "mchk-margin-8":$("[data-type='multicheckbox']").addClass( 'mchk-margin-8' );break;
-            case "btn-margin-8":$(".dform_widget_type_button").addClass(    'btn-margin-8'  );break;
-            case "rad-margin-16":$("[data-type='radio']").addClass(         'rad-margin-16' );break;
-            case "mchk-margin-16":$("[data-type='multicheckbox']").addClass('mchk-margin-16');break;
-            case "btn-margin-16":$(".dform_widget_type_button").addClass(   'btn-margin-16' );break;
-            case "rad-margin-25":$("[data-type='radio']").addClass(         'rad-margin-25' );break;
-            case "mchk-margin-25":$("[data-type='multicheckbox']").addClass('mchk-margin-25');break;
-            case "btn-margin-25":$(".dform_widget_type_button").addClass(   'btn-margin-25' );break;
-            case "rad-margin-33":$("[data-type='radio']").addClass(         'rad-margin-33' );break;
-            case "mchk-margin-33":$("[data-type='multicheckbox']").addClass('mchk-margin-33');break;
-            case "btn-margin-33":$(".dform_widget_type_button").addClass(   'btn-margin-33' );break;
-            case "rad-margin-41":$("[data-type='radio']").addClass(         'rad-margin-41' );break;
-            case "mchk-margin-41":$("[data-type='multicheckbox']").addClass('mchk-margin-41');break;
-            case "btn-margin-41":$(".dform_widget_type_button").addClass(   'btn-margin-41' );break;
-            case "rad-margin-50":$("[data-type='radio']").addClass(         'rad-margin-50' );break;
-            case "mchk-margin-50":$("[data-type='multicheckbox']").addClass('mchk-margin-50');break;
-            case "btn-margin-50":$(".dform_widget_type_button").addClass(   'btn-margin-50' );break;
-            case "rad-margin-58":$("[data-type='radio']").addClass(         'rad-margin-58' );break;
-            case "mchk-margin-58":$("[data-type='multicheckbox']").addClass('mchk-margin-58');break;
-            case "btn-margin-58":$(".dform_widget_type_button").addClass(   'btn-margin-58' );break;
-            case "rad-margin-66":$("[data-type='radio']").addClass(         'rad-margin-66' );break;
-            case "mchk-margin-66":$("[data-type='multicheckbox']").addClass('mchk-margin-66');break;
-            case "btn-margin-66":$(".dform_widget_type_button").addClass(   'btn-margin-66' );break;
-            case "rad-margin-75":$("[data-type='radio']").addClass(         'rad-margin-75' );break;
-            case "mchk-margin-75":$("[data-type='multicheckbox']").addClass('mchk-margin-75');break;
-            case "btn-margin-75":$(".dform_widget_type_button").addClass(   'btn-margin-75' );break;
-            case "rad-margin-83":$("[data-type='radio']").addClass(         'rad-margin-83' );break;
-            case "mchk-margin-83":$("[data-type='multicheckbox']").addClass('mchk-margin-83');break;
-            case "btn-margin-83":$(".dform_widget_type_button").addClass(   'btn-margin-83' );break;
-            case "rad-margin-91":$("[data-type='radio']").addClass(         'rad-margin-91' );break;
-            case "mchk-margin-91":$("[data-type='multicheckbox']").addClass('mchk-margin-91');break;
-            case "btn-margin-91":$(".dform_widget_type_button").addClass(   'btn-margin-91' );break;
-            
-            case "field-text-align-left":
-                $("[type='text'], [type='date'], [type='email'], [type='number'], [type='password'], [type='tel'], [type='time']").addClass('text-align-left');
-                break;
-            case "rad-text-align-left":
-                $("[data-type='multicheckbox']").addClass('text-align-left');
-                break;
-            case "mchk-text-align-left":
-                $("[data-type='radio']").addClass('text-align-left');   
-                break;
-            case "field-text-align-center":
-                $("[type='text'], [type='date'], [type='email'], [type='number'], [type='password'], [type='tel'], [type='time']").addClass('text-align-center');
-                break;    
-            case "rad-text-align-center":
-                $("[data-type='multicheckbox']").addClass('text-align-center');
-                break;
-            case "mchk-text-align-center":
-                $("[data-type='radio']").addClass('text-align-center');   
-                break;
-            case "rad-text-align-right":
-                $("[data-type='multicheckbox']").addClass('text-align-right');
-                break;
-            case "mchk-text-align-right":
-                $("[data-type='radio']").addClass('text-align-right');   
-                break;
-            case "field-text-align-right":
-                $("[data-type='text'], [data-type='date'], [data-type='email'], [data-type='number'], [data-type='password'], [data-type='tel'], [data-type='time']").addClass('text-align-right');
-                break;
-			//KS: LISTENERS - if after _KDF_ready, apply them with addStyleListeners(['a_listenerFunctions_property','it_supports_lists'])
-            case'txta-length-listener':
-                listenerFunctions['txta-length-listener']();
-                break;
-            case'detailToggle':
-                listenerFunctions['detailToggle']();
-                break;
-            case'noResultsFound':
-                listenerFunctions['noResultsFound']();
-                break;
-            case'txt-enter-trigger-btn':
-                listenerFunctions['txt-enter-trigger-btn']();
-                break;
-        } 
-    });
-	if (debug) console.log('default style out')
+		switch(element){
+		    case "all":
+		    case"recommended":
+			defineDefaultStyle();
+			break;
+		    case "mchk":$("[data-type='multicheckbox']").addClass('mchk-gov');break;
+		    case "chk":$("[data-type='checkbox']").addClass('chk-gov');break;
+		    case "rad":$("[data-type='radio']").addClass('rad-gov');break;
+		    case "txt":$("[data-type='text']").addClass('txt-gov');break;
+		     case "dt":$("[data-type='date']").addClass('dt-gov');break;
+		    case "eml":$("[data-type='email']").addClass('eml-gov');break;
+		    case "num":$("[data-type='number']").addClass('num-gov');break;
+		    case "pas":$("[data-type='password']").addClass('pas-gov');break;
+		    case "tel":$("[data-type='tel']").addClass('tel-gov');break;
+		    case "time":$("[data-type='time']").addClass('time-gov');break;
+		    case "txta":$("[data-type='textarea']").addClass('txta-gov');break;
+		    case "sel":$("[data-type='select']").addClass('sel-gov');break;
+		    case "file":$("[data-type='file']").addClass('file-gov');break;
+		    case "btn":$("[data-type='button']").addClass('btn-gov');break;
+				case "search":$(".dform_widget_type_search").addClass('search-gov');break;
+
+		    case "txta-length"://KS: allows optout of the maxchar feature as default
+			$("[data-type='textarea'] > div:last-child").addClass('txta-length');        
+			break;
+		    case "highlightRequired"://KS: Ruths code to add required star
+			highlightRequired();
+			break;
+
+
+		    case "detail-gov":
+
+			break;
+
+
+			//KS: Non-recommended defaults below
+		    case "sel-fill"://KS: mostly just an example of how to add optional default styles
+			$("[data-type='select']").addClass('sel-fill');
+			break;
+		    case "file-progress"://KS: add back the progress bar
+			$("[data-type='file']").addClass('file-progress');             
+			break;
+		    case "txt-no-min-height"://KS: bobs request to remove margin on hidden left feilds
+			$("[data-type='text']").addClass('txt-no-min-height');             
+			break;
+		    case "field-mob"://KS: 
+			$("[type='text'], [type='date'], [type='email'], [type='number'], [type='password'], [type='tel'], [type='time']").addClass('field-mob');
+			break;
+		    case "search-no-results":
+			$('.dform_widget_type_search').addClass('search-no-results');
+			break;
+
+		    case "rad-margin-8":$("[data-type='radio']").addClass(          'rad-margin-8'  );break;
+		    case "mchk-margin-8":$("[data-type='multicheckbox']").addClass( 'mchk-margin-8' );break;
+		    case "btn-margin-8":$(".dform_widget_type_button").addClass(    'btn-margin-8'  );break;
+		    case "rad-margin-16":$("[data-type='radio']").addClass(         'rad-margin-16' );break;
+		    case "mchk-margin-16":$("[data-type='multicheckbox']").addClass('mchk-margin-16');break;
+		    case "btn-margin-16":$(".dform_widget_type_button").addClass(   'btn-margin-16' );break;
+		    case "rad-margin-25":$("[data-type='radio']").addClass(         'rad-margin-25' );break;
+		    case "mchk-margin-25":$("[data-type='multicheckbox']").addClass('mchk-margin-25');break;
+		    case "btn-margin-25":$(".dform_widget_type_button").addClass(   'btn-margin-25' );break;
+		    case "rad-margin-33":$("[data-type='radio']").addClass(         'rad-margin-33' );break;
+		    case "mchk-margin-33":$("[data-type='multicheckbox']").addClass('mchk-margin-33');break;
+		    case "btn-margin-33":$(".dform_widget_type_button").addClass(   'btn-margin-33' );break;
+		    case "rad-margin-41":$("[data-type='radio']").addClass(         'rad-margin-41' );break;
+		    case "mchk-margin-41":$("[data-type='multicheckbox']").addClass('mchk-margin-41');break;
+		    case "btn-margin-41":$(".dform_widget_type_button").addClass(   'btn-margin-41' );break;
+		    case "rad-margin-50":$("[data-type='radio']").addClass(         'rad-margin-50' );break;
+		    case "mchk-margin-50":$("[data-type='multicheckbox']").addClass('mchk-margin-50');break;
+		    case "btn-margin-50":$(".dform_widget_type_button").addClass(   'btn-margin-50' );break;
+		    case "rad-margin-58":$("[data-type='radio']").addClass(         'rad-margin-58' );break;
+		    case "mchk-margin-58":$("[data-type='multicheckbox']").addClass('mchk-margin-58');break;
+		    case "btn-margin-58":$(".dform_widget_type_button").addClass(   'btn-margin-58' );break;
+		    case "rad-margin-66":$("[data-type='radio']").addClass(         'rad-margin-66' );break;
+		    case "mchk-margin-66":$("[data-type='multicheckbox']").addClass('mchk-margin-66');break;
+		    case "btn-margin-66":$(".dform_widget_type_button").addClass(   'btn-margin-66' );break;
+		    case "rad-margin-75":$("[data-type='radio']").addClass(         'rad-margin-75' );break;
+		    case "mchk-margin-75":$("[data-type='multicheckbox']").addClass('mchk-margin-75');break;
+		    case "btn-margin-75":$(".dform_widget_type_button").addClass(   'btn-margin-75' );break;
+		    case "rad-margin-83":$("[data-type='radio']").addClass(         'rad-margin-83' );break;
+		    case "mchk-margin-83":$("[data-type='multicheckbox']").addClass('mchk-margin-83');break;
+		    case "btn-margin-83":$(".dform_widget_type_button").addClass(   'btn-margin-83' );break;
+		    case "rad-margin-91":$("[data-type='radio']").addClass(         'rad-margin-91' );break;
+		    case "mchk-margin-91":$("[data-type='multicheckbox']").addClass('mchk-margin-91');break;
+		    case "btn-margin-91":$(".dform_widget_type_button").addClass(   'btn-margin-91' );break;
+
+		    case "field-text-align-left":
+			$("[type='text'], [type='date'], [type='email'], [type='number'], [type='password'], [type='tel'], [type='time']").addClass('text-align-left');
+			break;
+		    case "rad-text-align-left":
+			$("[data-type='multicheckbox']").addClass('text-align-left');
+			break;
+		    case "mchk-text-align-left":
+			$("[data-type='radio']").addClass('text-align-left');   
+			break;
+		    case "field-text-align-center":
+			$("[type='text'], [type='date'], [type='email'], [type='number'], [type='password'], [type='tel'], [type='time']").addClass('text-align-center');
+			break;    
+		    case "rad-text-align-center":
+			$("[data-type='multicheckbox']").addClass('text-align-center');
+			break;
+		    case "mchk-text-align-center":
+			$("[data-type='radio']").addClass('text-align-center');   
+			break;
+		    case "rad-text-align-right":
+			$("[data-type='multicheckbox']").addClass('text-align-right');
+			break;
+		    case "mchk-text-align-right":
+			$("[data-type='radio']").addClass('text-align-right');   
+			break;
+		    case "field-text-align-right":
+			$("[data-type='text'], [data-type='date'], [data-type='email'], [data-type='number'], [data-type='password'], [data-type='tel'], [data-type='time']").addClass('text-align-right');
+			break;
+				//KS: LISTENERS - if after _KDF_ready, apply them with addStyleListeners(['a_listenerFunctions_property','it_supports_lists'])
+		    case'txta-length-listener':
+			listenerFunctions['txta-length-listener']();
+			break;
+		    case'detailToggle':
+			listenerFunctions['detailToggle']();
+			break;
+		    case'noResultsFound':
+			listenerFunctions['noResultsFound']();
+			break;
+		    case'txt-enter-trigger-btn':
+			listenerFunctions['txt-enter-trigger-btn']();
+			break;
+		} 
+    	});
+    }
+    if (debug) console.log('default style out')
 }
 function applyNewStyle(){
 	if (debug) console.log('apply style in')
