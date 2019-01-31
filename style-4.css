@@ -1109,21 +1109,24 @@ KS: Custom gov multi-checkbox - Start
 [data-type='html'] a[href]:visited {
     color: purple !important;
 }
-.rad-margin--8, .mchk-margin--8   {float:left;margin-right:3.8%;min-height: 1px;width:4.85%;}
-.rad-margin--16, .mchk-margin--16 {float:left;margin-right:3.8%;min-height: 1px;width:13.45%;}
-.rad-margin--25, .mchk-margin--25 {float:left;margin-right:3.8%;min-height: 1px;width:22.05%;}
-.rad-margin--33, .mchk-margin--33 {float:left;margin-right:3.8%;min-height: 1px;width:30.75%;}
-.rad-margin--41, .mchk-margin--41 {float:left;margin-right:3.8%;min-height: 1px;width:39.45%;}
-.rad-margin--50, .mchk-margin--50 {float:left;margin-right:3.8%;min-height: 1px;width:48%;}
-.rad-margin--58, .mchk-margin--58 {float:left;margin-right:3.8%;min-height: 1px;width:56.75%;}
-.rad-margin--66, .mchk-margin--66 {float:left;margin-right:3.8%;min-height: 1px;width:65.4%;}
-.rad-margin--75, .mchk-margin--75 {float:left;margin-right:3.8%;min-height: 1px;width:74.05%;}
-.rad-margin--83, .mchk-margin--83 {float:left;margin-right:3.8%;min-height: 1px;width:82.7%;}
-.rad-margin--91, .mchk-margin--91 {float:left;margin-right:3.8%;min-height: 1px;width:91.35%;}
+.rad-margin-8-legend, .mchk-margin-8-legend   {float:left;margin-right:3.8%;min-height: 1px;width:4.85%;}
+.rad-margin-16-legend, .mchk-margin-16-legend {float:left;margin-right:3.8%;min-height: 1px;width:13.45%;}
+.rad-margin-25-legend, .mchk-margin-25-legend {float:left;margin-right:3.8%;min-height: 1px;width:22.05%;}
+.rad-margin-33-legend, .mchk-margin-33-legend {float:left;margin-right:3.8%;min-height: 1px;width:30.75%;}
+.rad-margin-41-legend, .mchk-margin-41-legend {float:left;margin-right:3.8%;min-height: 1px;width:39.45%;}
+.rad-margin-50-legend, .mchk-margin-50-legend {float:left;margin-right:3.8%;min-height: 1px;width:48%;}
+.rad-margin-58-legend, .mchk-margin-58-legend {float:left;margin-right:3.8%;min-height: 1px;width:56.75%;}
+.rad-margin-66-legend, .mchk-margin-66-legend {float:left;margin-right:3.8%;min-height: 1px;width:65.4%;}
+.rad-margin-75-legend, .mchk-margin-75-legend {float:left;margin-right:3.8%;min-height: 1px;width:74.05%;}
+.rad-margin-83-legend, .mchk-margin-83-legend {float:left;margin-right:3.8%;min-height: 1px;width:82.7%;}
+.rad-margin-91-legend, .mchk-margin-91-legend {float:left;margin-right:3.8%;min-height: 1px;width:91.35%;}
 
 
 @media (max-width: 768px){
-    .rad-margin--8, .mchk-margin--8, .rad-margin--16, .mchk-margin--16, .rad-margin--25, .mchk-margin--25, .rad-margin--33, .mchk-margin--33, .rad-margin--41, .mchk-margin--41,.rad-margin--50, .mchk-margin--50,.rad-margin--58, .mchk-margin--58,.rad-margin--66, .mchk-margin--66,.rad-margin--75, .mchk-margin--75,.rad-margin--83, .mchk-margin--83,.rad-margin--91, .mchk-margin--91{        
+    .rad-margin-8-legend, .mchk-margin-8-legend,.rad-margin-16-legend, .mchk-margin-16-legend, .rad-margin-25-legend, .mchk-margin-25-legend,
+    .rad-margin-33-legend, .mchk-margin-33-legend, .rad-margin-41-legend, .mchk-margin-41-legend,.rad-margin-50-legend, .mchk-margin-50-legend,
+    .rad-margin-58-legend, .mchk-margin-58-legend,.rad-margin-66-legend, .mchk-margin-66-legend,.rad-margin-75-legend, .mchk-margin-75-legend,
+    .rad-margin-83-legend, .mchk-margin-83-legend,.rad-margin-91-legend, .mchk-margin-91-legend {        
         width:100% !important;
         float:none;
     }
