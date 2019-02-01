@@ -481,6 +481,7 @@ KS: txt (and text like fields) Start
 .txt-gov > div > label,.dt-gov > div > label,.eml-gov > div > label,.num-gov > div > label,.pas-gov > div > label,.tel-gov > div > label,.time-gov > div > label,.field-gov > div > label{
   font-size: 24px;
   line-height: 1.2 !important;
+  font-weight:bold;
 }
 /*KS: Customizes the help text */
 .txt-gov > div .helptext,.dt-gov > div .helptext,.eml-gov > div .helptext,.num-gov > div .helptext,.pas-gov > div .helptext,.tel-gov > div .helptext,.time-gov > div .helptext,.field-gov > div .helptext{
@@ -542,6 +543,7 @@ KS: txta Start
 .txta-gov > div > label {
   font-size: 22px;
   line-height: 1.2 !important;
+  font-weight:bold;
 }
 /*KS: Customizes the help text */
 .txta-gov > div .helptext {
