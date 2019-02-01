@@ -363,8 +363,8 @@ var updateStyleFunctions = {
     		var number = hasClass.substring(startString.length, hasClass.length);
     		number = parseInt(number,10);
     		if (Number.isInteger(number) && number >= 0 && number <= 100){//KS: since it is %, unlikely to go over
-    		    element.find('legend').addClass('rad-margin-'+number+'-legend').each(function(){$(this).insertBefore($(this).parent().parent());})
-    		}else{
+				marginArrange(element.find('legend'), 'rad-margin-'+number+'-legend');
+			}else{
     		    console.log(hasClass + 'is not a valid rad-margin, try rad-margin-50');
     		}
     	}else{
@@ -385,7 +385,7 @@ var updateStyleFunctions = {
     		var number = hasClass.substring(startString.length, hasClass.length);
     		number = parseInt(number,10);
     		if (Number.isInteger(number) && number >= 0 && number <= 100){//KS: since it is %, unlikely to go over
-    		    element.find('legend').addClass('mchk-margin-'+number+'-legend').each(function(){$(this).insertBefore($(this).parent().parent());})
+				marginArrange(element.find('legend'), 'mchk-margin-'+number+'-legend');
     		}else{
     		    console.log(hasClass + 'is not a valid mchk-margin, try mchk-margin-50');
     		}
