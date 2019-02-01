@@ -117,7 +117,7 @@ Need to deside on new generic button - the continue should be promanant - maybe 
 }
 .btn-gov:hover{
     box-shadow: inset 0 -2px 0 /*#003618*/ #00529B !important;
-    background: /*#00682e*/ #006be0!important;
+    background: /*#00682e*/ #0056B3!important;
     
 }
 .btn-gov:focus{
@@ -128,11 +128,11 @@ Need to deside on new generic button - the continue should be promanant - maybe 
 /*btn-orange----------------------------------*/
 .btn-orange{
     box-shadow: inset 0 -2px 0 /*#003618*/ #bc5114 !important;
-    background: /*#00823b*/ #FA6E1E!important;
+    background: /*#00823b*/ #CE4C03!important;
 }
 .btn-orange:hover{
     box-shadow: inset 0 -2px 0 /*#003618*/ #bc5114 !important;
-    background: /*#00682e*/ #d35b17!important;
+    background: /*#00682e*/ #9D3703!important;
     
 }
 .btn-orange:focus{
@@ -334,11 +334,11 @@ KS: file-gov Start
 
 /*KS: darken when hover-able */
 .file-gov  input:hover ~ .file-gov-icon{
-    background: #006be0 !important; /*Darkened Varint blue*/
+    background: #0056B3 !important; /*Darkened Varint blue*/
 }
 /*KS: darken when hover-able */
 .file-gov  input:focus ~ .file-gov-icon{
-    background: #006be0 !important; /*Darkened Varint blue*/
+    background: #0056B3 !important; /*Darkened Varint blue*/
     box-shadow: inset 0 -2px 0 #00529B, 0 0 0 3px #FFBF47 !important;
 }
 /*KS depreciated: style when field with error is focused*/
@@ -1086,7 +1086,7 @@ KS: Custom gov multi-checkbox - Start
     margin-bottom: 6px;
 }
 .box-orange{
-    background: #FA6E1E;
+    background: #CE4C03;
     margin-bottom: 6px;
 }
 .box-green fieldset, .box-blue fieldset, .box-orange fieldset{
