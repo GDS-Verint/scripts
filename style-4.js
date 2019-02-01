@@ -5,6 +5,7 @@ applyStyle(['recommended']);
 
 function simpleColorCheck(bgColor, fgIfWhite, fgIfNot){
     //KS: if white, use a non-white colour, if non-white use white
+	if (bgColor == undefined) bgColor = 'white';//KS Fixes when text hidden
     var whiteDef = ['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)', 'white', '#fff', '#ffffff'];
     if ($.inArray(bgColor.toLowerCase(), whiteDef) != -1){
         return fgIfWhite;
