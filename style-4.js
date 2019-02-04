@@ -57,7 +57,7 @@ function defineDefaultStyle(){
     //KS: adds the recommended default styling - and acts a single location to change them
 	//KS: for the love of StackExchange don't put 'all' or 'recommended' in here
     var recommended = [
-        'mchk','chk','rad','txt','dt','eml','num','pas','tel','time','txta','sel','file','btn','search','highlightRequired','txta-length','txta-length-listener','detailToggle','noResultsFound','txt-enter-trigger-btn',
+        'mchk','chk','rad','txt','dt','eml','num','pas','tel','time','txta','sel','file','btn','search','highlightRequired','search-no-results','txta-length','txta-length-listener','detailToggle','noResultsFound','txt-enter-trigger-btn',
     ];
     defaultNewStyle(recommended);
 }
