@@ -108,6 +108,7 @@ Need to deside on new generic button - the continue should be promanant - maybe 
     white-space: nowrap;
     padding: 0.3em 0.6em !important;
     font-size: 18.7px !important;
+    font-weight: bold !important;
 }
 
 /*btn-gov------------------------------------*/
@@ -164,12 +165,10 @@ Need to deside on new generic button - the continue should be promanant - maybe 
 .btn-continue{
     box-shadow: inset 0 -2px 0 #003618 !important;
     background: #00823b!important;
-    font-weight: bold !important;
 }
 .btn-continue:hover{
     box-shadow: inset 0 -2px 0 #003618 !important;
     background: #00682e!important;
-    font-weight: bold !important;
 }
 .btn-continue:focus{
     box-shadow: inset 0 -2px 0 #003618, 0 0 0 3px #FFBF47 !important;
