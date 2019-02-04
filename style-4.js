@@ -2,56 +2,6 @@
 applyStyle(['recommended']);
 //KS: see 'Non-recommended defaults' within 'defaultNewStyle(elements)' for optional defaults*/
 
-function simpleColorCheck(bgColor, fgIfWhite, fgIfNot){
-    //KS: if white, use a non-white colour, if non-white use white
-	if (bgColor == undefined) bgColor = 'white';//KS Fixes when text hidden
-    var whiteDef = ['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)', 'white', '#fff', '#ffffff'];
-    if ($.inArray(bgColor.toLowerCase(), whiteDef) != -1){
-        return fgIfWhite;
-    } else {
-        return fgIfNot;
-    }
-}
-function requiredColorCheck(jQueryObject){
-    var color = simpleColorCheck(jQueryObject.css("background-color"),'#b03535', 'white');
-    return color;
-}
-
-function highlightRequired() {
-    //Finds the legend of required input elements and adds a red star to the end of them
-	$(document).find(':required').each(function() {
-	    if ($(this).attr('type') == 'radio' || $(this).attr('type') == 'checkbox') {
-	        var legend = $(this).parent().parent().find('legend');
-	        
-	        if ($(legend).find('span').size() <= 0) {
-	                var obj1 = $(legend);
-	                obj1.append('<span style="color: '+requiredColorCheck(obj1)+';">*</span>');
-	        }
-	    } else {
-			
-    		var label = $('label[for="'+$(this).attr('id')+'"]');
-    		if ($(label).find('span').length === 0) {
-    			var obj2 = $('label[for="'+$(this).attr('id')+'"]');
-    			obj2.append('<span style="color: '+requiredColorCheck(obj2)+'; font-weight: bold;">*</span>');
-    		}
-	    }
-	    //KS: added to cover single check box without messing with code too much
-	    if($(this).attr('type') == 'checkbox' && $(this).parent().is("div")){
-	        //KS: ensures that only single checkboxes have required *
-	        var obj3 = $(this).parent().find('> label');
-	        obj3.append('<span style="color: '+requiredColorCheck(obj3)+';">*</span>');
-	    }
-	});	
-	$("[data-type='search'][data-required='true'] > legend").each(function(){
-	    //Code for all searches
-	    if ($(this).find('span').size() <= 0) {
-	        var obj4 = $(this);
-	        obj4.append('<span style="color: '+requiredColorCheck(obj4)+';">*</span>');
-	    }
-	});
-}
-
-
 function defineDefaultStyle(){
 	//KS: can define listeners here, but can't later on, need to call 
     //KS: adds the recommended default styling - and acts a single location to change them
@@ -559,3 +509,77 @@ function hexToRgb(hex) {
         b: parseInt(result[3], 16)
     } : null;
 }
+
+
+function simpleColorCheck(bgColor, fgIfWhite, fgIfNot){
+    //KS: if white, use a non-white colour, if non-white use white
+	if (bgColor == undefined) bgColor = 'white';//KS Fixes when text hidden
+    var whiteDef = ['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)', 'white', '#fff', '#ffffff'];
+    if ($.inArray(bgColor.toLowerCase(), whiteDef) != -1){
+        return fgIfWhite;
+    } else {
+        return fgIfNot;
+    }
+}
+function requiredColorCheck(jQueryObject){
+    var color = simpleColorCheck(jQueryObject.css("background-color"),'#b03535', 'white');
+    return color;
+}
+
+function highlightRequired() {
+    //Finds the legend of required input elements and adds a red star to the end of them
+	$(document).find(':required').each(function() {
+	    if ($(this).attr('type') == 'radio' || $(this).attr('type') == 'checkbox') {
+	        var legend = $(this).parent().parent().find('legend');
+	        
+	        if ($(legend).find('span').size() <= 0) {
+	                var obj1 = $(legend);
+	                obj1.append('<span style="color: '+requiredColorCheck(obj1)+';">*</span>');
+	        }
+	    } else {
+			
+    		var label = $('label[for="'+$(this).attr('id')+'"]');
+    		if ($(label).find('span').length === 0) {
+    			var obj2 = $('label[for="'+$(this).attr('id')+'"]');
+    			obj2.append('<span style="color: '+requiredColorCheck(obj2)+'; font-weight: bold;">*</span>');
+    		}
+	    }
+	    //KS: added to cover single check box without messing with code too much
+	    if($(this).attr('type') == 'checkbox' && $(this).parent().is("div")){
+	        //KS: ensures that only single checkboxes have required *
+	        var obj3 = $(this).parent().find('> label');
+	        obj3.append('<span style="color: '+requiredColorCheck(obj3)+';">*</span>');
+	    }
+	});	
+	$("[data-type='search'][data-required='true'] > legend").each(function(){
+	    //Code for all searches
+	    if ($(this).find('span').size() <= 0) {
+	        var obj4 = $(this);
+	        obj4.append('<span style="color: '+requiredColorCheck(obj4)+';">*</span>');
+	    }
+	});
+}
+
+function getFieldsLabels(isPosLeft){
+	var selector = '';
+	var elements = ['.txt-gov','.dt-gov','.eml-gov','.num-gov','.pas-gov','.tel-gov','.time-gov','.field-gov','.txta-gov'];
+	if (isPosLeft){
+		for (var i = 0; i < elements.length; i++){
+			selector += ', '+elements[i]+' > div:first-child:not(.one,.two,.three,.four,.five,.six,.seven,.eight,.nine,.ten,.eleven,.twelve) label'
+		}
+	}else{
+		var columns = ['.one','.two','.three','.four','.five','.six','.seven','.eight','.nine','.ten','.eleven','.twelve']
+
+
+		for (var i = 0; i < elements.length; i++){
+			for (var j = 0; j < columns.length; j++){
+				selector += ', '+elements[i]+':not(.dform_widget_searchfield) > div:first-child'+columns[j]+' label';
+				//KS the :not is only there due to the bug in displaying text fields in search widgets
+			}
+		}
+	}
+	selector = selector.substring(2,selector.length);//KS: remove first ', '
+	return selector;
+}
+
+
