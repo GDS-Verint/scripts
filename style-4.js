@@ -7,7 +7,7 @@ function defineDefaultStyle(){
     //KS: adds the recommended default styling - and acts a single location to change them
 	//KS: for the love of StackExchange don't put 'all' or 'recommended' in here
     var recommended = [
-        'mchk','chk','rad','txt','dt','eml','num','pas','tel','time','txta','sel','file','btn','search','highlightRequired','search-no-results','txta-length','txta-length-listener','detailToggle','noResultsFound','txt-enter-trigger-btn',
+        'mchk','chk','rad','txt','dt','eml','num','pas','tel','time','txta','sel','file','btn','search','highlightRequired','search-no-results','field-label-right-align','txta-length','txta-length-listener','detailToggle','noResultsFound','txt-enter-trigger-btn',
     ];
     defaultNewStyle(recommended);
 }
@@ -54,8 +54,8 @@ function defaultNewStyle(elements){
 		    case "highlightRequired"://KS: Ruths code to add required star
 			highlightRequired();
 			break;
-
-
+		    case "field-label-right-align"://KS: huge selector used to 
+			$(getFieldsLabels('left')).parent().addClass('text-align-right')
 		    case "detail-gov":
 
 			break;
@@ -452,6 +452,7 @@ function regexSearch(regex){
 	$(".search-gov input:text, .apply-regex, #dform_widget_txt_postcode").attr('pattern',regex);
 }
 function marginRevertArrange(element){
+	//KS: coded so the hidden, origianl label doesn't have the class, so just need to remove element
 	//KS 'element' should be the rad/mchk element as jquery object (supports multiple at once) e.g. $('.rad-gov,.mack-gov') is everything
 	element.find('> legend').remove();
 	element.find('fieldset legend').removeClass('display-none')
@@ -481,34 +482,12 @@ function paramElementChange(possibleToChange){
     }
 }
 
-function luminanace(r, g, b) {
 //source: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
-    var a = [r, g, b].map(function (v) {
-        v /= 255;
-        return v <= 0.03928
-            ? v / 12.92
-            : Math.pow( (v + 0.055) / 1.055, 2.4 );
-    });
-    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
-}
-function contrast(rgb1, rgb2) {
-//source: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
-    return (luminanace(rgb1['r'], rgb1['g'], rgb1['b']) + 0.05)
-         / (luminanace(rgb2['r'], rgb2['g'], rgb2['b']) + 0.05);
-}
-function rgbToHex(r, g, b) {
-//source: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
-    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-}
-function hexToRgb(hex) {
-//source: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } : null;
-}
+//KS used to get an idea of the colour contrast, but would need an entire libary to do it to the extent I'd need
+function luminanace(r, g, b) {var a = [r, g, b].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow( (v + 0.055) / 1.055, 2.4 ); }); return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722; }
+function contrast(rgb1, rgb2) { return (luminanace(rgb1['r'], rgb1['g'], rgb1['b']) + 0.05) / (luminanace(rgb2['r'], rgb2['g'], rgb2['b']) + 0.05); }
+function rgbToHex(r, g, b) { return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1); }
+function hexToRgb(hex) { var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex); return result ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16),b: parseInt(result[3], 16)} : null; }
 
 
 function simpleColorCheck(bgColor, fgIfWhite, fgIfNot){
@@ -561,21 +540,28 @@ function highlightRequired() {
 }
 
 function getFieldsLabels(isPosLeft){
+	//KS: to get the labels when called like $(getFieldsLabels(value))
 	var selector = '';
+	//KS: all feilds that can have a left/above label
 	var elements = ['.txt-gov','.dt-gov','.eml-gov','.num-gov','.pas-gov','.tel-gov','.time-gov','.field-gov','.txta-gov'];
-	if (isPosLeft){
-		for (var i = 0; i < elements.length; i++){
-			selector += ', '+elements[i]+' > div:first-child:not(.one,.two,.three,.four,.five,.six,.seven,.eight,.nine,.ten,.eleven,.twelve) label'
-		}
-	}else{
+	
+	if (isPosLeft && isPosLeft.toLowerCase() !== 'right'){
+		//KS: returns all fields that are to the left of teh input
+		//KS: columns are used to display them on same line, and is the only way to identify them from above-labels
 		var columns = ['.one','.two','.three','.four','.five','.six','.seven','.eight','.nine','.ten','.eleven','.twelve']
-
-
+		
 		for (var i = 0; i < elements.length; i++){
 			for (var j = 0; j < columns.length; j++){
 				selector += ', '+elements[i]+':not(.dform_widget_searchfield) > div:first-child'+columns[j]+' label';
 				//KS the :not is only there due to the bug in displaying text fields in search widgets
 			}
+		}
+		//KS: CSS note, if you use this, make sure you have a media query set up for the changing sizes
+		//KS; - else if it changes to label-above at a certain width, then it will look messed up
+	}else{
+		//KS: returns all field labels that are above text field
+		for (var i = 0; i < elements.length; i++){
+			selector += ', '+elements[i]+' > div:first-child:not(.one,.two,.three,.four,.five,.six,.seven,.eight,.nine,.ten,.eleven,.twelve) label'
 		}
 	}
 	selector = selector.substring(2,selector.length);//KS: remove first ', '
