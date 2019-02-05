@@ -9,6 +9,7 @@ function defineDefaultStyle(){
     var recommended = [
         'mchk','chk','rad','txt','dt','eml','num','pas','tel','time','txta','sel','file','btn','search','highlightRequired','search-no-results','field-label-right-align','txta-length','txta-length-listener','detailToggle','noResultsFound','txt-enter-trigger-btn',
     ];
+    console.debug('@defineDefaultStyle() the defined recommended styles that will be used ['+recommended.toString()+']')
     defaultNewStyle(recommended);
 }
 
@@ -160,6 +161,7 @@ function defaultNewStyle(elements){
 function applyNewStyle(){
     //KS: since there is no overloading in JS - this is an alternitive
     if (typeof arguments[0] !== "undefined" && Array.isArray(arguments[0])){
+	console.debug('@applyNewStyle() since this was passed an array, will call defaultNewStyle() to add classes to relevent objects before continuing');
         //KS: i.e. if there is an array
         defaultNewStyle(arguments[0])
     }
@@ -175,6 +177,7 @@ function applyNewStyle(){
         ['.mchk-gov[class*="mchk-margin-"]','mchk-margin'],
         ['.rad-gov[class*="rad-margin-"]','rad-margin'],
     ];
+    console.debug('@applyNewStyle() the list classes used as the selector and the name of the function are: '+JSON.stringify(elementsToUpdate))
     elementsToUpdate.forEach(function(item){
         var elements = $(item[0]);
         if (elements.length > 0){//KS: skip if none selected - improve performance
@@ -543,6 +546,7 @@ function getFieldsLabels(isPosLeft){
 	var elements = ['.txt-gov','.dt-gov','.eml-gov','.num-gov','.pas-gov','.tel-gov','.time-gov','.field-gov','.txta-gov'];
 	
 	if (isPosLeft && isPosLeft != 'above'){
+		console.debug('@getFieldsLabels() a selector for elements with a label to the left is being generated. The elements being considered are: '+JSON.stringify(elements));
 		//KS: returns all fields that are to the left of teh input
 		//KS: columns are used to display them on same line, and is the only way to identify them from above-labels
 		var columns = ['.one','.two','.three','.four','.five','.six','.seven','.eight','.nine','.ten','.eleven','.twelve']
@@ -556,6 +560,7 @@ function getFieldsLabels(isPosLeft){
 		//KS: CSS note, if you use this, make sure you have a media query set up for the changing sizes
 		//KS; - else if it changes to label-above at a certain width, then it will look messed up
 	}else{
+		console.debug('@getFieldsLabels() a selector for elements with a label above is being generated. The elements being considered are: '+JSON.stringify(elements))
 		//KS: returns all field labels that are above text field
 		for (var i = 0; i < elements.length; i++){
 			selector += ', '+elements[i]+' > div:first-child:not(.one,.two,.three,.four,.five,.six,.seven,.eight,.nine,.ten,.eleven,.twelve) label'
