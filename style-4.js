@@ -545,7 +545,7 @@ function getFieldsLabels(isPosLeft){
 	//KS: all feilds that can have a left/above label
 	var elements = ['.txt-gov','.dt-gov','.eml-gov','.num-gov','.pas-gov','.tel-gov','.time-gov','.field-gov','.txta-gov'];
 	
-	if (isPosLeft && isPosLeft.toLowerCase() !== 'right'){
+	if (isPosLeft && isPosLeft.toLowerCase() !== 'above'){
 		//KS: returns all fields that are to the left of teh input
 		//KS: columns are used to display them on same line, and is the only way to identify them from above-labels
 		var columns = ['.one','.two','.three','.four','.five','.six','.seven','.eight','.nine','.ten','.eleven','.twelve']
