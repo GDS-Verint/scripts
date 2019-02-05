@@ -56,7 +56,7 @@ function defaultNewStyle(elements){
 			break;
 		    case "field-label-right-align"://KS: huge selector used to 
 			console.log('field-label-right-align')
-			$(getFieldsLabels('left')).parent().addClass('text-align-right');
+			$(getFieldsLabels('left')).parent().parent().addClass('text-align-right');
 			break;
 		    case "detail-gov":
 
