@@ -55,7 +55,6 @@ function defaultNewStyle(elements){
 			highlightRequired();
 			break;
 		    case "field-label-right-align"://KS: huge selector used to 
-			console.log('field-label-right-align')
 			$(getFieldsLabels('left')).parent().parent().addClass('text-align-right');
 			break;
 		    case "detail-gov":
@@ -289,7 +288,7 @@ var updateStyleFunctions = {
     			}
     		});
     	}else{
-    		console.log("A file limit couldn't be applied to an element because it didn't have a file-limit-[number] style ")
+    		console.debug("A file limit couldn't be applied to an element because it didn't have a file-limit-[number] style ")
     	}
     },
 	'search-no-results': function(element){//KS: param object op
@@ -317,10 +316,10 @@ var updateStyleFunctions = {
     		if (Number.isInteger(number) && number >= 0 && number <= 100){//KS: since it is %, unlikely to go over
 				marginArrange(element.find('legend'), 'rad-margin-'+number+'-legend');
 			}else{
-    		    console.log(hasClass + 'is not a valid rad-margin, try rad-margin-50');
+    		    console.debug(hasClass + 'is not a valid rad-margin, try rad-margin-50');
     		}
     	}else{
-    	    console.log('Could not add rad-margin to element. Try adding the class rad-margin-# (e.g. rad-margin-50) first')
+    	    console.debug('Could not add rad-margin to element. Try adding the class rad-margin-# (e.g. rad-margin-50) first')
     	}
 	},
 	'mchk-margin': function(element){//KS: need to test what happens if over limit when it's applied
@@ -339,10 +338,10 @@ var updateStyleFunctions = {
     		if (Number.isInteger(number) && number >= 0 && number <= 100){//KS: since it is %, unlikely to go over
 				marginArrange(element.find('legend'), 'mchk-margin-'+number+'-legend');
     		}else{
-    		    console.log(hasClass + 'is not a valid mchk-margin, try mchk-margin-50');
+    		    console.debug(hasClass + 'is not a valid mchk-margin, try mchk-margin-50');
     		}
     	}else{
-    	    console.log('Could not add mchk-margin to element. Try adding the class mchk-margin-# (e.g. mchk-margin-50) first')
+    	    console.debug('Could not add mchk-margin to element. Try adding the class mchk-margin-# (e.g. mchk-margin-50) first')
     	}
 	},
 }
@@ -354,11 +353,9 @@ function individualApplyStyle(element, specificVal){
 		if(updateStyleFunctions[specificVal] != undefined){//KS: update style when valid
 			updateStyleFunctions[specificVal](element);
 		}else{//KS: can't find style - tell them so within collapsable group
-			console.groupCollapsed('Style not updated');
-				console.log('Style name was '+specificVal+' and element was:');
-				console.log(element);
-				console.log('Try a valid name from "updateStyleFunctions" or try it without a name for default functionility');
-			console.groupEnd();
+			console.debug('Style not updated - style name was '+specificVal+' and element was:');
+			console.debug(element);
+			console.debug('Try a valid name from "updateStyleFunctions" or try it without a name for default functionility');
 		}
 	}else{//KS: DEFAULTS when no style name is provided, attempt to apply one based on class
 		//KS: use the first style that it tests true for (so order matters)
@@ -378,11 +375,9 @@ function individualApplyStyle(element, specificVal){
 			}
 		}
 		if (!hasAddedStyle) {//KS: just a log to update them that something went wrong
-			console.groupCollapsed('Style not updated');
-				console.log('No name provided, and failed class checks. Element was:');
-				console.log(element);
-				console.log('Try a valid name from "updateStyleFunctions" as the second param to specify type of update');
-			console.groupEnd();
+			console.debug('No name provided, and failed class checks. Element was:');
+			console.debug(element);
+			console.debug('Try a valid name from "updateStyleFunctions" as the second param to specify type of update');
 		}
 	}
 }
@@ -476,7 +471,7 @@ function paramElementChange(possibleToChange){
         $.each( params, function( key, value ) {
             if (possibleToChange.includes(key) && !defaultParams.includes(defaultParams)){
                 KDF.setVal(key, value);
-                console.log('wss loaded element '+key+' with '+value);
+                console.debug('wss loaded element '+key+' with '+value);
                 //KS: Really should include trigger - NEED TO BIND AT START - DO IN FUNCTION LATER
                 $('#dform_container').trigger('_style_paramElementChanged');
             }
