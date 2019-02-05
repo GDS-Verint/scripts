@@ -351,7 +351,7 @@ function individualApplyStyle(element, specificVal){
 	//KS: used to update elements that have be edited and require their JS functionility updated/refreshed
     //KS: i.e. this is for JS functionility after _KDF_ready
 	if (specificVal !== null){//KS: when provided with a style name
-		if(updateStyleFunctions[specificVal] !== null){//KS: update style when valid
+		if(updateStyleFunctions[specificVal] != undefined){//KS: update style when valid
 			updateStyleFunctions[specificVal](element);
 		}else{//KS: can't find style - tell them so within collapsable group
 			console.groupCollapsed('Style not updated');
