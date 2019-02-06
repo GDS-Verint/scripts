@@ -54,7 +54,9 @@ function drawAssetLayer(){
 		}
 		removeLayers(esrimap.graphics, activeLayers);
 		
-		KDF.customdata('open_case_marker', 'create', true, true, {'eventcode': KDF.getVal('txt_eventcode')}); 
+		if (typeof KDF.getVal('txt_eventcode') !== 'undefined') {  
+             		KDF.customdata('open_case_marker', 'create', true, true, {'eventcode': KDF.getVal('txt_eventcode')}); 
+		  }
 	}).fail(function() {
 		KDF.showError('It looks like the connection to our mapping system has failed, please try to log the fault again');
 	});	
