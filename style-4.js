@@ -11,6 +11,8 @@ function defineDefaultStyle(){
     ];
     console.debug('@defineDefaultStyle() the defined recommended styles that will be used ['+recommended.toString()+']')
     defaultNewStyle(recommended);
+	//KS: trigger: '_style_defultsProvided, [arrayOfRecomendedStyles]'
+	$(formName()).trigger('_style_defultsProvided',[recommended]);
 }
 
 function defaultNewStyle(elements){
@@ -154,13 +156,19 @@ function defaultNewStyle(elements){
 		    case'txt-enter-trigger-btn':
 			listenerFunctions['txt-enter-trigger-btn']();
 			break;
-		} 
+		    default:
+			console.debug(element' is not a defined optional style')
+			continue;	
+		}
+	       	//KS: trigger: '_style_classOfOptionAdded, [optionName]'
+		$(formName()).trigger('_style_classOfOptionAdded',[element);
     	});
     }
 }
 function applyNewStyle(){
     //KS: since there is no overloading in JS - this is an alternitive
-    if (typeof arguments[0] !== "undefined" && Array.isArray(arguments[0])){
+	var hasDefaultsInArguments = (typeof arguments[0] !== "undefined" && Array.isArray(arguments[0]));
+    if (hasDefaultsInArguments){
 	console.debug('@applyNewStyle() since this was passed an array, will call defaultNewStyle() to add classes to relevent objects before continuing');
         //KS: i.e. if there is an array
         defaultNewStyle(arguments[0])
@@ -188,6 +196,8 @@ function applyNewStyle(){
             }
         }
     });
+	//KS: trigger: '_style_styleApplied, [elementSelectorsUsed, hadDefaultsInArray]'
+	$(formName()).trigger('_style_styleApplied',[elementsToUpdate, (hasDefaultsInArguments): arguments[0] ? false]);
 }
 
 
@@ -198,6 +208,8 @@ function updateStyle(elements, optionalName){
     $.each(elements, function(){
         individualApplyStyle($(this), optionalName);
     });
+	//KS: trigger: '_style_updateStyleDone, [elements, optionalName]'
+	$(formName()).trigger('_style_updateStyleDone',[elements, optionalName]);
 }
 //KS: defined as functions within array to make it reusable and easy to expand
 var updateStyleFunctions = {
@@ -355,6 +367,8 @@ function individualApplyStyle(element, specificVal){
 	if (specificVal !== null){//KS: when provided with a style name
 		if(updateStyleFunctions[specificVal] != undefined){//KS: update style when valid
 			updateStyleFunctions[specificVal](element);
+			//KS: trigger: '_style_elementUpdated, [element, source, functionUsed, wasSpecified]'
+			$(formName()).trigger('_style_elementUpdated',[element, specificVal, true]);
 		}else{//KS: can't find style - tell them so within collapsable group
 			console.debug('Style not updated - style name was '+specificVal+' and element was:');
 			console.debug(element);
@@ -374,6 +388,8 @@ function individualApplyStyle(element, specificVal){
 			if (element.hasClass(testableClasses[i][0])){
 				updateStyleFunctions[testableClasses[i][1]](element);
 				hasAddedStyle = true;
+				//KS: trigger: '_style_elementUpdated, [element, source, functionUsed, wasSpecified]'
+				$(formName()).trigger('_style_elementUpdated',[element, testableClasses[i][1], false]);
 				break;
 			}
 		}
@@ -385,6 +401,56 @@ function individualApplyStyle(element, specificVal){
 	}
 }
 
+function addStyleListeners(listenerNameArray){
+    listenerNameArray.forEach(function(listenerName){
+        listenerFunctions[listenerName]();
+    });
+	//KS: trigger: '_style_allListenersAdded, [listenerNameArray]'
+	$(formName()).trigger('_style_allListenersAdded',[listenerNameArray]);	
+}
+var listenerFunctions = {
+	'txta-length-listener':function(){
+		$(formName()).on('input', '.txta-gov textarea',txtaLength);
+		
+		//KS: trigger: '_style_listenerAdded, [listenerName]'
+		$(formName()).trigger('_style_listenerAdded',['txta-length-listener']);	
+	},
+	'detailToggle':function(){
+		$(formName()).on('click', '.detail-title',detailToggle);
+		
+		//KS: trigger: '_style_listenerAdded, [listenerName]'
+		$(formName()).trigger('_style_listenerAdded',['detailToggle']);	
+	},
+	'noResultsFound':function(){
+		$(formName()).off('_KDF_search').on('_KDF_search', function(event, kdf, response, type, name) {
+			//KS: call noResultsFound with 'this' set to the search element that triggered the event
+			noResultsFound.call($('[name="'+name+'_id"]'))
+		});
+		//KS: trigger: '_style_listenerAdded, [listenerName]'
+		$(formName()).trigger('_style_listenerAdded',['noResultsFound']);	
+	},
+	'txt-enter-trigger-btn':function(){
+		$(formName()).on('keypress','.search-gov [type="text"], .txt-enter-trigger-btn [type="text"]',function() {
+			if (event.keyCode == 13) {
+				$(this).parent().parent().parent().find('[type="button"]').trigger('click');
+			}
+		});
+		//KS: trigger: '_style_listenerAdded, [listenerName]'
+		$(formName()).trigger('_style_listenerAdded',['txt-enter-trigger-btn']);	
+	},
+}
+
+
+function formName(){
+	//KS: I want triggers to work same way as api.js, so need this to get name
+	if (KDF.kdf().name){
+		return '#dform_'+KDF.kdf().name;
+	}else{
+		//KS: just incase, this will work in most cases (it's what was used before)
+		console.debug('kdf name undefined - using #dform_container')
+		return '#dform_container';
+	}
+}
 function txtaLength(){
     //KS: updates the chars left box for txta-length styled elements
     //    used as the function in the textarea input 
@@ -399,72 +465,69 @@ function txtaLength(){
             message.html((maxLength-currentLength)+" characters left")
         }
     }
+	//KS: trigger: '_style_lengthChanged, [element, messageElement, canAddMore, maxLength, currentLength]'
+	$(formName()).trigger('_style_lengthChanged',[$(this), message, (currentLength >= maxLength) ? true : false ,maxLength, currentLength]);
 }
 	
 function detailToggle(){
+	var prefix = {'closed':'►', 'opened':'▼'};
+	var open;
     //KS: this expands/collapses the detail tab and chnages the indicator
     //    the indictor is an array in which the collapsed indicor is first and the expanded indicator is second
     //KS: update to use value of attributes like closedChar='►' openedChar='▼' - ensures uses defined chars
-    if($(this).text().indexOf('►') >= 0){
-        $(this).text($(this).text().replace(new RegExp('►','g'), '▼'))
+    if($(this).text().indexOf(prefix.closed) >= 0){
+        $(this).text($(this).text().replace(new RegExp(prefix.closed,'g'), prefix.opened))
         $(this).siblings('.detail-block').addClass("detail-block-visible");
+		open = true;
     } else {
-        $(this).text($(this).text().replace(new RegExp('▼','g'), '►'))
+        $(this).text($(this).text().replace(new RegExp(prefix.opened,'g'), prefix.closed))
         $(this).siblings('.detail-block').removeClass("detail-block-visible");
+		open = false;
     }
+	//KS: trigger: '_style_detailToggled, [element, isExpanded, stringPrefixWhenOpen, stringPrefixWhenClosed]'
+	$(formName()).trigger('_style_detailToggled',[$(this), open, prefix.opened, prefix.closed]);
 }
 
 function noResultsFound(){
     //KS: when there is no results, add a non-selectable option to say such
+	var text = 'No results found';
     if ($(this).children().length < 1){
-        $(this).html('<option hidden>No results found</option>')
+        $(this).html('<option hidden>'+text+'</option>')
     }
+	//KS: trigger: '_style_noSearchResults, [element, noResultText]'
+	$(formName()).trigger('_style_detailToggled',[$(this), text]);
 }
-var listenerFunctions = {
-	'txta-length-listener':function(){
-		$('#dform_container').on('input', '.txta-gov textarea',txtaLength);
-	},
-	'detailToggle':function(){
-		$('#dform_container').on('click', '.detail-title',detailToggle);
-	},
-	'noResultsFound':function(){
-		$('#dform_container').off('_KDF_search').on('_KDF_search', function(event, kdf, response, type, name) {
-			//KS: call noResultsFound with 'this' set to the search element that triggered the event
-			noResultsFound.call($('[name="'+name+'_id"]'))
-		});
-	},
-	'txt-enter-trigger-btn':function(){
-		$('#dform_container').on('keypress','.search-gov [type="text"], .txt-enter-trigger-btn [type="text"]',function() {
-			if (event.keyCode == 13) {
-				$(this).parent().parent().parent().find('[type="button"]').trigger('click');
-			}
-		});
-	},
-}
-function addStyleListeners(listenerNameArray){
-    listenerNameArray.forEach(function(listenerName){
-        listenerFunctions[listenerName]();
-    });
-}
+
 
 function regexSearch(regex){
     //KS E.G.: regexSearch("[0-9A-Za-z ]{3,}")
-	$(".search-gov input:text, .apply-regex, #dform_widget_txt_postcode").attr('pattern',regex);
+	var elements = $(".search-gov input:text, .apply-regex, #dform_widget_txt_postcode");
+	elements.attr('pattern',regex);
+	
+	//KS: trigger: '_style_regexApplied, [elements, regex]'
+	$(formName()).trigger('_style_regexApplied',[elements, regex]);
 }
 function marginRevertArrange(element){
 	//KS: coded so the hidden, origianl label doesn't have the class, so just need to remove element
 	//KS 'element' should be the rad/mchk element as jquery object (supports multiple at once) e.g. $('.rad-gov,.mack-gov') is everything
 	element.find('> legend').remove();
-	element.find('fieldset legend').removeClass('display-none')
+	element.find('fieldset legend').removeClass('display-none');
 	element.removeClass(function(index, className){
 		//KS: removes mchk-margin-* and rad-margin-* classes. Update if names change or include another '|' if more is added
 		return (className.match (/\b(mchk-margin-|rad-margin-)\S+/g) || []).join(' ');
-	})
+	});
+	
+	//KS: trigger: '_style_marginReverted, [element]'
+	$(formName()).trigger('_style_marginReverted',[element]);
 }
+
 function marginArrange(legend, style){
 	//KS: should be passed the style and legend (eg $('.rad-margin-50 legend').each(function(){marginArrange($(this),'rad-margin--50')});)
 	legend.clone().addClass(style).insertBefore(legend.parent().parent());
 	legend.addClass('display-none');
+	
+	//KS: trigger: '_style_marginAdded, [element]'
+	$(formName()).trigger('_style_marginAdded',[element]);	
 }
 function paramElementChange(possibleToChange){
     //KS: possibleToChange is an array of element names which can set to values from the params
@@ -476,7 +539,7 @@ function paramElementChange(possibleToChange){
                 KDF.setVal(key, value);
                 console.debug('wss loaded element '+key+' with '+value);
                 //KS: Really should include trigger - NEED TO BIND AT START - DO IN FUNCTION LATER
-                $('#dform_container').trigger('_style_paramElementChanged');
+                $(formName()).trigger('_style_paramElementChanged',[key, value]);
             }
         });
     }
@@ -499,9 +562,14 @@ function simpleColorCheck(bgColor, fgIfWhite, fgIfNot){
     } else {
         return fgIfNot;
     }
+	
 }
 function requiredColorCheck(jQueryObject){
     var color = simpleColorCheck(jQueryObject.css("background-color"),'#b03535', 'white');
+	
+	//KS: trigger: '_style_colorChecked, [element]'
+	$(formName()).trigger('_style_colorChecked',[jQueryObject]);
+	
     return color;
 }
 
@@ -537,6 +605,8 @@ function highlightRequired() {
 	        obj4.append('<span style="color: '+requiredColorCheck(obj4)+';">*</span>');
 	    }
 	});
+	//KS: trigger: '_style_highlightRequired, []'
+	$(formName()).trigger('_style_highlightRequired',[]);
 }
 
 function getFieldsLabels(isPosLeft){
