@@ -157,11 +157,11 @@ function defaultNewStyle(elements){
 			listenerFunctions['txt-enter-trigger-btn']();
 			break;
 		    default:
-			console.debug(element' is not a defined optional style')
+			console.debug(element+' is not a defined optional style')
 			continue;	
 		}
 	       	//KS: trigger: '_style_classOfOptionAdded, [optionName]'
-		$(formName()).trigger('_style_classOfOptionAdded',[element);
+		$(formName()).trigger('_style_classOfOptionAdded',[element]);
     	});
     }
 }
@@ -197,7 +197,7 @@ function applyNewStyle(){
         }
     });
 	//KS: trigger: '_style_styleApplied, [elementSelectorsUsed, hadDefaultsInArray]'
-	$(formName()).trigger('_style_styleApplied',[elementsToUpdate, (hasDefaultsInArguments): arguments[0] ? false]);
+	$(formName()).trigger('_style_styleApplied',[elementsToUpdate, (hasDefaultsInArguments) ? arguments[0] : false]);
 }
 
 
