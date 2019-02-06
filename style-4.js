@@ -30,9 +30,11 @@ function defaultNewStyle(elements){
         Add file-limt-#
         */
        elements.forEach(function(element){
+	       var validStyle = true;
 		switch(element){
 		    case "all":
 		    case"recommended":
+			validStyle = false;
 			defineDefaultStyle();
 			break;
 		    case "mchk":$("[data-type='multicheckbox']").addClass('mchk-gov');break;
@@ -157,11 +159,13 @@ function defaultNewStyle(elements){
 			listenerFunctions['txt-enter-trigger-btn']();
 			break;
 		    default:
-			console.debug(element+' is not a defined optional style')
-			continue;	
+			validStyle = false;
 		}
-	       	//KS: trigger: '_style_classOfOptionAdded, [optionName]'
-		$(formName()).trigger('_style_classOfOptionAdded',[element]);
+		if (validStyle){
+			//KS: trigger: '_style_classOfOptionAdded, [optionName]'
+			$(formName()).trigger('_style_classOfOptionAdded',[element]);  
+	       }
+	       	
     	});
     }
 }
