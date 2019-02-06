@@ -53,6 +53,8 @@ function drawAssetLayer(){
 			esrimap.graphics.add(graphic);
 		}
 		removeLayers(esrimap.graphics, activeLayers);
+		
+		KDF.customdata('road_sign_case_marker', 'create', true, true, {'eventcode': KDF.getVal('txt_eventcode')}); 
 	}).fail(function() {
 		KDF.showError('It looks like the connection to our mapping system has failed, please try to log the fault again');
 	});	
@@ -154,6 +156,30 @@ var mapGlobal = {
 	
 }
 
+function parseRSMarker(response){
+
+ var xmax = esrimap.extent['xmax'];
+ var ymax = esrimap.extent['ymax'];
+ var xmin = esrimap.extent['xmin'];
+ var ymin = esrimap.extent['ymin'];
+
+     require([ "esri/symbols/SimpleMarkerSymbol", "esri/graphic", "esri/Color", "esri/InfoTemplate", "esri/symbols/PictureMarkerSymbol", "dojo/domReady!" ],
+        function(SimpleMarkerSymbol,  Graphic,  Color, InfoTemplate, PictureMarkerSymbol) {
+              $.each(response.data, function( i, result ) {
+                 if (xmax >= result.longitude && ymax >= result.latitude && xmin <= result.longitude && ymin <= result.latitude) {
+                     var point = new Point(Number(result.longitude), Number(result.latitude), new esri.SpatialReference({ wkid: 27700 }));
+    				 var markerSymbol = new PictureMarkerSymbol('/dformresources/content/map-green.png', 64, 64);
+    				 
+    				 markerSymbol.setOffset(0, 0);
+    				 var marker = new Graphic(point, markerSymbol);
+    				 marker.setAttributes({"title": '', "description": result.description});
+    				 
+    				 esrimap.graphics.add(marker);
+                 }
+             });
+             
+             }); 
+}
 
 
 //testing only
