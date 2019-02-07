@@ -62,10 +62,6 @@ function defaultNewStyle(elements){
 		    case "field-label-right-align"://KS: huge selector used to 
 			$(getFieldsLabels('left')).parent().parent().addClass('text-align-right');
 			break;
-		    case "detail-gov":
-
-			break;
-
 
 			//KS: Non-recommended defaults below
 		    case "sel-fill"://KS: mostly just an example of how to add optional default styles
