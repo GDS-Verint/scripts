@@ -530,8 +530,8 @@ function marginArrange(legend, style){
 	legend.clone().addClass(style).insertBefore(legend.parent().parent());
 	legend.addClass('display-none');
 	
-	//KS: trigger: '_style_marginAdded, [element]'
-	$(formName()).trigger('_style_marginAdded',[element]);	
+	//KS: trigger: '_style_marginAdded, [legend, style]'
+	$(formName()).trigger('_style_marginAdded',[legend, style]);	
 }
 function paramElementChange(possibleToChange){
     //KS: possibleToChange is an array of element names which can set to values from the params
