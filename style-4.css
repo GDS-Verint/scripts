@@ -109,6 +109,7 @@ Need to deside on new generic button - the continue should be promanant - maybe 
     padding: 0.3em 0.6em !important;
     font-size: 18.7px !important;
     font-weight: bold !important;
+    margin-right: 3px !important;
 }
 
 /*btn-gov------------------------------------*/
