@@ -78,7 +78,7 @@ function defaultNewStyle(elements){
 			$("[data-type='text']").addClass('txt-no-min-height');             
 			break;
 		    case "field-mob"://KS: 
-			$("[type='text'], [type='date'], [type='email'], [type='number'], [type='password'], [type='tel'], [type='time']").addClass('field-mob');
+			$("[type='text'], [type='date'], [type='email'], [type='number'], [type='password'], [type='tel'], [type='time'], [type='textarea']").addClass('field-mob');
 			break;
 		    case "search-no-results":
 			$('.dform_widget_type_search').addClass('search-no-results');
