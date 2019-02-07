@@ -1224,16 +1224,19 @@ KS: Custom gov multi-checkbox - Start
     display:none !important;   
 }
 .paragraph-normal{
-    margin:0 !important;;
-    font-size:1rem !important;;
+    margin:0 !important;
+    font-size:1rem !important;
+    line-height: 1.17 !important;
 }
 .paragraph-medium{
-    margin:0 !important;;
-    font-size:1.5rem !important;;
+    margin:0 !important;
+    font-size:1.5rem !important;
+    line-height: 1.17 !important;
 }
 .paragraph-large{
-    margin:0 !important;;
-    font-size:2rem !important;;
+    margin:0 !important;
+    font-size:2rem !important;
+    line-height: 1.17 !important;
 }
 /*KS for search button on same line as search text - i.e. text and button on same line*/
 .txt-btn-inline > button{float:left;}
