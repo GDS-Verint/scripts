@@ -528,7 +528,7 @@ function highlightMissingAsset(globalX, globalY) {
 	var url = 'https://edinburghcouncilmaps.info/locatorhub/arcgis/rest/services/CAG/ADDRESS/GeocodeServer/reverseGeocode?location=' + xcoord + '%2C+' + ycoord +'&distance=300&outSR=27700&f=json';
 	console.log(url);
 
-	$.ajax({url: url}).done(function(result) {
+	$.ajax({url: url, crossDomain: true}).done(function(result) {
 		streetAddress = result.address;
 		console.log(result.address);
 
