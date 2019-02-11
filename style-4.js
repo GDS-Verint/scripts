@@ -1,3 +1,4 @@
+function toggleDebugStyle(){debugStyle = !debugStyle;} var debugStyle = false;
 /*//KS: put in _KDF_ready - uses all the reccomended styles - can add optional
 applyStyle(['recommended']);
 //KS: see 'Non-recommended defaults' within 'defaultNewStyle(elements)' for optional defaults*/
@@ -9,7 +10,7 @@ function defineDefaultStyle(){
     var recommended = [
         'mchk','chk','rad','txt','dt','eml','num','pas','tel','time','txta','sel','file','btn','search','highlightRequired','search-no-results','field-label-right-align','txta-length','txta-length-listener','detailToggle','noResultsFound','txt-enter-trigger-btn',
     ];
-    console.debug('@defineDefaultStyle() the defined recommended styles that will be used ['+recommended.toString()+']')
+    if (debugStyle) console.debug('@defineDefaultStyle() the defined recommended styles that will be used ['+recommended.toString()+']')
     defaultNewStyle(recommended);
 	//KS: trigger: '_style_defultsProvided, [arrayOfRecomendedStyles]'
 	$(formName()).trigger('_style_defultsProvided',[recommended]);
@@ -169,7 +170,7 @@ function applyNewStyle(){
     //KS: since there is no overloading in JS - this is an alternitive
 	var hasDefaultsInArguments = (typeof arguments[0] !== "undefined" && Array.isArray(arguments[0]));
     if (hasDefaultsInArguments){
-	console.debug('@applyNewStyle() since this was passed an array, will call defaultNewStyle() to add classes to relevent objects before continuing');
+	if (debugStyle) console.debug('@applyNewStyle() since this was passed an array, will call defaultNewStyle() to add classes to relevent objects before continuing');
         //KS: i.e. if there is an array
         defaultNewStyle(arguments[0])
     }
@@ -185,7 +186,7 @@ function applyNewStyle(){
         ['.mchk-gov[class*="mchk-margin-"]','mchk-margin'],
         ['.rad-gov[class*="rad-margin-"]','rad-margin'],
     ];
-    console.debug('@applyNewStyle() the list classes used as the selector and the name of the function are: '+JSON.stringify(elementsToUpdate))
+    if (debugStyle) console.debug('@applyNewStyle() the list classes used as the selector and the name of the function are: '+JSON.stringify(elementsToUpdate))
     elementsToUpdate.forEach(function(item){
         var elements = $(item[0]);
         if (elements.length > 0){//KS: skip if none selected - improve performance
@@ -303,7 +304,7 @@ var updateStyleFunctions = {
     			}
     		});
     	}else{
-    		console.debug("A file limit couldn't be applied to an element because it didn't have a file-limit-[number] style ")
+    		if (debugStyle) console.debug("A file limit couldn't be applied to an element because it didn't have a file-limit-[number] style ")
     	}
     },
 	'search-no-results': function(element){//KS: param object op
@@ -331,10 +332,10 @@ var updateStyleFunctions = {
     		if (Number.isInteger(number) && number >= 0 && number <= 100){//KS: since it is %, unlikely to go over
 				marginArrange(element.find('legend'), 'rad-margin-'+number+'-legend');
 			}else{
-    		    console.debug(hasClass + 'is not a valid rad-margin, try rad-margin-50');
+    		    if (debugStyle) console.debug(hasClass + 'is not a valid rad-margin, try rad-margin-50');
     		}
     	}else{
-    	    console.debug('Could not add rad-margin to element. Try adding the class rad-margin-# (e.g. rad-margin-50) first')
+    	    if (debugStyle) console.debug('Could not add rad-margin to element. Try adding the class rad-margin-# (e.g. rad-margin-50) first')
     	}
 	},
 	'mchk-margin': function(element){//KS: need to test what happens if over limit when it's applied
@@ -353,10 +354,10 @@ var updateStyleFunctions = {
     		if (Number.isInteger(number) && number >= 0 && number <= 100){//KS: since it is %, unlikely to go over
 				marginArrange(element.find('legend'), 'mchk-margin-'+number+'-legend');
     		}else{
-    		    console.debug(hasClass + 'is not a valid mchk-margin, try mchk-margin-50');
+    		    if (debugStyle) console.debug(hasClass + 'is not a valid mchk-margin, try mchk-margin-50');
     		}
     	}else{
-    	    console.debug('Could not add mchk-margin to element. Try adding the class mchk-margin-# (e.g. mchk-margin-50) first')
+    	    if (debugStyle) console.debug('Could not add mchk-margin to element. Try adding the class mchk-margin-# (e.g. mchk-margin-50) first')
     	}
 	},
 }
@@ -370,9 +371,9 @@ function individualApplyStyle(element, specificVal){
 			//KS: trigger: '_style_elementUpdated, [element, source, functionUsed, wasSpecified]'
 			$(formName()).trigger('_style_elementUpdated',[element, specificVal, true]);
 		}else{//KS: can't find style - tell them so within collapsable group
-			console.debug('Style not updated - style name was '+specificVal+' and element was:');
-			console.debug(element);
-			console.debug('Try a valid name from "updateStyleFunctions" or try it without a name for default functionility');
+			if (debugStyle) console.debug('Style not updated - style name was '+specificVal+' and element was:');
+			if (debugStyle) console.debug(element);
+			if (debugStyle) console.debug('Try a valid name from "updateStyleFunctions" or try it without a name for default functionility');
 		}
 	}else{//KS: DEFAULTS when no style name is provided, attempt to apply one based on class
 		//KS: use the first style that it tests true for (so order matters)
@@ -394,9 +395,9 @@ function individualApplyStyle(element, specificVal){
 			}
 		}
 		if (!hasAddedStyle) {//KS: just a log to update them that something went wrong
-			console.debug('No name provided, and failed class checks. Element was:');
-			console.debug(element);
-			console.debug('Try a valid name from "updateStyleFunctions" as the second param to specify type of update');
+			if (debugStyle) console.debug('No name provided, and failed class checks. Element was:');
+			if (debugStyle) console.debug(element);
+			if (debugStyle) console.debug('Try a valid name from "updateStyleFunctions" as the second param to specify type of update');
 		}
 	}
 }
@@ -447,7 +448,7 @@ function formName(){
 		return '#dform_'+KDF.kdf().name;
 	}else{
 		//KS: just incase, this will work in most cases (it's what was used before)
-		console.debug('kdf name undefined - using #dform_container')
+		if (debugStyle) console.debug('kdf name undefined - using #dform_container')
 		return '#dform_container';
 	}
 }
@@ -537,7 +538,7 @@ function paramElementChange(possibleToChange){
         $.each( params, function( key, value ) {
             if (possibleToChange.includes(key) && !defaultParams.includes(defaultParams)){
                 KDF.setVal(key, value);
-                console.debug('wss loaded element '+key+' with '+value);
+                if (debugStyle) console.debug('wss loaded element '+key+' with '+value);
                 //KS: Really should include trigger - NEED TO BIND AT START - DO IN FUNCTION LATER
                 $(formName()).trigger('_style_paramElementChanged',[key, value]);
             }
@@ -616,7 +617,7 @@ function getFieldsLabels(isPosLeft){
 	var elements = ['.txt-gov','.dt-gov','.eml-gov','.num-gov','.pas-gov','.tel-gov','.time-gov','.field-gov','.txta-gov'];
 	
 	if (isPosLeft && isPosLeft != 'above'){
-		console.debug('@getFieldsLabels() a selector for elements with a label to the left is being generated. The elements being considered are: '+JSON.stringify(elements));
+		if (debugStyle) console.debug('@getFieldsLabels() a selector for elements with a label to the left is being generated. The elements being considered are: '+JSON.stringify(elements));
 		//KS: returns all fields that are to the left of teh input
 		//KS: columns are used to display them on same line, and is the only way to identify them from above-labels
 		var columns = ['.one','.two','.three','.four','.five','.six','.seven','.eight','.nine','.ten','.eleven','.twelve']
@@ -630,7 +631,7 @@ function getFieldsLabels(isPosLeft){
 		//KS: CSS note, if you use this, make sure you have a media query set up for the changing sizes
 		//KS; - else if it changes to label-above at a certain width, then it will look messed up
 	}else{
-		console.debug('@getFieldsLabels() a selector for elements with a label above is being generated. The elements being considered are: '+JSON.stringify(elements))
+		if (debugStyle) console.debug('@getFieldsLabels() a selector for elements with a label above is being generated. The elements being considered are: '+JSON.stringify(elements))
 		//KS: returns all field labels that are above text field
 		for (var i = 0; i < elements.length; i++){
 			selector += ', '+elements[i]+' > div:first-child:not(.one,.two,.three,.four,.five,.six,.seven,.eight,.nine,.ten,.eleven,.twelve) label'
