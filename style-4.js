@@ -295,7 +295,7 @@ var updateStyleFunctions = {
     					$(this).parent().find('input').addClass('visibility-hidden');
     					$(this).parent().find('.file-gov-text').text('Storage Full');
     				}else{//KS: Can add more
-    					$(this).parent().find('.file-gov-text').text('Select up to '+number+' files');
+    					$(this).parent().find('.file-gov-text').text('Select up to '+(number-current)+' more');
     				}
     			} else {//KS: removing a file
     				$(this).parent().find('input').removeClass('visibility-hidden');
