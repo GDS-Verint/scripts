@@ -556,7 +556,7 @@ function highlightMissingAsset(globalX, globalY) {
 	console.log('ini geometry x ' + xcoord);
 
 	var url = getMapParams().addressSearchService.base;
-	url += '&location='+xcoord+'%2C+'ycoord;//KS is the + within the string suposed to be there?
+	url += '&location='+xcoord+'%2C+'+ycoord;//KS is the + within the string suposed to be there?
 	
 	console.log(url);
 
