@@ -7,6 +7,8 @@ require(["esri/map", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "
 	function(classMap, classPoint, classSimpleMarkerSymbol, classPictureMarkerSymbol, classGraphic, classGraphicsLayer, classInfoWindow, classCircle, classUnits, classGeometryService, classSpatialReference, classColor, classPopup, classGeocoder, classOverviewMap, classIdentify, classFind, classInfoTemplate, classPictureMarkerSymbol) {
 		Map=classMap; Point=classPoint; SimpleMarkerSymbol=classSimpleMarkerSymbol; PictureMarkerSymbol=classPictureMarkerSymbol; Graphic=classGraphic; GraphicsLayer=classGraphicsLayer; InfoWindow=classInfoWindow; Circle=classCircle; Units=classUnits; GeometryService=classGeometryService; SpatialReference=classSpatialReference; Color=classColor; Popup=classPopup; Geocoder=classGeocoder; OverviewMap=classOverviewMap; Identify=classIdentify; Find=classFind; InfoTemplate=classInfoTemplate; PictureMarkerSymbol=classPictureMarkerSymbol;
 		mapScriptStatus.resolve();//KS allows you to identify when classes are loaded
+		//Trig: When all the classes are loaded. A better method that can be used in a function is mapScriptStatus.done()
+		$(formName()).trigger('_map_classesLoaded');
 	}
 );
 
@@ -47,12 +49,18 @@ var mapParams = {
 };
 
 function getMapParams(){return mapParams;}//KS accessor to give a level of abstraction when we need it
-function deleteMapParam(propertyName){delete getMapParams()[propertyName];}
+function deleteMapParam(propertyName){
+	var noRefCopy = JSON.parse(JSON.stringify(getMapParams()[propertyName]))
+	var isDeleted = delete getMapParams()[propertyName];
+	//Trig[propDeleted, isDeleted, copyOfContents]: lets you know if something from mapParams was deleted and if so, what it was
+	$(formName()).trigger('_map_paramDeleted',[propertyName, isDeleted, noRefCopy]);
+}
 function setMapParams(obj){
 	//KS Overwrites properties
 	for(var property in obj){
 		getMapParams()[property] = obj[property];
 	}
+	
 }
 var specifics = mapParams;function setSpecifics(obj){setMapParams(obj);}function getSpecifics(){getMapParams();}
 function drawAssetLayer(layersToKeep){
@@ -348,6 +356,8 @@ function getAssetInfo(globalX, globalY) {
 				
 				hideLoading();
 				console.groupCollapsed('Feature responces:')
+				console.log('Actual responce (we should implement the closest one soon):');
+				console.log(response)
 				$.each(response.features, function( key, value ) {
 					//KS implementation of dynamicly displayed properties
 					content = ''; //KS otherwise will display all resukts - maybe update when we're using PopUp
@@ -417,12 +427,16 @@ function getAssetInfo(globalX, globalY) {
 						callInfoWindow(content, marker, esrimap);
 					//}
 				});
+				
 				esrimap.addLayer(newlayer);
 				//console.log('Single after newLayer.on > callInfoWindow');
 				//if(popupOrZoomTo(esrimap, centerpoint)){
 					callInfoWindow(content, marker, esrimap);
 				//}
+				//Trig[content, esriServiceURL]: provides the content of the asset response and the url used to return it.
+				$(formName()).trigger('_map_assetInfoReturned',[content, esriServiceURL]);
 				esrimap.centerAndZoom(centerpoint, (esrimap.getLevel() != null)?esrimap.getLevel():1 )
+				
 		}).fail(function() {
 		KDF.showError('Was unable to get asset details at this time, please try again');
 	});
@@ -881,7 +895,6 @@ function geolocate(){
 		navigator.geolocation.getCurrentPosition(function(pos){
 			console.log(pos)
 			//convertLonLat([pos.coords.longitude, pos.coords.latitude],4326,getMapParams().WKID,geolocateLogic)//callback function
-			//KS revision to avoid ajax call (thanks jon) - still works should they want to use their own
 			convertLonLat(
 				[pos.coords.longitude, pos.coords.latitude],
 				{WKID:getMapParams().geolocateWKID, projection:getMapParams().geolocateWKIDProj4, type:'Proj4'},
@@ -899,27 +912,33 @@ function geolocateLogic(lonLatWkid){
 	if (lonLatWkid){
 		var point = new Point(lonLatWkid.x, lonLatWkid.y, lonLatWkid.WKID);
 		console.log(point)
-		if (isPointWithinSquare([point.x, point.y], getMapParams().extent)){
+		var withinExtent = isPointWithinSquare([point.x, point.y], getMapParams().extent);
+		if (withinExtent){
 			//KS: zoom to where assets are beginning to be drawn
 			esrimap.centerAndZoom(point, (getMapParams().assetMaxDrawZoom) ? getMapParams().assetMaxDrawZoom : 6).then(drawAssetLayer())
 		}else{
 			var centerPoint = new Point(getMapParams().centerLonLat.x, getMapParams().centerLonLat.y, new SpatialReference(getMapParams().WKID));
 			esrimap.centerAndZoom(centerPoint, getMapParams().centerZoom);
 		}
+		//Trig[longitude, latitude, WKID, withinExtent]: Only if successful, provides location and if it's within the maps extent
+		$(formName()).trigger('_map_geolocated',[[point.x, point.y, withinExtent]);
 	} else {
 		console.log("Couldn't geolocate - point was undefined")	
 	}
 }
 function addGeolocateButton(le_gis){
 	var locateCharacter = (getMapParams().locateChar) ? getMapParams().locateChar : '⌕';
-	le_gis.find('> .esriMapContainer').prepend(
-		'<div class="esriSimpleSlider esriLocateButton" style="z-index: 30;top: 82px;left: 20px;"><div title="Locate"><span>'
-		+ locateCharacter +'</span></div></div>'
-	)
+	var parent = le_gis.find('> .esriMapContainer')
+	var content = '<div class="esriSimpleSlider esriLocateButton" style="z-index: 30;top: 82px;left: 20px;"><div title="Locate"><span>'+ locateCharacter +'</span></div></div>'
+	
+	parent.prepend(content);
+	
 	//KS add (and remove excisitng) event listener
 	$('.esriLocateButton').off('click').on('click',function(){
 		geolocate();
 	});
+	
+	$(formName()).trigger('_map_geolocateButtonAdded',[parent.find('.esriLocateButton'), content]);
 }
 
 //Added by Luthfan, based from Herts, some changes by KS
@@ -940,14 +959,17 @@ function parseRSMarker(response){
 			markerSymbol.setOffset(0, 0);//KS likely need an offset of 0,32 or 32,0 to be centered
 			var marker = new Graphic(point, markerSymbol);
 			marker.setAttributes({"title": '', "description": result.description});
-
+			
 			esrimap.graphics.add(marker);
+			//Trig[longitude, latitude, WKID, description]: when a case marker is displayed, this will give location and description
+			$(formName()).trigger('_map_caseMarkerDisplayed',[result.longitude, result.latitude, getMapParams().WKID, result.description]);
 		}
 	});
 }
 
 function formName(){
 	//KS: I want triggers to work same way as api.js, so need this to get name
+	//KS: for the love of StackExchance, don't put a trigger in here
 	if (KDF.kdf().name){
 		return '#dform_'+KDF.kdf().name;
 	}else{
