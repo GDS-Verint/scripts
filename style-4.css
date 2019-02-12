@@ -312,7 +312,7 @@ KS: file-gov Start
 .file-gov input{
     z-index: 2;
     cursor: pointer;
-    /*opacity: 0;*/
+    opacity: 0;
     width: 100% !important;/*📱*/
     margin-bottom: 2px !important;
 }
