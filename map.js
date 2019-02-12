@@ -41,7 +41,8 @@ var mapParams = {
 	searchURL:{base:'https://edinburghcouncilmaps.info/locatorhub/arcgis/rest/services/CAG/POSTCODE/GeocodeServer/findAddressCandidates?&SingleLine=&Fuzzy=true&outFields=*&maxLocations=2000&f=pjson&outSR=27700',varParams:['LH_POSTCODE']},
 	baseLayerService: 'https://edinburghcouncilmaps.info/arcgis/rest/services/Basemaps/BasemapColour/MapServer/find',
 	backgroundMapService: 'https://edinburghcouncilmaps.info/arcgis/rest/services/Basemaps/BasemapColour/MapServer',
-	
+	addressSearchService:{base: 'https://edinburghcouncilmaps.info/locatorhub/arcgis/rest/services/CAG/ADDRESS/GeocodeServer/reverseGeocode?distance=300&outSR=27700&f=json'},
+	processResultURL: 'https://my.edinburgh.gov.uk/ci/AjaxCustom/cagSearch',
 	
 };
 
@@ -287,15 +288,16 @@ function getCommunalAssetURl() {
 }
 
 function postcodeSearch(searchInput) {
-	
+	//KS perhaps we could apply a regex to seperate searches into difffrent rest api
     var esriServiceURL = getMapParams().searchURL.base + '&' + + '='
-		
-		'https://edinburghcouncilmaps.info/locatorhub/arcgis/rest/services/CAG/POSTCODE/GeocodeServer/findAddressCandidates?&SingleLine=&Fuzzy=true&outFields=*&maxLocations=2000&outSR=27700&f=pjson';
-    //LH_POSTCODE=EH1+1BN
+	//KS Could possiblly do a regex to ensure that the first & is a ? if there's no ?
+	getMapParams().searchURL.varParams[].forEach(function(param){
+		//KS convert search Input into array if uses multiple
+		esriServiceURL += '&' + param + '=' + searchInput
+	});
+	
     var xcoord;
     var ycoord;
-    
-    esriServiceURL = esriServiceURL + '&LH_POSTCODE=' + searchInput;
     
 	$.ajax({url: esriServiceURL, dataType: 'jsonp', crossDomain: true}).done(function(response) {
         //console.log('Response below:')
@@ -316,6 +318,8 @@ function postcodeSearch(searchInput) {
             KDF.showWidget('html_nosearchfound');
 		    hideLoading();
         }
+	}).fail(function() {
+		KDF.showError('We where unable to complete a postcode search - please ensure a valid postcode was used');
 	});
         
     
@@ -338,7 +342,7 @@ function getAssetInfo(globalX, globalY) {
 	var ymaxE = circleGeometry.getExtent().ymax;
 	var xminE = circleGeometry.getExtent().xmin;
 	var yminE = circleGeometry.getExtent().ymin;
-
+		//KS might make more sense to use encodeURI() and decodeURI()
 		esriServiceURL = getCommunalAssetURl() + '&geometry=%7B%22xmin%22%3A' + xminE + '%2C%22ymin%22%3A' + yminE + '%2C%22xmax%22%3A' + xmaxE + '%2C%22ymax%22%3A' + ymaxE + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A'+getMapParams().WKID+'%7D%7D';
 		//console.log(esriServiceURL);
 
@@ -410,7 +414,6 @@ function getAssetInfo(globalX, globalY) {
 				var markerSymbol = new PictureMarkerSymbol('/dformresources/content/map-blue.png', 64, 64);
 				markerSymbol.setOffset(0, 32);
 				var marker = new Graphic(centerpoint, markerSymbol);
-				marker.setAttributes({"value1": '1', "value2": '2', "value3": '3'});
 				newlayer.add(marker);
 				newlayer.on('click', function(event) {
 					//console.log('newLayer.on > callInfoWindow');
@@ -424,7 +427,9 @@ function getAssetInfo(globalX, globalY) {
 					callInfoWindow(content, marker, esrimap);
 				//}
 				esrimap.centerAndZoom(centerpoint, (esrimap.getLevel() != null)?esrimap.getLevel():1 )
-		});
+		}).fail(function() {
+		KDF.showError('Was unable to get asset details at this time, please try again');
+	});
 }    
 
 function callInfoWindow(content, marker, map){
@@ -514,7 +519,7 @@ $(document).on('change','#dform_widget_fault_reporting_search_results' , functio
 // unused fo now
 function callEsriSearch (searchInput){
 	var token ='';
-	var findMapService = 'https://edinburghcouncilmaps.info/arcgis/rest/services/Basemaps/BasemapColour/MapServer/find';
+	var findMapService = getMapParams().baseLayerService;
 	find = new esri.tasks.FindTask(findMapService);
 	findparams = new esri.tasks.FindParameters();
 	findparams.contains = true;
@@ -554,7 +559,9 @@ function highlightMissingAsset(globalX, globalY) {
 	var ycoord = parseInt(globalY);
 	console.log('ini geometry x ' + xcoord);
 
-	var url = 'https://edinburghcouncilmaps.info/locatorhub/arcgis/rest/services/CAG/ADDRESS/GeocodeServer/reverseGeocode?location=' + xcoord + '%2C+' + ycoord +'&distance=300&outSR='+getMapParams().WKID+'&f=json';
+	var url = getMapParams().addressSearchService.base;
+	url += '&location='+xcoord+'%2C+'ycoord;//KS is the + within the string suposed to be there?
+	
 	console.log(url);
 
 	$.ajax({url: url,  crossDomain: true}).done(function(result) {
@@ -579,6 +586,8 @@ function highlightMissingAsset(globalX, globalY) {
 		esrimap.addLayer(newlayer);
 
 		setInfoWindowContent(content,xcoord,ycoord);
+	}).fail(function() {
+		KDF.showError('It looks like the connection to our mapping system has failed, please try to log the fault again');
 	});
 		
 }
@@ -590,7 +599,7 @@ function processResult(searchInput){
 	
 	var resultAssetArray = new Object();
 
-	$.ajax({url: 'https://my.edinburgh.gov.uk/ci/AjaxCustom/cagSearch',  crossDomain: true, method: 'POST',
+	$.ajax({url: getMapParams().processResultURL,  crossDomain: true, method: 'POST',
 	data: {w_id: '6', search_term: searchInput, search_type: 'street'}
 	}).done(function(response) {
 	    console.log(response);
@@ -709,7 +718,7 @@ function changeAllLayersOpacity(opacity){
 }
 
 function drawBaseLayer(){
-    var backgroundMapService = 'https://edinburghcouncilmaps.info/arcgis/rest/services/Basemaps/BasemapColour/MapServer';
+    var backgroundMapService = getMapParams().backgroundMapService;
     bglayer = new esri.layers.ArcGISTiledMapServiceLayer(backgroundMapService,{opacity:1, id: "bglayer"});
     esrimap.addLayer(bglayer);
 }
