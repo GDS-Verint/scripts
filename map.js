@@ -289,12 +289,8 @@ function getCommunalAssetURl() {
 
 function postcodeSearch(searchInput) {
 	//KS perhaps we could apply a regex to seperate searches into difffrent rest api
-    var esriServiceURL = getMapParams().searchURL.base + '&' + + '='
-	//KS Could possiblly do a regex to ensure that the first & is a ? if there's no ?
-	getMapParams().searchURL.varParams[].forEach(function(param){
-		//KS convert search Input into array if uses multiple
-		esriServiceURL += '&' + param + '=' + searchInput
-	});
+    var esriServiceURL = getMapParams().searchURL.base
+    esriServiceURL += '&LH_POSTCODE='+searchInput;
 	
     var xcoord;
     var ycoord;
