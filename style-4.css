@@ -1244,3 +1244,9 @@ KS: Custom gov multi-checkbox - Start
 /*KS for search button on same line as search text - i.e. text and button on same line*/
 .txt-btn-inline > button{float:left;}
 .txt-btn-inline [type='text'] {float:left; margin-right: 0.3rem !important;}
+
+/*KS to hide the div that has the JSON.stringify(response)*/
+.assetResultJson{
+    display:none;
+}
+
