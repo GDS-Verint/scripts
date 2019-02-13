@@ -921,7 +921,7 @@ function geolocateLogic(lonLatWkid){
 			esrimap.centerAndZoom(centerPoint, getMapParams().centerZoom);
 		}
 		//Trig[longitude, latitude, WKID, withinExtent]: Only if successful, provides location and if it's within the maps extent
-		$(formName()).trigger('_map_geolocated',[[point.x, point.y, withinExtent]);
+		$(formName()).trigger('_map_geolocated',[point.x, point.y, withinExtent]);
 	} else {
 		console.log("Couldn't geolocate - point was undefined")	
 	}
