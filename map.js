@@ -448,7 +448,7 @@ function callInfoWindow(content, marker, map){
     console.groupEnd();
         if(content == null || content==''){
             if(getMapParams().defaultPopupContent){
-			    content = getMapParams().defaultPopupContent;
+			    content = (getMapParams().defaultPopupContent instanceof Function) ? getMapParams().defaultPopupContent() : getMapParams().defaultPopupContent;
 			} else{
 				content = '<u><b>Asset not found.</b></u></br></br><u><b>If you believe there is an asset here please click below button to report.</b></u>'
             + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Report this location</button></div>';
