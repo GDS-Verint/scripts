@@ -216,24 +216,6 @@ var faultReportingSearchResults = new Object();
 var streetAddress='';
 
 
-
-//testing only
-$(document).on('click','#dform_widget_button_but_layerberapa',function() {
- var graphicLayerIds = esrimap.graphicsLayerIds;
- var len = graphicLayerIds.length;
- console.log('map layernya ' + len);
-});
- 
-/*// listen to enter key pressed to start searching on search textbox
-$(document).on('keypress','#dform_widget_txt_postcode',function() {
-	if (event.keyCode == 13) {
-		if (!$('#dform_widget_txt_postcode').hasClass('dform_fielderror')){//KS: prevent search if it has an error
-			event.preventDefault();
-			searchBegin();  
-		}
-	}
-});*/
-
 // Jquery event delegate so when the confirm location button clicked it can call another function
 $(document).on('click','.mapConfirm',function() {
     KDF.setVal('txt_issuestreet',KDF.getVal('le_gis_rgeo_desc'));
