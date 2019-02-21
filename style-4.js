@@ -432,11 +432,11 @@ var listenerFunctions = {
 	},
 	'txt-enter-trigger-btn':function(){
 		console.log('txt-enter-trigger-btn called - disabled for testing')
-		/*$(formName()).on('keypress','.search-gov [type="text"], .txt-enter-trigger-btn [type="text"]',function() {
+		$(formName()).on('keypress','.search-gov [type="text"], .txt-enter-trigger-btn [type="text"]',function() {
 			if (event.keyCode == 13) {
 				$(this).parent().parent().parent().find('[type="button"]').trigger('click');
 			}
-		});*/
+		});
 		//KS: trigger: '_style_listenerAdded, [listenerName]'
 		$(formName()).trigger('_style_listenerAdded',['txt-enter-trigger-btn']);	
 	},
