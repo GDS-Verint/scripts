@@ -224,7 +224,7 @@ $(document).on('click','#dform_widget_button_but_layerberapa',function() {
  console.log('map layernya ' + len);
 });
  
-// listen to enter key pressed to start searching on search textbox
+/*// listen to enter key pressed to start searching on search textbox
 $(document).on('keypress','#dform_widget_txt_postcode',function() {
 	if (event.keyCode == 13) {
 		if (!$('#dform_widget_txt_postcode').hasClass('dform_fielderror')){//KS: prevent search if it has an error
@@ -232,7 +232,7 @@ $(document).on('keypress','#dform_widget_txt_postcode',function() {
 			searchBegin();  
 		}
 	}
-});
+});*/
 
 // Jquery event delegate so when the confirm location button clicked it can call another function
 $(document).on('click','.mapConfirm',function() {
