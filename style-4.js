@@ -4,6 +4,8 @@ applyStyle(['recommended']);
 //KS: see 'Non-recommended defaults' within 'defaultNewStyle(elements)' for optional defaults*/
 
 function defineDefaultStyle(){
+	//KS: temp
+	regexSearch("[0-9A-Za-z ]{3,}");
 	//KS: can define listeners here, but can't later on, need to call 
     //KS: adds the recommended default styling - and acts a single location to change them
 	//KS: for the love of StackExchange don't put 'all' or 'recommended' in here
