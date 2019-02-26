@@ -585,28 +585,28 @@ function highlightRequired() {
 	        
 	        if ($(legend).find('span').size() <= 0) {
 	                var obj1 = $(legend);
-	                obj1.append('<span style="color: '+requiredColorCheck(obj1)+';">*</span>');
+	                obj1.append('<abbr title="required" style="color: '+requiredColorCheck(obj1)+';">*</abbr>');
 	        }
 	    } else {
 			
     		var label = $('label[for="'+$(this).attr('id')+'"]');
     		if ($(label).find('span').length === 0) {
     			var obj2 = $('label[for="'+$(this).attr('id')+'"]');
-    			obj2.append('<span style="color: '+requiredColorCheck(obj2)+'; font-weight: bold;">*</span>');
+    			obj2.append('<abbr title="required" style="color: '+requiredColorCheck(obj2)+';">*</abbr>');
     		}
 	    }
 	    //KS: added to cover single check box without messing with code too much
 	    if($(this).attr('type') == 'checkbox' && $(this).parent().is("div")){
 	        //KS: ensures that only single checkboxes have required *
 	        var obj3 = $(this).parent().find('> label');
-	        obj3.append('<span style="color: '+requiredColorCheck(obj3)+';">*</span>');
+	        obj3.append('<abbr title="required" style="color: '+requiredColorCheck(obj3)+';">*</abbr>');
 	    }
 	});	
 	$("[data-type='search'][data-required='true'] > legend").each(function(){
 	    //Code for all searches
 	    if ($(this).find('span').size() <= 0) {
 	        var obj4 = $(this);
-	        obj4.append('<span style="color: '+requiredColorCheck(obj4)+';">*</span>');
+	        obj4.append('<abbr title="required" style="color: '+requiredColorCheck(obj4)+';">*</abbr>');
 	    }
 	});
 	//KS: trigger: '_style_highlightRequired, []'
