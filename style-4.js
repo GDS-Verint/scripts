@@ -578,39 +578,41 @@ function requiredColorCheck(jQueryObject){
 }
 
 function highlightRequired() {
-    //Finds the legend of required input elements and adds a red star to the end of them
-	$(document).find(':required').each(function() {
-	    if ($(this).attr('type') == 'radio' || $(this).attr('type') == 'checkbox') {
-	        var legend = $(this).parent().parent().find('legend');
-	        
-	        if ($(legend).find('span').size() <= 0) {
-	                var obj1 = $(legend);
-	                obj1.append('<abbr title="required" style="color: '+requiredColorCheck(obj1)+';">*</abbr>');
-	        }
-	    } else {
-			
-    		var label = $('label[for="'+$(this).attr('id')+'"]');
-    		if ($(label).find('span').length === 0) {
-    			var obj2 = $('label[for="'+$(this).attr('id')+'"]');
-    			obj2.append('<abbr title="required" style="color: '+requiredColorCheck(obj2)+';">*</abbr>');
-    		}
-	    }
-	    //KS: added to cover single check box without messing with code too much
-	    if($(this).attr('type') == 'checkbox' && $(this).parent().is("div")){
-	        //KS: ensures that only single checkboxes have required *
-	        var obj3 = $(this).parent().find('> label');
-	        obj3.append('<abbr title="required" style="color: '+requiredColorCheck(obj3)+';">*</abbr>');
-	    }
-	});	
-	$("[data-type='search'][data-required='true'] > legend").each(function(){
-	    //Code for all searches
-	    if ($(this).find('span').size() <= 0) {
-	        var obj4 = $(this);
-	        obj4.append('<abbr title="required" style="color: '+requiredColorCheck(obj4)+';">*</abbr>');
-	    }
+	//KS: more compact and expandable to place within [selector, checkForBeingRequired]
+	var eligible = [
+		[$('.rad-gov'),function(val){if (val.find('input[required]').length > 0){return val.find('legend')}else{return null}}],
+		[$('.mchk-gov'),function(val){if (val.find('input[required]').length > 0){return val.find('legend')}else{return null}}],
+		[$('.chk-gov'), function(val){if (val.find('input[required]').length > 0){return val.find('label')}else{return null}}],
+		[$('.txt-gov,.dt-gov,.eml-gov,.num-gov,.pas-gov,.tel-gov,.time-gov,.txta-gov'), function(val){if (val.find('input[required], textarea[required]').length > 0){return val.find('label')}else{return null}}],
+		[$('.cs-gov, .ss-gov, .ps-gov, .os-gov, .search-gov'), function (val){if (val.find('fieldset[required="true"]') ){return val.find('> legend')}else{return null}}],
+	]
+	
+	var textFields = [];
+	
+	eligible.forEach(function(element){
+		element[0].each(function(i, val){
+			//KS checks the elements in their selector for being requires, then adds them to array if they are
+			var reqElement = element[1]($(val));
+			if (reqElement != null) textFields.push(reqElement);
+		});
 	});
-	//KS: trigger: '_style_highlightRequired, []'
-	$(formName()).trigger('_style_highlightRequired',[]);
+	
+	var reqFun = {
+		isEligible:function(element){return element.find('abbr[title="required"]').length < 1},
+		apply:function(element){return '<abbr title="required" style="color: '+requiredColorCheck(element)+';">*</abbr>'},
+	};
+	
+	textFields.forEach(function(element){
+		if (reqFun.isEligible(element)) {
+			//KS checks that the required-HTML hasn't already been added - only adds if it isn't
+			element.append(reqFun.apply(element));
+		}//KS else would be for when there is already one there
+	});
+	
+	//KS only works for adding required star - will develop ability to remove on request
+	
+	//KS: trigger: '_style_highlightRequired, [textFields]'
+	$(formName()).trigger('_style_highlightRequired',[textFields]);
 }
 
 function getFieldsLabels(isPosLeft){
