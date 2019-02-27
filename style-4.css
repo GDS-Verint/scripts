@@ -806,6 +806,10 @@ KS: Custom gov radio buttons - Start
     margin: 0 !important;
     padding-bottom: 0 !important;
 }
+/*KS quick fix to avoid changing all radio items*/
+.rad-gov label{
+    text-transform: lowercase;
+}
 
 /*KS: Custom gov radio buttons - End
 -----------------------------------------------*/
@@ -1012,6 +1016,11 @@ KS: Custom gov multi-checkbox - Start
 .mchk-gov > div > fieldset{
     margin: 0 !important;
     padding-bottom: 0 !important;
+}
+
+/*KS quick fix to avoid changing all mchk items*/
+.mchk-gov label{
+    text-transform: lowercase;
 }
 /*KS: Custom gov multi-checkbox - End
 -----------------------------------------------*/
