@@ -586,6 +586,7 @@ function highlightRequired() {
 		[$('.txt-gov,.dt-gov,.eml-gov,.num-gov,.pas-gov,.tel-gov,.time-gov,.txta-gov'), function(val){if (val.find('input[required], textarea[required]').length > 0){return val.find('label')}else{return null}}],
 		[$('.cs-gov, .ss-gov, .ps-gov, .os-gov, .search-gov'), function (val){if (val.find('fieldset[required="true"]') ){return val.find('fieldset > legend')}else{return null}}],
 		[$('.sel-gov'),function(val){if(val.find('select[required]')){return val.find('label')}else{return null}}],
+		[$('.highlightRequired'),function(val){return val}],
 	]
 	
 	var textFields = [];
