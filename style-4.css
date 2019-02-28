@@ -486,8 +486,8 @@ KS: txt (and text like fields) Start
 /*KS: Customizes the help text */
 .txt-gov > div .helptext,.dt-gov > div .helptext,.eml-gov > div .helptext,.num-gov > div .helptext,.pas-gov > div .helptext,.tel-gov > div .helptext,.time-gov > div .helptext,.field-gov > div .helptext{
     font-size: 16px;
-    margin-bottom: 18px;
-    margin-top: 5px;
+    /*margin-bottom: 18px;
+    margin-top: 5px;*/
 }
 /*KS: Make the input more noticable*/
 .txt-gov input,.dt-gov input,.eml-gov input,.num-gov input,.pas-gov input,.tel-gov input,.time-gov input,.field-gov input{
@@ -514,7 +514,7 @@ KS: txt (and text like fields) Start
 }
 /*KS: The error text when field is invalid*/
 .txt-gov  .dform_validationMessage,.dt-gov  .dform_validationMessage,.eml-gov  .dform_validationMessage,.num-gov  .dform_validationMessage,.pas-gov  .dform_validationMessage,.tel-gov  .dform_validationMessage,.time-gov  .dform_validationMessage,.field-gov  .dform_validationMessage{
-    padding-bottom: 24px !important;
+    padding-bottom: 6px !important;
     font-size: 16px !important;
     font-weight: bold !important;
 }
@@ -548,8 +548,8 @@ KS: txta Start
 /*KS: Customizes the help text */
 .txta-gov > div .helptext {
     font-size: 16px;
-    margin-bottom: 18px;
-    margin-top: 5px;
+    /*margin-bottom: 18px;
+    margin-top: 5px;*/
 }
 /*KS: Make the input more noticable*/
 .txta-gov textarea{
@@ -577,7 +577,7 @@ KS: txta Start
 }
 /*KS: The error text when field is invalid*/
 .txta-gov .dform_validationMessage{
-    padding-bottom: 24px !important;
+    padding-bottom: 6px !important;
     font-size: 16px !important;
     font-weight: bold !important;
 }
