@@ -211,7 +211,7 @@ $('#dform_container').off('_KDF_mapReady').on('_KDF_mapReady', function(event, k
 		geolocate();
 	}
 	//KS to avoid the bug with customerFeilds not being constructed at _KDF_ready
-	if (typeof regexSearch = 'function') regexSearch("[0-9A-Za-z ]{3,}");
+	/*if (typeof regexSearch = 'function')*/ regexSearch("[0-9A-Za-z ]{3,}");
 	
 });
 
