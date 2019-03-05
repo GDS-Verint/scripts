@@ -581,7 +581,7 @@ KS: txta Start
     font-size: 16px !important;
     font-weight: bold !important;
 }
-.txta-gov input[readonly] {
+.txta-gov textarea[readonly] {
     border-color: #DDD !important;
     background: #DDD;
 }
