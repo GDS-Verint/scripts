@@ -1235,18 +1235,18 @@ KS: Custom gov multi-checkbox - Start
 .display-none{
     display:none !important;   
 }
-.paragraph-normal{
-    margin:0 !important;
+.paragraph-normal, .p-n{
+    margin:3px !important;
     font-size:1rem !important;
     line-height: 1.17 !important;
 }
-.paragraph-medium{
-    margin:0 !important;
+.paragraph-medium, .p-m{
+    margin:3px !important;
     font-size:1.5rem !important;
     line-height: 1.17 !important;
 }
-.paragraph-large{
-    margin:0 !important;
+.paragraph-large, .p-l{
+    margin:3px !important;
     font-size:2rem !important;
     line-height: 1.17 !important;
 }
