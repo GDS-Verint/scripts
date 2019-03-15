@@ -238,6 +238,7 @@ KS: sel Start
 .sel-gov > div > label  {
   font-size: 22px;
   line-height: 1.2 !important;
+  font-weight:bold!important;
 }
 /*KS: Customizes the help text */
 .sel-gov > div .helptext {
