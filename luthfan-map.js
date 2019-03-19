@@ -63,7 +63,7 @@ var mapGlobal = {
             caseLayer = new esri.layers.GraphicsLayer({id:"case_marker_layer"});
               $.each(response.data, function( i, result ) {
                   
-                 if (xmax >= result.longitude && ymax >= result.latitude && xmin <= result.longitude && ymin <= result.latitude) {
+                 if (xmax >= result.longitude && ymax >= result.latitude && xmin <= result.longitude && ymin <= result.latitude && KDF.getVal('txt_event') && KDF.getVal('txt_eventcode') == $(result.description)[11].textContent) {
                      var point = new Point(Number(result.longitude), Number(result.latitude), new esri.SpatialReference({ wkid: 27700 }));
     				 var markerSymbol = new PictureMarkerSymbol(result.icon, 64, 64);
     				 
