@@ -410,16 +410,16 @@ KS: file-gov Start
 }
 
 
-/*@media (min-width: 769px){
+@media (min-width: 769px){
     .file-gov .dform_validationMessage{
-        /*KS: right of label if larger display
+        /*KS: right of label if larger display*/
         top: 8px;
         left: 165px;
     }
-    .file-gov input, .file-gov-icon{
+    /*.file-gov input, .file-gov-icon{
         width:188px !important;
-    }
-}*/
+    }*/
+}
 
 /*File-progress--------------------------------*/
 
