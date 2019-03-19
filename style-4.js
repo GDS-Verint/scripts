@@ -298,17 +298,17 @@ var updateStyleFunctions = {
     					$(this).parent().find('input').addClass('visibility-hidden');
     					$(this).parent().find('.file-gov-text').text('Storage Full');
 					//KS: trigger: '_style_fileUploaded, [currentFileNumber, maxFiles, slotsFree]'
-					$(formName()).trigger('_style_marginReverted',[number,number,0])
+					$(formName()).trigger('_style_fileUploaded',[number,number,0])
     				}else{//KS: Can add more
     					$(this).parent().find('.file-gov-text').text('Select up to '+(number-current)+' more');
 					//KS: trigger: '_style_fileUploaded, [currentFileNumber, maxFiles, slotsFree]'
-					$(formName()).trigger('_style_marginReverted',[current,number,number-current])
+					$(formName()).trigger('_style_fileUploaded',[current,number,number-current])
     				}
     			} else {//KS: removing a file
     				$(this).parent().find('input').removeClass('visibility-hidden');
     				$(this).parent().find('.file-gov-text').text('Select up to '+number+' files');
 				//KS: trigger: '_style_fileUploaded, [currentFileNumber, maxFiles, slotsFree]'
-				$(formName()).trigger('_style_marginReverted',[0,number,number]);
+				$(formName()).trigger('_style_fileUploaded',[0,number,number]);
     			}
     		});
     	}else{
