@@ -1344,3 +1344,6 @@ KS: Custom gov multi-checkbox - Start
     opacity: 0;
   }
 }
+abbr{
+    text-decoration-line: none;
+}
