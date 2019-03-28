@@ -607,7 +607,7 @@ function highlightRequired() {
 	
 	var reqFun = {
 		isEligible:function(element){return element.find('abbr[title="required"]').length < 1},
-		apply:function(element){return '<abbr title="required" style="color: '+requiredColorCheck(element)+';">*</abbr>'},
+		apply:function(element){return '<abbr title="required" style="color: '+requiredColorCheck(element)+';"> *</abbr>'},
 	};
 	
 	textFields.forEach(function(element){
