@@ -44,7 +44,7 @@ var mapParams = {
 	baseLayerService: 'https://edinburghcouncilmaps.info/arcgis/rest/services/Basemaps/BasemapColour/MapServer/find',
 	backgroundMapService: 'https://edinburghcouncilmaps.info/arcgis/rest/services/Basemaps/BasemapColour/MapServer',
 	addressSearchService:{base: 'https://edinburghcouncilmaps.info/locatorhub/arcgis/rest/services/CAG/ADDRESS/GeocodeServer/reverseGeocode?distance=300&outSR=27700&f=json'},
-	processResultURL: 'https://my.edinburgh.gov.uk/ci/AjaxCustom/cagSearch',
+	processResultURL: 'https://forms-edinburghcc.squiz.co.uk/ci/AjaxCustom/cagSearch',
 	
 };
 
