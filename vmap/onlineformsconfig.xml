@@ -1,0 +1,1521 @@
+<Configuration>
+  <customactions>
+    <CustomAction>
+      <name>esri_case_retrieve_detail</name>
+      <endpoint>http://localhost:9082/adapter</endpoint>
+      <displayname>esri_case_retrieve_detail</displayname>
+      <description>esri_case_retrieve_detail</description>
+      <external>false</external>
+    </CustomAction>
+    <CustomAction>
+      <name>esri_cases_demo</name>
+      <endpoint>http://localhost:9082/adapter</endpoint>
+      <displayname>esri_cases_demo</displayname>
+      <description>esri_cases_demo</description>
+      <external>false</external>
+    </CustomAction>
+    <CustomAction>
+      <name>esri_demo_link_interaction</name>
+      <endpoint>http://localhost:9082/adapter</endpoint>
+      <displayname>esri_demo_link_interaction</displayname>
+      <description>esri_demo_link_interaction</description>
+      <external>false</external>
+    </CustomAction>
+    <CustomAction>
+      <name>esri_demo_queue_selection</name>
+      <endpoint>http://localhost:9082/adapter</endpoint>
+      <displayname>esri_demo_queue_selection</displayname>
+      <description>esri_demo_queue_selection</description>
+      <external>false</external>
+    </CustomAction>
+    <CustomAction>
+      <name>esri_retrieve_property_marker</name>
+      <endpoint>http://localhost:9082/adapter</endpoint>
+      <displayname>esri_retrieve_property_marker</displayname>
+      <description>esri_retrieve_property_marker</description>
+      <external>false</external>
+    </CustomAction>
+  </customactions>
+  <forms>
+    <FormMeta>
+      <id>9ad8bc8c-c331-4ca5-833c-637f3a453dc1</id>
+      <name>sheff_map</name>
+      <pages>
+        <Page>
+          <id>734b459f-a885-40a9-894e-a4e8c58da077</id>
+          <template>
+            <id>167b524d-06a5-476e-aee5-d01666ca5402</id>
+            <areas>
+              <Area>
+                <id>3a2cc954-3ae2-4cf2-af76-8edc458be40e</id>
+                <name>area_FRT0LDX5</name>
+                <boxes>
+                  <Box>
+                    <id>f3a06a2f-1ce0-4a5e-88dc-1252c2372dce</id>
+                    <name>box_RXT8QK01</name>
+                    <size>last twelve</size>
+                    <fieldset>false</fieldset>
+                    <active>true</active>
+                  </Box>
+                </boxes>
+                <fieldset>false</fieldset>
+                <active>true</active>
+              </Area>
+              <Area>
+                <id>edb68349-5b5b-4042-bbce-ef92f092d44d</id>
+                <name>area_CBD5E4X9</name>
+                <boxes>
+                  <Box>
+                    <id>2a6571b9-eda4-4b1f-bed4-f1eb2071162c</id>
+                    <name>box_CG330K31</name>
+                    <size>six</size>
+                    <fieldset>false</fieldset>
+                    <active>true</active>
+                  </Box>
+                  <Box>
+                    <id>3f2e7241-0afa-45cf-bdc0-cbefb20bdb7f</id>
+                    <name>box_P4F1TA25</name>
+                    <size>last six</size>
+                    <fieldset>false</fieldset>
+                    <active>true</active>
+                  </Box>
+                </boxes>
+                <fieldset>false</fieldset>
+                <active>true</active>
+              </Area>
+              <Area>
+                <id>bc844319-f018-4578-aee1-b6e30c3d766c</id>
+                <name>area_OI92XPP7</name>
+                <boxes>
+                  <Box>
+                    <id>94245c4f-d710-489c-be49-77436c503103</id>
+                    <name>box_WDI7WDR7</name>
+                    <size>last twelve</size>
+                    <fieldset>false</fieldset>
+                    <active>true</active>
+                  </Box>
+                </boxes>
+                <fieldset>false</fieldset>
+                <active>true</active>
+              </Area>
+              <Area>
+                <id>19d2adc9-0c91-4bc6-a98d-57fa38f54c0a</id>
+                <name>area_97A92Q36</name>
+                <boxes>
+                  <Box>
+                    <id>9ed7c683-593b-46f5-9a4f-9054aa77af14</id>
+                    <name>box_UXB1P928</name>
+                    <size>last twelve</size>
+                    <fieldset>false</fieldset>
+                    <active>true</active>
+                  </Box>
+                </boxes>
+                <fieldset>false</fieldset>
+                <active>true</active>
+              </Area>
+            </areas>
+          </template>
+          <name>page_1</name>
+          <displayname>Page 1</displayname>
+          <active>true</active>
+          <child>false</child>
+          <displayheader>true</displayheader>
+          <widgets>
+            <Widget>
+              <id>e05d1bac-bc79-4047-aa55-cd3e294de0ec</id>
+              <position>box_RXT8QK01</position>
+              <type>gis</type>
+              <name>gis_map</name>
+              <gis>
+                <id>b18a7aee-c8b5-4ac9-849b-db1cf03bc806</id>
+                <name>gis_map</name>
+                <centerlat>226973.7</centerlat>
+                <centerlon>522581.9</centerlon>
+                <zoomlevel>12</zoomlevel>
+                <required>false</required>
+                <active>true</active>
+                <type>arcgis</type>
+                <search>true</search>
+                <reversegeocode>false</reversegeocode>
+                <reversegeocodeaction>kirona_time_slots_dmc</reversegeocodeaction>
+                <reversegeocodesetid>false</reversegeocodesetid>
+                <reversegeocodeobjecttype>property</reversegeocodeobjecttype>
+                <reversegeocodeloaddata>false</reversegeocodeloaddata>
+                <centeronlocation>true</centeronlocation>
+                <url>https://localhost/webmaps/rest/services/baseservices/background/MapServer</url>
+                <wkid>27700</wkid>
+                <layertype>tiled</layertype>
+                <enablesuggestions>false</enablesuggestions>
+                <geocodeonline>true</geocodeonline>
+              </gis>
+            </Widget>
+            <Widget>
+              <id>ebf9a84d-190d-4065-8f88-25603ae8be18</id>
+              <position>box_RXT8QK01</position>
+              <type>buttonset</type>
+              <name>bset_UJ28AGG8</name>
+              <buttonset>
+                <id>557aa4e4-135b-438c-a3e1-5b74677c823b</id>
+                <name>bset_UJ28AGG8</name>
+                <active>true</active>
+                <buttons>
+                  <Button>
+                    <id>6b33f168-beac-4eaa-90a4-549b43c62081</id>
+                    <name>btn-addpoint</name>
+                    <label>Add Point</label>
+                    <active>true</active>
+                  </Button>
+                </buttons>
+              </buttonset>
+            </Widget>
+            <Widget>
+              <id>0e7cc656-2dd0-417a-a1ca-7d7c08017282</id>
+              <position>box_CG330K31</position>
+              <type>text</type>
+              <name>txt_asset_id</name>
+              <field>
+                <id>6883a8ad-d458-44a4-902c-a9625ae7c8e4</id>
+                <label>Asset ID</label>
+                <name>txt_asset_id</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>e6ddd369-ae7f-4a9c-a390-b984aab17dcd</id>
+              <position>box_CG330K31</position>
+              <type>text</type>
+              <name>txt_asset_type</name>
+              <field>
+                <id>e9acf587-3211-4682-bcb0-f93772cad484</id>
+                <label>Asset type</label>
+                <name>txt_asset_type</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>a9b9dbcf-8c73-4c33-b919-a700ff7aab4c</id>
+              <position>box_CG330K31</position>
+              <type>text</type>
+              <name>txt_lamp_type</name>
+              <field>
+                <id>ba23eb68-7d05-41f8-9619-6158e81703e9</id>
+                <label>Lamp Type</label>
+                <name>txt_lamp_type</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>ca9c70c3-1a2b-4ee8-ac28-901ddff5bb1a</id>
+              <position>box_CG330K31</position>
+              <type>text</type>
+              <name>txt_asset_coord_x</name>
+              <field>
+                <id>f5d22812-e153-44d4-8c98-f830660c9439</id>
+                <label>Asset X</label>
+                <name>txt_asset_coord_x</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>b698e19d-13c5-44cc-937e-7238eb438001</id>
+              <position>box_CG330K31</position>
+              <type>text</type>
+              <name>txt_asset_coord_y</name>
+              <field>
+                <id>db6ac3e1-5161-49f9-ab8b-1cd92ca59d45</id>
+                <label>Asset Y</label>
+                <name>txt_asset_coord_y</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>c435881a-f8ec-4113-92f2-7400b5f39ec8</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_areaname</name>
+              <field>
+                <id>2a73e3ba-e2f3-48ff-8c7a-8eed4f4fdfb3</id>
+                <label>Area Name</label>
+                <name>txt_asset_areaname</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>09e4f1c5-9fed-435e-a008-c4ab185ae5f9</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_feature_id</name>
+              <field>
+                <id>1ce7c480-46ca-4a80-87e6-5115c4baa48b</id>
+                <label>Feature Id</label>
+                <name>txt_asset_feature_id</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>4d7e4eb6-dbac-4e80-833c-bc77a3eb1226</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_location</name>
+              <field>
+                <id>0696e83b-61b2-45ea-acc0-ff27e656a1cb</id>
+                <label>Location</label>
+                <name>txt_asset_location</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>7a1dd15d-54a0-4b4f-bb24-984c76468738</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_objectid</name>
+              <field>
+                <id>f2df97d4-4fef-455c-a148-87da548be772</id>
+                <label>Object Id</label>
+                <name>txt_asset_objectid</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>0306b0bb-0c41-44f9-bb74-d07c441e3ba7</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_roadclass</name>
+              <field>
+                <id>0ab1f559-71a6-4790-bba0-37ed68d5ccf2</id>
+                <label>Road Class</label>
+                <name>txt_asset_roadclass</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>3e364012-249b-4697-90a6-3bad8f461b72</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_roadtype</name>
+              <field>
+                <id>f0c734d1-438f-43f0-bafc-53a527ca3dcb</id>
+                <label>Road Type</label>
+                <name>txt_asset_roadtype</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>c5033c8b-a367-4e2f-946d-b70e8814a965</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_sitecode</name>
+              <field>
+                <id>68bd187c-be3a-49b2-8fdd-2e688599875f</id>
+                <label>Site Code</label>
+                <name>txt_asset_sitecode</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>380fc0f9-3fd7-44d1-acef-e1be5d749741</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_sitename</name>
+              <field>
+                <id>28bdb02e-b3c7-4e86-ac46-3fecc1767f53</id>
+                <label>Site Name</label>
+                <name>txt_asset_sitename</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>38c66ad9-832f-4e99-915f-97a850151799</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_town</name>
+              <field>
+                <id>fe0e5c4e-3907-439d-b3e8-4528f3f206b6</id>
+                <label>Town</label>
+                <name>txt_asset_town</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+          </widgets>
+        </Page>
+        <Page>
+          <id>9f561203-9a81-49f0-b719-b5fac98b69e9</id>
+          <name>complete</name>
+          <displayname>Complete</displayname>
+          <active>true</active>
+          <child>false</child>
+          <displayheader>true</displayheader>
+        </Page>
+      </pages>
+      <scripts>
+        <FormResource>
+          <id>7153ec74-2ba3-4655-9036-a37807658340</id>
+          <url>/dformresources/scripts/scripts-sheffield/vmap.js</url>
+        </FormResource>
+      </scripts>
+      <style>/*Styles lifed from herts may not be required*/&#xd;
+&#xd;
+/*.esriPopup .sizer {*/&#xd;
+/*    position: relative;*/&#xd;
+/*    width: 270px;*/&#xd;
+/*    z-index: 1;*/&#xd;
+/*}*/&#xd;
+&#xd;
+/*.esriPopup .contentPane {*/&#xd;
+/*    background-color: #F5F5F5;*/&#xd;
+/*    color: #000;*/&#xd;
+/*}*/&#xd;
+&#xd;
+/*.mapcopyright*/&#xd;
+/*{*/&#xd;
+/*	clear: left;*/&#xd;
+/*	font-size:0.6em;*/&#xd;
+/*	padding:5px;*/&#xd;
+/*}*/&#xd;
+&#xd;
+&#xd;
+/*#dform_container div[data-type=&quot;gis&quot;] {*/&#xd;
+/*    margin-top: 10px;*/&#xd;
+/*    width: 100%;*/&#xd;
+/*    height: 450px;*/&#xd;
+/*    position: relative;*/&#xd;
+/*    border: 1px solid #aaaaaa;*/&#xd;
+/*    -webkit-border-radius: 5px;*/&#xd;
+/*    -moz-border-radius: 5px;*/&#xd;
+/*    -o-border-radius: 5px;*/&#xd;
+/*    -ms-border-radius: 5px;*/&#xd;
+/*    -khtml-border-radius: 5px;*/&#xd;
+/*    border-radius: 5px;*/&#xd;
+/*    overflow: hidden;*/&#xd;
+/*}*/&#xd;
+&#xd;
+html,body,#map {&#xd;
+    height: 100%;&#xd;
+    width: 100%;&#xd;
+    margin: 0;&#xd;
+    padding: 0;&#xd;
+}&#xd;
+#search {&#xd;
+    display: block;&#xd;
+    position: absolute;&#xd;
+    z-index: 2;&#xd;
+    top: 20px;&#xd;
+    left: 74px;&#xd;
+}</style>
+      <script>var vmap;&#xd;
+var mapParams = {&#xd;
+  WKID: 27700,&#xd;
+  assetMaxDrawZoom: 17,&#xd;
+  assetClick: {radius: 500, radiusUnit: &quot;esriMiles&quot;},&#xd;
+  geometryServer: &quot;/webmaps/rest/services/Utilities/Geometry/GeometryServer&quot;,&#xd;
+  hostUrl: &quot;https://&quot; + $(location).attr(&quot;hostname&quot;),&#xd;
+  projections: {&#xd;
+    WGS84: { name: &quot;EPSG:4326&quot;, projection: &quot;+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs&quot; },&#xd;
+    OSGB36: {&#xd;
+      name: &quot;OSGB36&quot;,&#xd;
+      projection:&#xd;
+        &quot;+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs&quot;&#xd;
+    }&#xd;
+  }&#xd;
+};&#xd;
+&#xd;
+$(&quot;#dform_sheff_map&quot;).off(&quot;_KDF_mapReady&quot;)&#xd;
+  .on(&quot;_KDF_mapReady&quot;, function(event, kdf, type, name, map, positionLayer, markerLayer, marker, projection) {&#xd;
+    console.log(&quot;_KDF_mapReady&quot;);&#xd;
+    mapParams.map = map;&#xd;
+    vmap = new VMap(mapParams);&#xd;
+    var mapExtentChange = map.on(&quot;extent-change&quot;, extentChanged);&#xd;
+  });&#xd;
+&#xd;
+/**&#xd;
+ * drawStreetLightLayer&#xd;
+ * Add Street light assets to map&#xd;
+ */&#xd;
+function drawStreetLightLayer() {&#xd;
+  console.log(&quot;drawStreetLightLayer&quot;);&#xd;
+  var layerConfig = {&#xd;
+    url: vmap.getMapParams().hostUrl + &quot;/webmaps/rest/services/appservices/highwaysassets/MapServer&quot;,&#xd;
+    code: 0,&#xd;
+    id: &quot;highwaysAssetLayer&quot;&#xd;
+  };&#xd;
+  vmap.drawDynamicLayer(layerConfig);&#xd;
+}&#xd;
+/**&#xd;
+ * drawCasesLayer&#xd;
+ * Draw case layer on map&#xd;
+ * Calls custom action passing extent changed event coordinates&#xd;
+ * @param  {} evt&#xd;
+ */&#xd;
+function drawCasesLayer(evt) {&#xd;
+  console.log(&quot;drawCasesLayer&quot;);&#xd;
+  const request = {&#xd;
+    xcoordmin: evt.extent.xmin,&#xd;
+    xcoordmax: evt.extent.xmax,&#xd;
+    ycoordmin: evt.extent.ymin,&#xd;
+    ycoordmax: evt.extent.ymax&#xd;
+  };&#xd;
+  KDF.customdata(&quot;esri_cases_demo&quot;, &quot;vmap&quot;, true, true, request);&#xd;
+  //see esri_cases_demo custom action event handler for cases display&#xd;
+}&#xd;
+/**&#xd;
+ * extentChanged&#xd;
+ * callback function called everytime map extent is changed&#xd;
+ * @param  {} evt&#xd;
+ */&#xd;
+function extentChanged(evt) {&#xd;
+  console.log(&quot;extentChanged&quot;);&#xd;
+  vmap.zoomLevelChanged(evt, zoomChanged);&#xd;
+}&#xd;
+&#xd;
+function drawLayer(evt) {&#xd;
+//   drawCasesLayer(evt);&#xd;
+   drawStreetLightLayer();&#xd;
+}&#xd;
+&#xd;
+/**&#xd;
+ * zoomChanged&#xd;
+ * Callback function called everytime zoom is changed.&#xd;
+ * @param  {} evt&#xd;
+ */&#xd;
+function zoomChanged(evt) {&#xd;
+  console.log(&quot;zoomChanged: &quot; + evt.lod.level);&#xd;
+   setClickRadius(evt.lod.level);&#xd;
+  if (vmap.getMapParams().assetMaxDrawZoom) {&#xd;
+    if (evt.lod.level &gt;= vmap.getMapParams().assetMaxDrawZoom) {&#xd;
+      drawLayer(evt);&#xd;
+    }&#xd;
+  } else {&#xd;
+    if (evt.lod.level &gt;= 6) {&#xd;
+      drawLayer(evt);&#xd;
+    }&#xd;
+  }&#xd;
+}&#xd;
+&#xd;
+function setClickRadius(zoomLevel) {&#xd;
+  switch(zoomLevel) {&#xd;
+    case 18:&#xd;
+        vmap.getMapParams().assetClick.radius = 450;&#xd;
+        break;&#xd;
+    case 19:&#xd;
+        vmap.getMapParams().assetClick.radius = 400;&#xd;
+        break;&#xd;
+    case 20:&#xd;
+        vmap.getMapParams().assetClick.radius = 350;&#xd;
+        break;&#xd;
+    case 21:&#xd;
+        vmap.getMapParams().assetClick.radius = 300;&#xd;
+        break;&#xd;
+    case 22:&#xd;
+        vmap.getMapParams().assetClick.radius = 200;&#xd;
+        break;&#xd;
+    default:&#xd;
+        vmap.getMapParams().assetClick.radius = 500;&#xd;
+  }&#xd;
+}&#xd;
+&#xd;
+/**&#xd;
+ * streetLightFeatureSetHandler&#xd;
+ * Streetlight FeatureSet Handler Callback function&#xd;
+ * Callback fired on click of map.&#xd;
+ * @param  {} marker&#xd;
+ * @param  {} featureSet&#xd;
+ */&#xd;
+function streetLightFeatureSetHandler(marker, featureSet) {&#xd;
+  if (featureSet.features.length == 1) {&#xd;
+    var asset = featureSet.features[0];&#xd;
+    var attributes = asset.attributes;&#xd;
+&#xd;
+    // Setting fields&#xd;
+    KDF.setVal(&quot;txt_asset_coord_x&quot;, asset.geometry.x);&#xd;
+    KDF.setVal(&quot;txt_asset_coord_y&quot;, asset.geometry.y);&#xd;
+    KDF.setVal(&quot;txt_asset_id&quot;, attributes[&quot;ASSET_ID&quot;]);&#xd;
+    KDF.setVal(&quot;txt_asset_type&quot;, attributes[&quot;TYPE&quot;]);&#xd;
+    KDF.setVal(&quot;txt_lamp_type&quot;, attributes[&quot;LAMP_TYPE&quot;]);&#xd;
+&#xd;
+    // Show Info window with content&#xd;
+    var lightContent = &apos;&lt;div class=&quot;infowindow-streetlgiht&quot;&gt;&apos;;&#xd;
+    lightContent += &quot;&lt;strong&gt;Asset:&lt;/strong&gt; &quot; + attributes[&quot;ASSET_ID&quot;] + &quot;&lt;br/&gt;&quot;;&#xd;
+    lightContent += &quot;&lt;strong&gt;Lamp Type:&lt;/strong&gt; &quot; + attributes[&quot;LAMP_TYPE&quot;] + &quot;&lt;br/&gt;&quot;;&#xd;
+    lightContent += &quot;&lt;strong&gt;Type:&lt;/strong&gt; &quot; + attributes[&quot;TYPE&quot;];&#xd;
+    lightContent += &quot;&lt;/div&gt;&quot;;&#xd;
+&#xd;
+    vmap.setInfoWindow({&#xd;
+      xcoord: marker.geometry.x,&#xd;
+      ycoord: marker.geometry.y,&#xd;
+      title: &quot;Streetlight&quot;,&#xd;
+      content: lightContent&#xd;
+    });&#xd;
+  } else if (featureSet.features.length &gt; 1) {&#xd;
+    vmap.setInfoWindow({&#xd;
+      xcoord: marker.geometry.x,&#xd;
+      ycoord: marker.geometry.y,&#xd;
+      title: &quot;Warning&quot;,&#xd;
+      content: &quot;Multiple street lights selected. Please zoom and select again&quot;&#xd;
+    });&#xd;
+  } else {&#xd;
+    const content =&#xd;
+      &quot;No light selected. Missing asset perhaps?&quot; +&#xd;
+      &apos; &lt;br /&gt;&lt;button type=&quot;button&quot; class=&quot;btn-selecthighway&quot;&gt;Select Highway&lt;/button&gt;&apos;;&#xd;
+&#xd;
+    vmap.setInfoWindow({&#xd;
+      xcoord: marker.geometry.x,&#xd;
+      ycoord: marker.geometry.y,&#xd;
+      title: &quot;Warning&quot;,&#xd;
+      content: content&#xd;
+    });&#xd;
+&#xd;
+    $(&quot;.btn-selecthighway&quot;).data(&quot;marker&quot;, marker);&#xd;
+    $(&quot;.btn-selecthighway&quot;)&#xd;
+      .off(&quot;click&quot;)&#xd;
+      .on(&quot;click&quot;, function() {&#xd;
+        queryHighwayLayer($(this).data(&quot;marker&quot;));&#xd;
+      });&#xd;
+  }&#xd;
+  vmap.centerAtLonLat({ lon: marker.geometry.x, lat: marker.geometry.y });&#xd;
+}&#xd;
+/**&#xd;
+ * highwayFeatureSetHandler &#xd;
+ * Highways FeatureSet Handler Callback function&#xd;
+ * @param  {} marker&#xd;
+ * @param  {} featureSet&#xd;
+ */&#xd;
+function highwayFeatureSetHandler(marker, featureSet) {&#xd;
+  console.log(&quot;highwayFeatureSetHandler&quot;);&#xd;
+  console.log(featureSet);&#xd;
+  if (featureSet.features.length == 1) {&#xd;
+    var asset = featureSet.features[0];&#xd;
+    var attributes = asset.attributes;&#xd;
+&#xd;
+    // Setting fields&#xd;
+    KDF.setVal(&quot;txt_asset_id&quot;, attributes[&quot;ASSET_ID&quot;]);&#xd;
+    KDF.setVal(&quot;txt_asset_areaname&quot;, attributes[&quot;AREA_NAME&quot;]);&#xd;
+    KDF.setVal(&quot;txt_asset_feature_id&quot;, attributes[&quot;FEATURE_ID&quot;]);&#xd;
+    KDF.setVal(&quot;txt_asset_location&quot;, attributes[&quot;LOCATION&quot;]);&#xd;
+    KDF.setVal(&quot;txt_asset_objectid&quot;, attributes[&quot;OBJECTID&quot;]);&#xd;
+    KDF.setVal(&quot;txt_asset_roadclass&quot;, attributes[&quot;ROADCLASS&quot;]);&#xd;
+    KDF.setVal(&quot;txt_asset_roadtype&quot;, attributes[&quot;ROAD_TYPE&quot;]);&#xd;
+    KDF.setVal(&quot;txt_asset_sitecode&quot;, attributes[&quot;SITE_CODE&quot;]);&#xd;
+    KDF.setVal(&quot;txt_asset_sitename&quot;, attributes[&quot;SITE_NAME&quot;]);&#xd;
+    KDF.setVal(&quot;txt_asset_town&quot;, attributes[&quot;TOWN&quot;]);&#xd;
+&#xd;
+    // Show Info window with content&#xd;
+    var lightContent = &apos;&lt;div class=&quot;infowindow-highway&quot;&gt;&apos;;&#xd;
+    lightContent += &quot;&lt;strong&gt;Asset:&lt;/strong&gt; &quot; + attributes[&quot;ASSET_ID&quot;] + &quot;&lt;br/&gt;&quot;;&#xd;
+    lightContent += &quot;&lt;strong&gt;Location:&lt;/strong&gt; &quot; + attributes[&quot;LOCATION&quot;] + &quot;&lt;br/&gt;&quot;;&#xd;
+    lightContent += &quot;&lt;strong&gt;Feaure:&lt;/strong&gt; &quot; + attributes[&quot;FEATURE_ID&quot;] + &quot;&lt;br/&gt;&quot;;&#xd;
+    lightContent += &quot;&lt;strong&gt;Site Name:&lt;/strong&gt; &quot; + attributes[&quot;SITE_NAME&quot;] + &quot;&lt;br/&gt;&quot;;&#xd;
+    lightContent += &quot;&lt;strong&gt;Town:&lt;/strong&gt; &quot; + attributes[&quot;TOWN&quot;];&#xd;
+    lightContent += &quot;&lt;/div&gt;&quot;;&#xd;
+&#xd;
+    var infoWindowConfig = {&#xd;
+      xcoord: marker.geometry.x,&#xd;
+      ycoord: marker.geometry.y,&#xd;
+      title: &quot;Highway&quot;,&#xd;
+      content: lightContent&#xd;
+    };&#xd;
+    vmap.setInfoWindow(infoWindowConfig);&#xd;
+  } else if (featureSet.features.length &gt; 1) {&#xd;
+    vmap.setInfoWindow({&#xd;
+      xcoord: marker.geometry.x,&#xd;
+      ycoord: marker.geometry.y,&#xd;
+      title: &quot;Warning&quot;,&#xd;
+      content: &quot;Multiple streets returned please adjust and try again&quot;&#xd;
+    });&#xd;
+  } else {&#xd;
+    vmap.setInfoWindow({&#xd;
+      xcoord: marker.geometry.x,&#xd;
+      ycoord: marker.geometry.y,&#xd;
+      title: &quot;Warning&quot;,&#xd;
+      content: &quot;Unable to find street&quot;&#xd;
+    });&#xd;
+  }&#xd;
+}&#xd;
+/**&#xd;
+ * queryHighwayLayer&#xd;
+ * Query highways feature layer using marker parameter&#xd;
+ * Calls highwayFeatureSetHandler callback with featureset&#xd;
+ * @param  {} marker&#xd;
+ */&#xd;
+function queryHighwayLayer(marker) {&#xd;
+  console.log(&quot;queryHighwayLayer&quot;);&#xd;
+  const highwayLayerConfig = {&#xd;
+    url: vmap.getMapParams().hostUrl + &quot;/webmaps/rest/services/baseservices/finder/MapServer/3&quot;,&#xd;
+    code: 1,&#xd;
+    id: &quot;highwayLayer&quot;&#xd;
+  };&#xd;
+  vmap.findFeaturesNear(marker, highwayLayerConfig, highwayFeatureSetHandler);&#xd;
+}&#xd;
+&#xd;
+$(&quot;#dform_sheff_map&quot;).off(&quot;_KDF_mapClicked&quot;).on(&quot;_KDF_mapClicked&quot;, function(event, kdf, type, name, map, positionLayer, markerLayer, marker, lat, lon, plat, plon) {&#xd;
+    mapParams.map = map;&#xd;
+    // Assets Street light&#xd;
+    const streetLightLayerConfig = {&#xd;
+      url: vmap.getMapParams().hostUrl + &quot;/webmaps/rest/services/appservices/highwaysassets/MapServer/0&quot;,&#xd;
+      code: 0,&#xd;
+      id: &quot;streetLightAssetLayer&quot;&#xd;
+    };&#xd;
+    vmap.findFeaturesNear(marker, streetLightLayerConfig, streetLightFeatureSetHandler);&#xd;
+  });&#xd;
+&#xd;
+function handleSelectedCase(marker) {&#xd;
+  console.log(&quot;case selected&quot;);&#xd;
+  console.log(marker);&#xd;
+  if (marker.attributes.caseid) {&#xd;
+    // vmap.centerAt({marker:marker});&#xd;
+    var request = {&#xd;
+      markercaseid: marker.attributes.caseid,&#xd;
+      markerxcoord: marker.geometry.x.toString(),&#xd;
+      markerycoord: marker.geometry.y.toString()&#xd;
+    };&#xd;
+    KDF.customdata(&quot;esri_case_retrieve_detail&quot;, &quot;vmap&quot;, true, true, request);&#xd;
+  } else {&#xd;
+    console.error(&quot;marker without caseid&quot;);&#xd;
+  }&#xd;
+}&#xd;
+&#xd;
+function displayCaseDetails(response) {&#xd;
+  console.log(&quot;displayCaseDetails&quot;);&#xd;
+  const data = response.data;&#xd;
+  // vmap.centerAtLonLat({lon:Number(data.markerxcoord), lat:Number(data.markerycoord)});&#xd;
+  const content =&#xd;
+    &quot;CASEID: &quot; +&#xd;
+    data.esri_case_caseid +&#xd;
+    &quot; &lt;br /&gt;CLASSIFICATION: &quot; +&#xd;
+    data.esri_case_classification +&#xd;
+    &quot; &lt;br /&gt;STATUS: &quot; +&#xd;
+    data.esri_case_status +&#xd;
+    &apos; &lt;br /&gt;&lt;button type=&quot;button&quot; class=&quot;btn-nextpage&quot;&gt;Create New&lt;/button&gt;&apos; +&#xd;
+    &apos; &lt;br /&gt;&lt;button type=&quot;button&quot; value=&quot;&apos; +&#xd;
+    data.esri_case_caseid +&#xd;
+    &apos;&quot; class=&quot;btn-createinteraction&quot;&gt;Link New Interaction&lt;/button&gt;&apos;;&#xd;
+&#xd;
+  vmap.setInfoWindow({&#xd;
+    xcoord: Number(data.markerxcoord),&#xd;
+    ycoord: Number(data.markerycoord),&#xd;
+    title: data.esri_case_title,&#xd;
+    content: content&#xd;
+  });&#xd;
+&#xd;
+  $(&quot;.btn-nextpage&quot;).off(&quot;click&quot;).on(&quot;click&quot;, function() {&#xd;
+      KDF.gotoNextPage();&#xd;
+    });&#xd;
+&#xd;
+  $(&quot;.btn-createinteraction&quot;).off(&quot;click&quot;).on(&quot;click&quot;, function() {&#xd;
+      KDF.customdata(&quot;esri_demo_link_interaction&quot;, &quot;infowindow&quot;, true, true, { caseid: $(this).val() });&#xd;
+    });&#xd;
+}&#xd;
+&#xd;
+$(&quot;#dform_sheff_map&quot;)&#xd;
+  .off(&quot;_KDF_custom&quot;)&#xd;
+  .on(&quot;_KDF_custom&quot;, function(event, kdf, response, action, actionedby) {&#xd;
+    switch (action) {&#xd;
+      case &quot;esri_cases_demo&quot;:&#xd;
+        console.log(&quot;esri_cases_demo&quot;);&#xd;
+        console.log(response);&#xd;
+        vmap.loadCaseMarkers(response, handleSelectedCase);&#xd;
+        break;&#xd;
+      case &quot;esri_case_retrieve_detail&quot;:&#xd;
+        displayCaseDetails(response);&#xd;
+        break;&#xd;
+      case &quot;esri_demo_link_interaction&quot;:&#xd;
+        KDF.showSuccess(&quot;New interaction linked with chosen case&quot;);&#xd;
+        break;&#xd;
+      default:&#xd;
+        console.log(&quot;unhandled custom action: &quot; + action);&#xd;
+    }&#xd;
+  });&#xd;
+&#xd;
+$(&quot;#dform_sheff_map&quot;).off(&quot;_KDF_customError&quot;).on(&quot;_KDF_customError&quot;, function(event, customaction, xhr, settings, thrownError) {&#xd;
+    // fires when custom response errors are returned&#xd;
+    KDF.showError(&quot;Oops, something went wrong&quot;);&#xd;
+  });&#xd;
+&#xd;
+$(&quot;#dform_sheff_map&quot;).off(&quot;_KDF_save&quot;).on(&quot;_KDF_save&quot;, function(event, kdf) {&#xd;
+    // fires when the form has been saved&#xd;
+  });&#xd;
+&#xd;
+$(&quot;#dform_sheff_map&quot;).off(&quot;_KDF_saveError&quot;).on(&quot;_KDF_saveError&quot;, function(event, kdf) {&#xd;
+    // fires when the form has been saved but the server returned validation errors&#xd;
+    KDF.showError(&quot;Oops, something went wrong&quot;);&#xd;
+  });&#xd;
+</script>
+      <pdfTransform></pdfTransform>
+      <controls>true</controls>
+      <navigation>false</navigation>
+      <navigationWidth>two</navigationWidth>
+      <progress>false</progress>
+      <navigationBut>true</navigationBut>
+      <closeBut>true</closeBut>
+      <saveBut>true</saveBut>
+      <printBut>true</printBut>
+      <checkBut>true</checkBut>
+      <downloadBut>false</downloadBut>
+      <makewritableBut>false</makewritableBut>
+      <external>false</external>
+      <recaptcha>false</recaptcha>
+      <startaction></startaction>
+      <saveaction></saveaction>
+      <completeaction></completeaction>
+    </FormMeta>
+    <FormMeta>
+      <id>9ad8bc8c-c331-4ca5-833c-637f3a453dc1</id>
+      <name>sheff_property_search</name>
+      <pages>
+        <Page>
+          <id>734b459f-a885-40a9-894e-a4e8c58da077</id>
+          <template>
+            <id>167b524d-06a5-476e-aee5-d01666ca5402</id>
+            <areas>
+              <Area>
+                <id>3a2cc954-3ae2-4cf2-af76-8edc458be40e</id>
+                <name>area_FRT0LDX5</name>
+                <boxes>
+                  <Box>
+                    <id>f3a06a2f-1ce0-4a5e-88dc-1252c2372dce</id>
+                    <name>box_RXT8QK01</name>
+                    <size>last twelve</size>
+                    <fieldset>false</fieldset>
+                    <active>true</active>
+                  </Box>
+                </boxes>
+                <fieldset>false</fieldset>
+                <active>true</active>
+              </Area>
+              <Area>
+                <id>edb68349-5b5b-4042-bbce-ef92f092d44d</id>
+                <name>area_CBD5E4X9</name>
+                <boxes>
+                  <Box>
+                    <id>2a6571b9-eda4-4b1f-bed4-f1eb2071162c</id>
+                    <name>box_CG330K31</name>
+                    <size>six</size>
+                    <fieldset>false</fieldset>
+                    <active>true</active>
+                  </Box>
+                  <Box>
+                    <id>3f2e7241-0afa-45cf-bdc0-cbefb20bdb7f</id>
+                    <name>box_P4F1TA25</name>
+                    <size>last six</size>
+                    <fieldset>false</fieldset>
+                    <active>true</active>
+                  </Box>
+                </boxes>
+                <fieldset>false</fieldset>
+                <active>true</active>
+              </Area>
+              <Area>
+                <id>bc844319-f018-4578-aee1-b6e30c3d766c</id>
+                <name>area_OI92XPP7</name>
+                <boxes>
+                  <Box>
+                    <id>94245c4f-d710-489c-be49-77436c503103</id>
+                    <name>box_WDI7WDR7</name>
+                    <size>last twelve</size>
+                    <fieldset>false</fieldset>
+                    <active>true</active>
+                  </Box>
+                </boxes>
+                <fieldset>false</fieldset>
+                <active>true</active>
+              </Area>
+              <Area>
+                <id>19d2adc9-0c91-4bc6-a98d-57fa38f54c0a</id>
+                <name>area_97A92Q36</name>
+                <boxes>
+                  <Box>
+                    <id>9ed7c683-593b-46f5-9a4f-9054aa77af14</id>
+                    <name>box_UXB1P928</name>
+                    <size>last twelve</size>
+                    <fieldset>false</fieldset>
+                    <active>true</active>
+                  </Box>
+                </boxes>
+                <fieldset>false</fieldset>
+                <active>true</active>
+              </Area>
+            </areas>
+          </template>
+          <name>page_1</name>
+          <displayname>Page 1</displayname>
+          <active>true</active>
+          <child>false</child>
+          <displayheader>true</displayheader>
+          <widgets>
+            <Widget>
+              <id>79f368af-1804-405e-8c6c-c8f7528a7980</id>
+              <position>box_RXT8QK01</position>
+              <type>propertysearch</type>
+              <searchwidget class="PropertySearch">
+                <id>c7adfd1d-f60e-4d1d-ac93-a5629a223daa</id>
+                <fields>
+                  <WidgetField>
+                    <id>6a22f68e-e02e-4fa0-acfc-8d7fcf32847c</id>
+                    <label>Postcode</label>
+                    <name>ps_ABJ8QMJ4_txt_postcode</name>
+                    <type>text</type>
+                    <readonly>false</readonly>
+                    <required>true</required>
+                    <active>true</active>
+                    <labelposition>above</labelposition>
+                    <labelwidth>three</labelwidth>
+                    <customalias>postcode</customalias>
+                    <agentonly>false</agentonly>
+                    <alwaysrequired>false</alwaysrequired>
+                    <fieldtype>postcode</fieldtype>
+                  </WidgetField>
+                </fields>
+                <name>ps_sheffield</name>
+                <index>0</index>
+                <performsearch>
+                  <id>9379c54e-d561-43a1-b4f4-52eb82e855f1</id>
+                  <label>Search</label>
+                  <action>propertysearch</action>
+                  <selector>.ps_ABJ8QMJ4</selector>
+                  <active>true</active>
+                </performsearch>
+                <displayname>Property search</displayname>
+                <setid>true</setid>
+                <loaddata>false</loaddata>
+                <required>false</required>
+                <message></message>
+                <active>true</active>
+              </searchwidget>
+            </Widget>
+            <Widget>
+              <id>e05d1bac-bc79-4047-aa55-cd3e294de0ec</id>
+              <position>box_RXT8QK01</position>
+              <type>gis</type>
+              <name>gis_map</name>
+              <gis>
+                <id>b18a7aee-c8b5-4ac9-849b-db1cf03bc806</id>
+                <name>gis_map</name>
+                <centerlat>226973.7</centerlat>
+                <centerlon>522581.9</centerlon>
+                <zoomlevel>12</zoomlevel>
+                <required>false</required>
+                <active>true</active>
+                <type>arcgis</type>
+                <search>true</search>
+                <reversegeocode>false</reversegeocode>
+                <reversegeocodeaction>kirona_time_slots_dmc</reversegeocodeaction>
+                <reversegeocodesetid>false</reversegeocodesetid>
+                <reversegeocodeobjecttype>property</reversegeocodeobjecttype>
+                <reversegeocodeloaddata>false</reversegeocodeloaddata>
+                <centeronlocation>true</centeronlocation>
+                <url>https://localhost/webmaps/rest/services/baseservices/background/MapServer</url>
+                <wkid>27700</wkid>
+                <layertype>tiled</layertype>
+                <enablesuggestions>false</enablesuggestions>
+                <geocodeonline>true</geocodeonline>
+              </gis>
+            </Widget>
+            <Widget>
+              <id>ebf9a84d-190d-4065-8f88-25603ae8be18</id>
+              <position>box_RXT8QK01</position>
+              <type>buttonset</type>
+              <name>bset_UJ28AGG8</name>
+              <buttonset>
+                <id>557aa4e4-135b-438c-a3e1-5b74677c823b</id>
+                <name>bset_UJ28AGG8</name>
+                <active>true</active>
+                <buttons>
+                  <Button>
+                    <id>6b33f168-beac-4eaa-90a4-549b43c62081</id>
+                    <name>btn-addpoint</name>
+                    <label>Add Point</label>
+                    <active>true</active>
+                  </Button>
+                </buttons>
+              </buttonset>
+            </Widget>
+            <Widget>
+              <id>0e7cc656-2dd0-417a-a1ca-7d7c08017282</id>
+              <position>box_CG330K31</position>
+              <type>text</type>
+              <name>txt_asset_id</name>
+              <field>
+                <id>6883a8ad-d458-44a4-902c-a9625ae7c8e4</id>
+                <label>Asset ID</label>
+                <name>txt_asset_id</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>e6ddd369-ae7f-4a9c-a390-b984aab17dcd</id>
+              <position>box_CG330K31</position>
+              <type>text</type>
+              <name>txt_asset_type</name>
+              <field>
+                <id>e9acf587-3211-4682-bcb0-f93772cad484</id>
+                <label>Asset type</label>
+                <name>txt_asset_type</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>a9b9dbcf-8c73-4c33-b919-a700ff7aab4c</id>
+              <position>box_CG330K31</position>
+              <type>text</type>
+              <name>txt_lamp_type</name>
+              <field>
+                <id>ba23eb68-7d05-41f8-9619-6158e81703e9</id>
+                <label>Lamp Type</label>
+                <name>txt_lamp_type</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>ca9c70c3-1a2b-4ee8-ac28-901ddff5bb1a</id>
+              <position>box_CG330K31</position>
+              <type>text</type>
+              <name>txt_asset_coord_x</name>
+              <field>
+                <id>f5d22812-e153-44d4-8c98-f830660c9439</id>
+                <label>Asset X</label>
+                <name>txt_asset_coord_x</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>b698e19d-13c5-44cc-937e-7238eb438001</id>
+              <position>box_CG330K31</position>
+              <type>text</type>
+              <name>txt_asset_coord_y</name>
+              <field>
+                <id>db6ac3e1-5161-49f9-ab8b-1cd92ca59d45</id>
+                <label>Asset Y</label>
+                <name>txt_asset_coord_y</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>c435881a-f8ec-4113-92f2-7400b5f39ec8</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_areaname</name>
+              <field>
+                <id>2a73e3ba-e2f3-48ff-8c7a-8eed4f4fdfb3</id>
+                <label>Area Name</label>
+                <name>txt_asset_areaname</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>09e4f1c5-9fed-435e-a008-c4ab185ae5f9</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_feature_id</name>
+              <field>
+                <id>1ce7c480-46ca-4a80-87e6-5115c4baa48b</id>
+                <label>Feature Id</label>
+                <name>txt_asset_feature_id</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>4d7e4eb6-dbac-4e80-833c-bc77a3eb1226</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_location</name>
+              <field>
+                <id>0696e83b-61b2-45ea-acc0-ff27e656a1cb</id>
+                <label>Location</label>
+                <name>txt_asset_location</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>7a1dd15d-54a0-4b4f-bb24-984c76468738</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_objectid</name>
+              <field>
+                <id>f2df97d4-4fef-455c-a148-87da548be772</id>
+                <label>Object Id</label>
+                <name>txt_asset_objectid</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>0306b0bb-0c41-44f9-bb74-d07c441e3ba7</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_roadclass</name>
+              <field>
+                <id>0ab1f559-71a6-4790-bba0-37ed68d5ccf2</id>
+                <label>Road Class</label>
+                <name>txt_asset_roadclass</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>3e364012-249b-4697-90a6-3bad8f461b72</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_roadtype</name>
+              <field>
+                <id>f0c734d1-438f-43f0-bafc-53a527ca3dcb</id>
+                <label>Road Type</label>
+                <name>txt_asset_roadtype</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>c5033c8b-a367-4e2f-946d-b70e8814a965</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_sitecode</name>
+              <field>
+                <id>68bd187c-be3a-49b2-8fdd-2e688599875f</id>
+                <label>Site Code</label>
+                <name>txt_asset_sitecode</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>380fc0f9-3fd7-44d1-acef-e1be5d749741</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_sitename</name>
+              <field>
+                <id>28bdb02e-b3c7-4e86-ac46-3fecc1767f53</id>
+                <label>Site Name</label>
+                <name>txt_asset_sitename</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+            <Widget>
+              <id>38c66ad9-832f-4e99-915f-97a850151799</id>
+              <position>box_P4F1TA25</position>
+              <type>text</type>
+              <name>txt_asset_town</name>
+              <field>
+                <id>fe0e5c4e-3907-439d-b3e8-4528f3f206b6</id>
+                <label>Town</label>
+                <name>txt_asset_town</name>
+                <type>text</type>
+                <readonly>false</readonly>
+                <required>false</required>
+                <active>true</active>
+                <labelposition>above</labelposition>
+                <labelwidth>three</labelwidth>
+                <agentonly>false</agentonly>
+                <alwaysrequired>false</alwaysrequired>
+              </field>
+            </Widget>
+          </widgets>
+        </Page>
+        <Page>
+          <id>9f561203-9a81-49f0-b719-b5fac98b69e9</id>
+          <name>complete</name>
+          <displayname>Complete</displayname>
+          <active>true</active>
+          <child>false</child>
+          <displayheader>true</displayheader>
+        </Page>
+      </pages>
+      <scripts>
+        <FormResource>
+          <id>0cff605d-5f50-46a5-97d6-69b1b669a746</id>
+          <url>/dformresources/scripts/scripts-sheffield/vmap.js</url>
+        </FormResource>
+      </scripts>
+      <style>/*Styles lifed from herts may not be required*/&#xd;
+&#xd;
+/*.esriPopup .sizer {*/&#xd;
+/*    position: relative;*/&#xd;
+/*    width: 270px;*/&#xd;
+/*    z-index: 1;*/&#xd;
+/*}*/&#xd;
+&#xd;
+/*.esriPopup .contentPane {*/&#xd;
+/*    background-color: #F5F5F5;*/&#xd;
+/*    color: #000;*/&#xd;
+/*}*/&#xd;
+&#xd;
+/*.mapcopyright*/&#xd;
+/*{*/&#xd;
+/*	clear: left;*/&#xd;
+/*	font-size:0.6em;*/&#xd;
+/*	padding:5px;*/&#xd;
+/*}*/&#xd;
+&#xd;
+&#xd;
+/*#dform_container div[data-type=&quot;gis&quot;] {*/&#xd;
+/*    margin-top: 10px;*/&#xd;
+/*    width: 100%;*/&#xd;
+/*    height: 450px;*/&#xd;
+/*    position: relative;*/&#xd;
+/*    border: 1px solid #aaaaaa;*/&#xd;
+/*    -webkit-border-radius: 5px;*/&#xd;
+/*    -moz-border-radius: 5px;*/&#xd;
+/*    -o-border-radius: 5px;*/&#xd;
+/*    -ms-border-radius: 5px;*/&#xd;
+/*    -khtml-border-radius: 5px;*/&#xd;
+/*    border-radius: 5px;*/&#xd;
+/*    overflow: hidden;*/&#xd;
+/*}*/&#xd;
+&#xd;
+html,body,#map {&#xd;
+    height: 100%;&#xd;
+    width: 100%;&#xd;
+    margin: 0;&#xd;
+    padding: 0;&#xd;
+}&#xd;
+#search {&#xd;
+    display: block;&#xd;
+    position: absolute;&#xd;
+    z-index: 2;&#xd;
+    top: 20px;&#xd;
+    left: 74px;&#xd;
+}</style>
+      <script>var vmap;&#xd;
+const layerId = &quot;propertymarkerlayer&quot;;&#xd;
+var mapParams = {&#xd;
+  WKID: 27700,&#xd;
+  assetMaxDrawZoom: 17,&#xd;
+  assetClickRadius: 1000,&#xd;
+  geometryServer: &quot;/webmaps/rest/services/Utilities/Geometry/GeometryServer&quot;,&#xd;
+  hostUrl: &quot;https://&quot; + $(location).attr(&quot;hostname&quot;),&#xd;
+  projections: {&#xd;
+    WGS84: { name: &quot;EPSG:4326&quot;, projection: &quot;+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs&quot; },&#xd;
+    OSGB36: {&#xd;
+      name: &quot;OSGB36&quot;,&#xd;
+      projection:&#xd;
+        &quot;+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs&quot;&#xd;
+    }&#xd;
+  }&#xd;
+};&#xd;
+&#xd;
+$(&quot;#dform_sheff_property_search&quot;).off(&quot;_KDF_mapReady&quot;).on(&quot;_KDF_mapReady&quot;, function(event, kdf, type, name, map, positionLayer, markerLayer, marker, projection) {&#xd;
+    mapParams.map = map;&#xd;
+    vmap = new VMap(mapParams);&#xd;
+    // var mapExtentChange = map.on(&quot;extent-change&quot;, extentChanged);&#xd;
+    setPointUsingLocationPrecedence();&#xd;
+  });&#xd;
+&#xd;
+function setPointUsingLocationPrecedence() {&#xd;
+  urlparams = KDF.getParams();&#xd;
+  if (urlparams.x &amp;&amp; urlparams.y) {&#xd;
+    // Add Marker at x &amp; y provided&#xd;
+    var marker = { url: &quot;/dformresources/content/map-pin.png&quot;, width: 22, height: 40 };&#xd;
+    var pointConfig = { longitude: urlparams.x, latitude: urlparams.y, marker: marker, layer: layerId };&#xd;
+    vmap.addPoint(pointConfig);&#xd;
+    setGISWidgetLngLat(urlparams.x, urlparams.y);&#xd;
+  } else if (urlparams.propertyid) {&#xd;
+    // retrieve property marker and add to map&#xd;
+    KDF.customdata(&quot;esri_retrieve_property_marker&quot;, &quot;ps_sheffield_id&quot;, true, true, {&#xd;
+      propertyid: urlparams.propertyid&#xd;
+    });&#xd;
+  } else {&#xd;
+    // geoLocation&#xd;
+    const mockLocation = { coords: { longitude: -0.21403221, latitude: 51.928344, accuracy: 10 } };&#xd;
+    // vmap.geoLocate(geoLocateSuccess,geoLocateError);&#xd;
+    // geoLocateSuccess(mockLocation);&#xd;
+  }&#xd;
+}&#xd;
+&#xd;
+function geoLocateSuccess(pos) {&#xd;
+  var crd = pos.coords;&#xd;
+  console.log(&quot;Your current position is:&quot;);&#xd;
+  console.log(`Latitude : ${crd.latitude}`);&#xd;
+  console.log(`Longitude: ${crd.longitude}`);&#xd;
+  console.log(`More or less ${crd.accuracy} meters.`);&#xd;
+&#xd;
+  vmap.convertLonLat({&#xd;
+    coordinates: crd,&#xd;
+    inputProjection: vmap.getMapParams().projections.WGS84,&#xd;
+    outputProjection: vmap.getMapParams().projections.OSGB36,&#xd;
+    resultCallBack: coordConversionSuccess&#xd;
+  });&#xd;
+}&#xd;
+&#xd;
+function setGISWidgetLngLat(lng, lat) {&#xd;
+  KDF.setVal(&quot;gis_map_lat&quot;, lat);&#xd;
+  KDF.setVal(&quot;gis_map_lon&quot;, lng);&#xd;
+}&#xd;
+&#xd;
+function geoLocateError(err) {&#xd;
+  console.warn(`ERROR(${err.code}): ${err.message}`);&#xd;
+}&#xd;
+&#xd;
+function coordConversionSuccess(result) {&#xd;
+  var marker = { url: &quot;/dformresources/content/map-pin.png&quot;, width: 22, height: 40 };&#xd;
+  var pointConfig = { longitude: result.x, latitude: result.y, marker: marker, layer: layerId };&#xd;
+  vmap.addPoint(pointConfig);&#xd;
+  setGISWidgetLngLat(result.x, result.y);&#xd;
+}&#xd;
+&#xd;
+function extentChanged(evt) {&#xd;
+  console.log(&quot;extentChanged&quot;);&#xd;
+  vmap.zoomLevelChanged(evt, zoomChanged);&#xd;
+}&#xd;
+&#xd;
+function zoomChanged(evt) {&#xd;
+  console.log(&quot;zoomChanged: &quot; + evt.lod.level);&#xd;
+}&#xd;
+&#xd;
+$(&quot;#dform_sheff_property_search&quot;).off(&quot;_KDF_mapClicked&quot;).on(&quot;_KDF_mapClicked&quot;, function(event, kdf, type, name, map, positionLayer, markerLayer, marker, lat, lon, plat, plon) {&#xd;
+    mapParams.map = map;&#xd;
+    console.log(&quot;TODO:// need to handle _KDF_mapClicked + geocode&quot;);&#xd;
+});&#xd;
+&#xd;
+/**&#xd;
+ * loadPropertyMarker&#xd;
+ * Clear property marker layer markers and add new point&#xd;
+ * Lastly set GIS Widget lat lng to new coords.&#xd;
+ * @param  {} response&#xd;
+ */&#xd;
+function loadPropertyMarker(response) {&#xd;
+  const marker = { url: &quot;/dformresources/content/map-pin.png&quot;, width: 22, height: 40 };&#xd;
+  const pointConfig = {&#xd;
+    longitude: Number(response.data[0].longitude),&#xd;
+    latitude: Number(response.data[0].latitude),&#xd;
+    marker: marker,&#xd;
+    layer: layerId&#xd;
+  };&#xd;
+  vmap.removePoints(layerId);&#xd;
+  vmap.addPoint(pointConfig);&#xd;
+  setGISWidgetLngLat(response.data[0].longitude, response.data[0].latitude);&#xd;
+}&#xd;
+&#xd;
+$(&quot;#dform_sheff_property_search&quot;).off(&quot;_KDF_custom&quot;).on(&quot;_KDF_custom&quot;, function(event, kdf, response, action, actionedby) {&#xd;
+    switch (action) {&#xd;
+      case &quot;esri_retrieve_property_marker&quot;:&#xd;
+        loadPropertyMarker(response);&#xd;
+        break;&#xd;
+      default:&#xd;
+        console.log(&quot;unhandled custom action: &quot; + action);&#xd;
+    }&#xd;
+});&#xd;
+&#xd;
+$(&quot;#dform_sheff_property_search&quot;).off(&quot;_KDF_objectidSet&quot;).on(&quot;_KDF_objectidSet&quot;, function(event, kdf, type, id) {&#xd;
+    if (type == &quot;property&quot;) {&#xd;
+      KDF.customdata(&quot;esri_retrieve_property_marker&quot;, &quot;ps_sheffield_id&quot;, true, true, { propertyid: id });&#xd;
+    }&#xd;
+});&#xd;
+&#xd;
+$(&quot;#dform_sheff_property_search&quot;).off(&quot;_KDF_customError&quot;).on(&quot;_KDF_customError&quot;, function(event, customaction, xhr, settings, thrownError) {&#xd;
+    // fires when custom response errors are returned&#xd;
+    KDF.showError(&quot;Oops, something went wrong&quot;);&#xd;
+});&#xd;
+&#xd;
+$(&quot;#dform_sheff_property_search&quot;).off(&quot;_KDF_save&quot;).on(&quot;_KDF_save&quot;, function(event, kdf) {&#xd;
+    // fires when the form has been saved&#xd;
+});&#xd;
+&#xd;
+$(&quot;#dform_sheff_property_search&quot;).off(&quot;_KDF_saveError&quot;).on(&quot;_KDF_saveError&quot;, function(event, kdf) {&#xd;
+    // fires when the form has been saved but the server returned validation errors&#xd;
+    KDF.showError(&quot;Oops, something went wrong&quot;);&#xd;
+});&#xd;
+</script>
+      <pdfTransform></pdfTransform>
+      <controls>true</controls>
+      <navigation>false</navigation>
+      <navigationWidth>two</navigationWidth>
+      <progress>false</progress>
+      <navigationBut>true</navigationBut>
+      <closeBut>true</closeBut>
+      <saveBut>true</saveBut>
+      <printBut>true</printBut>
+      <checkBut>true</checkBut>
+      <downloadBut>false</downloadBut>
+      <makewritableBut>false</makewritableBut>
+      <external>false</external>
+      <recaptcha>false</recaptcha>
+      <startaction></startaction>
+      <saveaction></saveaction>
+      <completeaction></completeaction>
+    </FormMeta>
+  </forms>
+  <templates/>
+</Configuration>

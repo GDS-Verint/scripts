@@ -1,0 +1,635 @@
+<Configuration>
+  <mappings/>
+  <services/>
+  <customservices/>
+  <processes>
+    <ProcessMeta>
+      <action>esri_cases_demo</action>
+      <components>
+        <Component>
+          <id>10482268-f53a-4d80-9317-b43156b2f2c8</id>
+          <type>chain</type>
+          <name>chain_0</name>
+          <displayname>Chain 0</displayname>
+          <chain>
+            <nextcomponent>end</nextcomponent>
+            <actions>
+              <Action>
+                <id>ee7ce481-2ca5-44f5-bb61-52d3dc2e29d2</id>
+                <type>database</type>
+                <name>sql_0</name>
+                <displayname>SQL 0</displayname>
+                <database>
+                  <datasourcename>H2</datasourcename>
+                  <sql>select * from&#xd;
+VALUES&#xd;
+       (&apos;10100012342&apos;,&apos;522553.7879646093&apos;, &apos;227060.35121496912&apos;,&apos;0&apos;,CURRENT_TIMESTAMP()),&#xd;
+       (&apos;10100012343&apos;,&apos;522613.98079332826&apos;, &apos;227023.9709338752&apos;,&apos;1&apos;,CURRENT_TIMESTAMP()),&#xd;
+       (&apos;10100012344&apos;,&apos;522734.3664507663&apos;, &apos;227069.61165015664&apos;,&apos;0&apos;,CURRENT_TIMESTAMP()),&#xd;
+       (&apos;10100012345&apos;,&apos;522592.15262467193&apos;, &apos;226906.89257471848&apos;,&apos;1&apos;,CURRENT_TIMESTAMP());&#xd;
+       &#xd;
+       &#xd;
+--select CASEID, XCOORD, YCOORD, CASESTATUS&#xd;
+--from LGNCC_CASEVIEW LCV&#xd;
+--inner join LGNCC_ENQUIRYTYPE LET on LCV.TYPEID = LET.IDkey&#xd;
+--inner join lgncc_eventMapping LEM on LET.ID = LEM.typeId&#xd;
+--where LEM.eventCode = ? --4000031&#xd;
+--order by LCV.ENQUIRYID desc;</sql>
+                  <parameternames></parameternames>
+                  <parametertypes></parametertypes>
+                  <returnresults>true</returnresults>
+                </database>
+              </Action>
+              <Action>
+                <id>648f2439-21e3-4ea9-97bb-671401a0b7f5</id>
+                <type>xsl</type>
+                <name>xsl_0</name>
+                <displayname>Draw Pins</displayname>
+                <xsl>
+                  <xsl>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#xd;
+&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:flt=&quot;http://www.lagan.com/wsdl/FLTypes&quot; xmlns:dfor=&quot;http://kana.com/dforms&quot; exclude-result-prefixes=&quot;dfor&quot;&gt;&#xd;
+&#xd;
+	&lt;xsl:template match=&quot;/&quot;&gt;&#xd;
+&lt;dfor:markers&gt;&#xd;
+			&lt;xsl:for-each select=&quot;//map&quot;&gt;&#xd;
+					&lt;dfor:marker&gt;&#xd;
+						&lt;dfor:longitude&gt;&lt;xsl:value-of select=&quot;entry[string[1]=&apos;C2&apos;]/string[2]&quot; /&gt;&lt;/dfor:longitude&gt;&#xd;
+						&lt;dfor:latitude&gt;&lt;xsl:value-of select=&quot;entry[string[1]=&apos;C3&apos;]/string[2]&quot; /&gt;&lt;/dfor:latitude&gt;&#xd;
+						&lt;dfor:title&gt;&lt;xsl:value-of select=&quot;entry[string[1]=&apos;C1&apos;]/string[2]&quot; /&gt;&lt;/dfor:title&gt;							&#xd;
+						&lt;xsl:variable name=&quot;status&quot; select=&quot;entry[string[1]=&apos;C4&apos;]/string[2]&quot;/&gt;&#xd;
+						&lt;xsl:choose&gt;&#xd;
+						    &lt;xsl:when test=&quot;$status = &apos;1&apos;&quot;&gt;&#xd;
+							    &lt;dfor:icon&gt;/dformresources/content/MapPin-Red1.png&lt;/dfor:icon&gt;&#xd;
+                            &lt;/xsl:when&gt;&#xd;
+                            &lt;xsl:otherwise&gt;&#xd;
+                                &lt;dfor:icon&gt;/dformresources/content/MapPin-Green2.png&lt;/dfor:icon&gt;&#xd;
+                            &lt;/xsl:otherwise&gt;&#xd;
+						&lt;/xsl:choose&gt;&#xd;
+						&lt;dfor:description&gt;&lt;/dfor:description&gt;&#xd;
+					&lt;/dfor:marker&gt;&#xd;
+			&lt;/xsl:for-each&gt;	&#xd;
+		&lt;/dfor:markers&gt;&#xd;
+	&lt;/xsl:template&gt;&#xd;
+&#xd;
+&lt;/xsl:stylesheet&gt;</xsl>
+                  <currentpayload>true</currentpayload>
+                </xsl>
+              </Action>
+            </actions>
+          </chain>
+        </Component>
+      </components>
+      <isRest>false</isRest>
+      <retry>false</retry>
+      <retrycount>0</retrycount>
+    </ProcessMeta>
+    <ProcessMeta>
+      <action>esri_cases_filter_by_type</action>
+      <components>
+        <Component>
+          <id>10482268-f53a-4d80-9317-b43156b2f2c8</id>
+          <type>chain</type>
+          <name>chain_0</name>
+          <displayname>Chain 0</displayname>
+          <chain>
+            <nextcomponent>end</nextcomponent>
+            <actions>
+              <Action>
+                <id>1ab39ede-ac43-4be4-8fb9-4cb59395a3ed</id>
+                <type>database</type>
+                <name>sql_0</name>
+                <displayname>SQL 0</displayname>
+                <database>
+                  <datasourcename>herts</datasourcename>
+                  <sql>DECLARE @xcoordmin			VARCHAR(30)&#xd;
+DECLARE @xcoordmax			VARCHAR(30)&#xd;
+DECLARE @ycoordmin			VARCHAR(30)&#xd;
+DECLARE @ycoordmax			VARCHAR(30)&#xd;
+DECLARE @opencaseAge		VARCHAR(3)&#xd;
+DECLARE @closedcaseAge		VARCHAR(3)&#xd;
+DECLARE @formName			VARCHAR(30)&#xd;
+DECLARE @faultTypeClause	VARCHAR(500)&#xd;
+&#xd;
+&#xd;
+SET @xcoordmin = ?&#xd;
+SET @xcoordmax = ?&#xd;
+SET @ycoordmin = ?&#xd;
+SET @ycoordmax = ?&#xd;
+SET @formName = ?&#xd;
+SET @opencaseAge = 180  -- this has been reduced from 180 for testing&#xd;
+SET @closedcaseAge = 60&#xd;
+&#xd;
+IF @formName = &apos;hcc_hfr_animals&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;(AN1) ANIMALS&apos;&apos;,&apos;&apos;(AN1) ANIMALS DMA&apos;&apos;,&apos;&apos;Animals&apos;&apos;&apos;&#xd;
+	END&#xd;
+	IF @formName = &apos;hcc_hfr_bus&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;Bus Shelters And Bus Stops&apos;&apos;&apos;&#xd;
+	END&#xd;
+	IF @formName = &apos;hcc_hfr_cctv&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;Cctv/anpr/trafic counts &apos;&apos;,&apos;&apos;Safety Cameras&apos;&apos;&apos;&#xd;
+	END&#xd;
+	IF @formName = &apos;hcc_hfr_fencing&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;(FN1) FENCING/UNLIT BOLLRD/POSTS DMA&apos;&apos;,&apos;&apos;Fencing or posts (unlit bollards)&apos;&apos;,&apos;&apos;Fencing/posts (unlit Bollards)&apos;&apos;,&apos;&apos;Fencing/unlit bollrd/posts &apos;&apos;&apos;&#xd;
+	END	&#xd;
+	IF @formName = &apos;hcc_hfr_flooding&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;(FL1) FLOODING AND DRAINAGE&apos;&apos;,&apos;&apos;(FL1) FLOODING AND DRAINAGE DMA&apos;&apos;,&apos;&apos;Flooding And Drainage&apos;&apos;&apos;&#xd;
+	END&#xd;
+	IF @formName = &apos;hcc_hfr_footways&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;Footway And Verges&apos;&apos;,&apos;&apos;Footway/verge/embankment  &apos;&apos;,&apos;&apos;Footways, Cycletrack, Verge and Embankments&apos;&apos;,&apos;&apos;(FV1) FOOTWAYS, VERGES AND EMBANKMENTS&apos;&apos;,&apos;&apos;Trip hazard&apos;&apos;&apos;&#xd;
+	END&#xd;
+	IF @formName = &apos;hcc_hfr_graffiti&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;Graffiti&apos;&apos;&apos;&#xd;
+	END&#xd;
+	IF @formName = &apos;hcc_hfr_highways&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;Highway Bridges And Walls&apos;&apos;&apos;&#xd;
+	END&#xd;
+	IF @formName = &apos;hcc_hfr_lighting&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;(SL1) DEFAULT LIGHTING/LIT FEATURES - Damaged or missing (LT08)&apos;&apos;,&apos;&apos;(SL1) LIGHTING/LIT FEATURES&apos;&apos;,&apos;&apos;(SL1) LIGHTING/LIT FEATURES DMA&apos;&apos;,&apos;&apos;Lighting/lit features &apos;&apos;,&apos;&apos;Lights/Bollards/Belisha Beacon&apos;&apos;,&apos;&apos;Lights/bollards/belisha beacons&apos;&apos;&apos;&#xd;
+	END&#xd;
+	IF @formName = &apos;hcc_hfr_obstruction&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;(OB1) OBSTRUCTION / ENCROACHMENT&apos;&apos;,&apos;&apos;(OB1) OBSTRUCTION / ENCROACHMENT DMA&apos;&apos;,&apos;&apos;Obstruction&apos;&apos;,&apos;&apos;Obstruction / encroachment &apos;&apos;&apos;&#xd;
+	END&#xd;
+	IF @formName = &apos;hcc_hfr_road_cycle_lane&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;Road and cyclelane &apos;&apos;,&apos;&apos;Road or cycleway&apos;&apos;,&apos;&apos;(CW1) DEFAULT ROAD AND CYCLE LANE - Pothole (CW06)&apos;&apos;,&apos;&apos;(CW1) ROAD AND CYCLE LANE&apos;&apos;,&apos;&apos;(CW1) ROAD AND CYCLELANE DMA&apos;&apos;,&apos;&apos;Carriageway/road/cycleway&apos;&apos;,&apos;&apos;(NR) Streetworks&apos;&apos;,&apos;&apos;Streetworks&apos;&apos;,&apos;&apos;Traffic And Parking Issues&apos;&apos;&apos;&#xd;
+	END&#xd;
+	IF @formName = &apos;hcc_hfr_row&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;Public rights of way &apos;&apos;,&apos;&apos;(RW1) PUBLIC RIGHTS OF WAY&apos;&apos;&apos;&#xd;
+	END&#xd;
+	IF @formName = &apos;hcc_hfr_signalcam&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;(SC1) SIGNAL/CAMERAS/RSNG BLLRD DMA&apos;&apos;,&apos;&apos;Signal/cameras/rsng bllrd &apos;&apos;,&apos;&apos;Traffic Signals&apos;&apos;&apos;&#xd;
+	END&#xd;
+	IF @formName = &apos;hcc_hfr_signs&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;(SG1) SIGNS AND STREET NAME PLATES&apos;&apos;,&apos;&apos;Signs And Street Name Plates&apos;&apos;,&apos;&apos;Signs/street names plate &apos;&apos;&apos;&#xd;
+	END&#xd;
+	IF @formName = &apos;hcc_hfr_trees&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;(TV1) DEFAULT TREES AND VEGETATION - Hedge Overgrown (TV02)&apos;&apos;,&apos;&apos;(TV1) TREES AND VEGETATION&apos;&apos;,&apos;&apos;(TV1) TREES AND VEGETATION DMA&apos;&apos;,&apos;&apos;Trees And Vegetation&apos;&apos;&apos;&#xd;
+	END&#xd;
+	IF @formName = &apos;hcc_hfr_utilities&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;Utilities &apos;&apos;&apos;&#xd;
+	END&#xd;
+	IF @formName = &apos;hcc_hfr_winter_service&apos;&#xd;
+	BEGIN&#xd;
+		SET @faultTypeClause = &apos;&apos;&apos;(WM1) WINTER SERVICE&apos;&apos;,&apos;&apos;Winter Maintenance&apos;&apos;,&apos;&apos;Winter service &apos;&apos;&apos;&#xd;
+	END&#xd;
+	&#xd;
+	/*PULLS FROM STAGING TABLE IN HERTS DB POPULATED BY DB JOB */&#xd;
+	DECLARE @sqlStmt NVARCHAR(4000)&#xd;
+	SET @sqlStmt = &apos;SELECT caseref,xcoord,ycoord,status,opened_date_time FROM herts.dbo.FAULT_REPORTING_LAST_6_MONTHS &apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos;WHERE opened_date_time &gt; DATEADD(d, - &apos; + @opencaseAge + &apos;, { fn NOW() }) AND status = &apos;&apos;1&apos;&apos;&apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos;AND faulttype in (&apos; + @faultTypeClause + &apos;)&apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; AND xcoord between &apos; + @xcoordmin + &apos; AND &apos; + @xcoordmax&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; AND ycoord between &apos; + @ycoordmin + &apos; AND &apos; + @ycoordmax&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; UNION ALL SELECT caseref,xcoord,ycoord,status,opened_date_time FROM herts.dbo.FAULT_REPORTING_LAST_6_MONTHS &apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos;WHERE opened_date_time &gt; DATEADD(d, - &apos; + @closedcaseAge + &apos;, { fn NOW() }) AND status = &apos;&apos;0&apos;&apos;&apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos;AND faulttype in (&apos; + @faultTypeClause + &apos;)&apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; AND xcoord between &apos; + @xcoordmin + &apos; AND &apos; + @xcoordmax&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; AND ycoord between &apos; + @ycoordmin + &apos; AND &apos; + @ycoordmax&#xd;
+&#xd;
+	/*PULLS FROM REALTIME TABLES */&#xd;
+	/*DECLARE @sqlStmt NVARCHAR(4000)&#xd;
+	SET @sqlStmt = &apos;SELECT e.caseref,isnull(op.xcoord,cl.xcoord) as xcoord,isnull(op.ycoord,cl.ycoord) as ycoord,e.status,e.CreationDate as opened_date_time from laganprod14.dbo.LGNCC_ENQUIRY e left join laganprod14.dbo.LGNCC_CASEHDR op on op.CaseID = e.CaseID left join laganprod14.dbo.LGNCC_CLOSEDCASEHDR cl on cl.CaseID = e.CaseID inner join laganprod14.dbo.LGNCC_CASEFORMINSTANCE cfi on cfi.CaseID = e.CaseID inner join laganprod14.dbo.LGNCC_FORMINSTANCE fi on fi.ID = cfi.FormInstanceID inner join laganprod14.dbo.LGNFS_EHIGHWAYSFAULT cf on cf.UNIQUEID = fi.DATARECORDID&apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; WHERE e.CreationDate &gt; DATEADD(d, - &apos; + @opencaseAge + &apos;, { fn NOW() }) &apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; and isnull(op.ycoord,cl.ycoord) is not null &apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; and isnull(op.xcoord,cl.xcoord) is not null &apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; AND e.status = &apos;&apos;1&apos;&apos;&apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; AND cf.faulttype in (&apos; + @faultTypeClause + &apos;)&apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; AND isnull(op.xcoord,cl.xcoord) between &apos; + @xcoordmin + &apos; AND &apos; + @xcoordmax&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; AND isnull(op.ycoord,cl.ycoord) between &apos; + @ycoordmin + &apos; AND &apos; + @ycoordmax&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; UNION ALL &apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; SELECT e.caseref,isnull(op.xcoord,cl.xcoord) as xcoord,isnull(op.ycoord,cl.ycoord) as ycoord,e.status,e.CreationDate as opened_date_time from laganprod14.dbo.LGNCC_ENQUIRY e left join laganprod14.dbo.LGNCC_CASEHDR op on op.CaseID = e.CaseID left join laganprod14.dbo.LGNCC_CLOSEDCASEHDR cl on cl.CaseID = e.CaseID inner join laganprod14.dbo.LGNCC_CASEFORMINSTANCE cfi on cfi.CaseID = e.CaseID inner join laganprod14.dbo.LGNCC_FORMINSTANCE fi on fi.ID = cfi.FormInstanceID inner join laganprod14.dbo.LGNFS_EHIGHWAYSFAULT cf on cf.UNIQUEID = fi.DATARECORDID&apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; WHERE e.CreationDate &gt; DATEADD(d, - &apos; + @closedcaseAge + &apos;, { fn NOW() }) &apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; and isnull(op.ycoord,cl.ycoord) is not null &apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; and isnull(op.xcoord,cl.xcoord) is not null &apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; AND e.status = &apos;&apos;0&apos;&apos;&apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; AND cf.faulttype in (&apos; + @faultTypeClause + &apos;)&apos;&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; AND isnull(op.xcoord,cl.xcoord) between &apos; + @xcoordmin + &apos; AND &apos; + @xcoordmax&#xd;
+	SET @sqlStmt = @sqlStmt + &apos; AND isnull(op.ycoord,cl.ycoord) between &apos; + @ycoordmin + &apos; AND &apos; + @ycoordmax*/&#xd;
+&#xd;
+	--PRINT @sqlStmt&#xd;
+	&#xd;
+	EXEC sp_executesql @sqlStmt</sql>
+                  <parameternames>xcoordmin,xcoordmax,ycoordmin,ycoordmax,name</parameternames>
+                  <parametertypes>12,12,12,12,12</parametertypes>
+                  <returnresults>true</returnresults>
+                </database>
+              </Action>
+              <Action>
+                <id>9320c0fb-dfba-49a2-b2b9-304eb80b7caf</id>
+                <type>xsl</type>
+                <name>xsl_0</name>
+                <displayname>Draw Pins</displayname>
+                <xsl>
+                  <xsl>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#xd;
+&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:flt=&quot;http://www.lagan.com/wsdl/FLTypes&quot; xmlns:dfor=&quot;http://kana.com/dforms&quot; exclude-result-prefixes=&quot;dfor&quot;&gt;&#xd;
+&#xd;
+	&lt;xsl:template match=&quot;/&quot;&gt;&#xd;
+&lt;dfor:markers&gt;&#xd;
+			&lt;xsl:for-each select=&quot;//map&quot;&gt;&#xd;
+					&lt;dfor:marker&gt;&#xd;
+						&lt;dfor:longitude&gt;&lt;xsl:value-of select=&quot;entry[string[1]=&apos;xcoord&apos;]/string[2]&quot; /&gt;&lt;/dfor:longitude&gt;&#xd;
+						&lt;dfor:latitude&gt;&lt;xsl:value-of select=&quot;entry[string[1]=&apos;ycoord&apos;]/string[2]&quot; /&gt;&lt;/dfor:latitude&gt;&#xd;
+						&lt;dfor:title&gt;&lt;xsl:value-of select=&quot;entry[string[1]=&apos;caseref&apos;]/string[2]&quot; /&gt;&lt;/dfor:title&gt;							&#xd;
+						&lt;xsl:variable name=&quot;status&quot; select=&quot;entry[string[1]=&apos;status&apos;]/string[2]&quot;/&gt;&#xd;
+						&lt;xsl:choose&gt;&#xd;
+						    &lt;xsl:when test=&quot;$status = &apos;1&apos;&quot;&gt;&#xd;
+							    &lt;dfor:icon&gt;/dformresources/content/MapPin-Red1.png&lt;/dfor:icon&gt;&#xd;
+                            &lt;/xsl:when&gt;&#xd;
+                            &lt;xsl:otherwise&gt;&#xd;
+                                &lt;dfor:icon&gt;/dformresources/content/MapPin-Green2.png&lt;/dfor:icon&gt;&#xd;
+                            &lt;/xsl:otherwise&gt;&#xd;
+						&lt;/xsl:choose&gt;&#xd;
+						&lt;dfor:description&gt;&lt;/dfor:description&gt;&#xd;
+					&lt;/dfor:marker&gt;&#xd;
+			&lt;/xsl:for-each&gt;	&#xd;
+		&lt;/dfor:markers&gt;&#xd;
+	&lt;/xsl:template&gt;&#xd;
+&#xd;
+&lt;/xsl:stylesheet&gt;</xsl>
+                  <currentpayload>true</currentpayload>
+                </xsl>
+              </Action>
+            </actions>
+          </chain>
+        </Component>
+      </components>
+      <isRest>false</isRest>
+      <retry>false</retry>
+      <retrycount>0</retrycount>
+    </ProcessMeta>
+    <ProcessMeta>
+      <action>esri_demo_link_interaction</action>
+      <components>
+        <Component>
+          <id>ea041609-a080-4f05-a33c-d23d4331af9a</id>
+          <type>chain</type>
+          <name>chain_mocklinkinteraction</name>
+          <displayname>Mock Link Interaction Chain </displayname>
+          <chain>
+            <nextcomponent>end</nextcomponent>
+            <actions>
+              <Action>
+                <id>a419a463-a077-4cc4-b6bb-bb5b67f30c5f</id>
+                <type>xsl</type>
+                <name>xsl_emptyformdata</name>
+                <displayname>Empty Response XSL</displayname>
+                <xsl>
+                  <xsl>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#xd;
+&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:flt=&quot;http://www.lagan.com/wsdl/FLTypes&quot; xmlns:dfor=&quot;http://kana.com/dforms&quot; exclude-result-prefixes=&quot;dfor&quot;&gt;&#xd;
+&#xd;
+	&lt;xsl:template match=&quot;/&quot;&gt;&#xd;
+		&lt;dfor:form-data&gt;&lt;/dfor:form-data&gt;&#xd;
+	&lt;/xsl:template&gt;&#xd;
+&#xd;
+&lt;/xsl:stylesheet&gt;</xsl>
+                  <currentpayload>true</currentpayload>
+                </xsl>
+              </Action>
+            </actions>
+          </chain>
+        </Component>
+      </components>
+      <isRest>false</isRest>
+      <retry>false</retry>
+      <retrycount>0</retrycount>
+    </ProcessMeta>
+    <ProcessMeta>
+      <action>esri_demo_queue_selection</action>
+      <components>
+        <Component>
+          <id>bf4e1415-97b6-4cdd-ac92-d0de35bc2119</id>
+          <type>chain</type>
+          <name>chain_queue_selection</name>
+          <displayname>Queue Selection Chain</displayname>
+          <chain>
+            <nextcomponent>end</nextcomponent>
+            <actions>
+              <Action>
+                <id>a80b2519-3c25-434c-886c-58c935d61843</id>
+                <type>xsl</type>
+                <name>xsl_simple_queue_selection</name>
+                <displayname>Simple Queue Selection XSL</displayname>
+                <xsl>
+                  <xsl>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#xd;
+&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:flt=&quot;http://www.lagan.com/wsdl/FLTypes&quot; xmlns:dfor=&quot;http://kana.com/dforms&quot; exclude-result-prefixes=&quot;dfor&quot;&gt;&#xd;
+&#xd;
+	&lt;xsl:template match=&quot;/&quot;&gt;&#xd;
+		&lt;dfor:form-data&gt;&#xd;
+			&lt;dfor:field&gt;&#xd;
+				&lt;dfor:name&gt;txt_queue&lt;/dfor:name&gt;&#xd;
+				&lt;dfor:value&gt;&#xd;
+					&lt;xsl:choose&gt;&#xd;
+						&lt;xsl:when test=&quot;//dfor:field[dfor:name=&apos;location&apos;]/dfor:value = &apos;other&apos;&quot;&gt;other_queue&lt;/xsl:when&gt;&#xd;
+						&lt;xsl:otherwise&gt;sheffield_queue&lt;/xsl:otherwise&gt;&#xd;
+					&lt;/xsl:choose&gt;&#xd;
+				&lt;/dfor:value&gt;&#xd;
+			&lt;/dfor:field&gt;&#xd;
+		&lt;/dfor:form-data&gt;&#xd;
+	&lt;/xsl:template&gt;&#xd;
+&#xd;
+&lt;/xsl:stylesheet&gt;</xsl>
+                  <currentpayload>true</currentpayload>
+                </xsl>
+              </Action>
+            </actions>
+          </chain>
+        </Component>
+      </components>
+      <isRest>false</isRest>
+      <retry>false</retry>
+      <retrycount>0</retrycount>
+    </ProcessMeta>
+    <ProcessMeta>
+      <action>esri_retrieve_property_marker</action>
+      <components>
+        <Component>
+          <id>5b1d487f-0023-4084-9f92-5e8beefcfa78</id>
+          <type>chain</type>
+          <name>retrieve_property_marker_chain</name>
+          <displayname>Retrieve Property Marker Chain</displayname>
+          <chain>
+            <nextcomponent>end</nextcomponent>
+            <actions>
+              <Action>
+                <id>630a3851-ea1c-427f-b2eb-1f059eba8fdb</id>
+                <type>xsl</type>
+                <name>retrieve_property_xsl</name>
+                <displayname>Retrieve Property XSL</displayname>
+                <xsl>
+                  <xsl>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#xd;
+&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:flt=&quot;http://www.lagan.com/wsdl/FLTypes&quot; xmlns:dfor=&quot;http://kana.com/dforms&quot; exclude-result-prefixes=&quot;dfor&quot;&gt;&#xd;
+	&#xd;
+	&lt;xsl:template match=&quot;/&quot;&gt;&#xd;
+		&lt;flt:FLPropertyID&gt;&#xd;
+			&lt;flt:ObjectType&gt;D3&lt;/flt:ObjectType&gt;&#xd;
+			&lt;flt:ObjectReference&gt;&#xd;
+				&lt;xsl:value-of select=&quot;//dfor:field[dfor:name=&apos;propertyid&apos;]/dfor:value&quot; /&gt;&#xd;
+			&lt;/flt:ObjectReference&gt;&#xd;
+		&lt;/flt:FLPropertyID&gt;&#xd;
+	&lt;/xsl:template&gt;&#xd;
+&#xd;
+&lt;/xsl:stylesheet&gt;</xsl>
+                  <currentpayload>true</currentpayload>
+                </xsl>
+              </Action>
+              <Action>
+                <id>4b1bc24b-9f9a-4d91-8aae-d3e107e331df</id>
+                <type>xml</type>
+                <name>xml_0</name>
+                <displayname>XML 0</displayname>
+                <xml>
+                  <xml>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;&#xd;
+&lt;FWTProperty xmlns=&quot;http://www.lagan.com/wsdl/FLTypes&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;&#xd;
+	&lt;BriefDetails xmlns=&quot;&quot;&gt;&#xd;
+		&lt;ObjectID&gt;&#xd;
+			&lt;ns1:ObjectType xmlns:ns1=&quot;http://www.lagan.com/wsdl/FLTypes&quot;&gt;D3&lt;/ns1:ObjectType&gt;&#xd;
+			&lt;ns2:ObjectReference xmlns:ns2=&quot;http://www.lagan.com/wsdl/FLTypes&quot;&gt;101000047720&lt;/ns2:ObjectReference&gt;&#xd;
+			&lt;ns3:ObjectReference xsi:nil=&quot;true&quot; xmlns:ns3=&quot;http://www.lagan.com/wsdl/FLTypes&quot;/&gt;&#xd;
+			&lt;ns4:ObjectReference xsi:nil=&quot;true&quot; xmlns:ns4=&quot;http://www.lagan.com/wsdl/FLTypes&quot;/&gt;&#xd;
+		&lt;/ObjectID&gt;&#xd;
+		&lt;ns5:ObjectDescription xmlns:ns5=&quot;http://www.lagan.com/wsdl/FLTypes&quot;&gt;12 Bertha Road, Port Talbot, SA13 2AP&lt;/ns5:ObjectDescription&gt;&#xd;
+		&lt;Category&gt;-1&lt;/Category&gt;&#xd;
+	&lt;/BriefDetails&gt;&#xd;
+	&lt;UPRN xmlns=&quot;&quot;&gt;119051202&lt;/UPRN&gt;&#xd;
+	&lt;PAO xmlns=&quot;&quot;&gt;1000000780&lt;/PAO&gt;&#xd;
+	&lt;SAO xmlns=&quot;&quot;&gt;1000000781&lt;/SAO&gt;&#xd;
+	&lt;AddressNumber xmlns=&quot;&quot;&gt;12&lt;/AddressNumber&gt;&#xd;
+	&lt;AddressLine1 xmlns=&quot;&quot;&gt;Bertha Road&lt;/AddressLine1&gt;&#xd;
+	&lt;PrimaryStreetName xmlns=&quot;&quot;&gt;Bertha Road&lt;/PrimaryStreetName&gt;&#xd;
+	&lt;Locality xmlns=&quot;&quot;&gt;Neath&lt;/Locality&gt;&#xd;
+	&lt;Town xmlns=&quot;&quot;&gt;Port Talbot&lt;/Town&gt;&#xd;
+	&lt;Postcode xmlns=&quot;&quot;&gt;SA13 2AP&lt;/Postcode&gt;&#xd;
+	&lt;City xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;StateCode xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;Zipcode xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;Country xmlns=&quot;&quot;&gt;UK&lt;/Country&gt;&#xd;
+	&lt;BuildingName xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PrimaryStreetAltName xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PrimaryStreetAltName xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SecondaryStreetAltName xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SecondaryStreetAltName xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;GPSItmGeoCode xmlns=&quot;&quot;&gt;522899&lt;/GPSItmGeoCode&gt;&#xd;
+	&lt;GPSUtmGeoCode xmlns=&quot;&quot;&gt;227043&lt;/GPSUtmGeoCode&gt;&#xd;
+	&lt;LocalCouncilCode xmlns=&quot;&quot;&gt;-1&lt;/LocalCouncilCode&gt;&#xd;
+	&lt;LocalCouncilName xmlns=&quot;&quot;&gt;Port Talbot Council&lt;/LocalCouncilName&gt;&#xd;
+	&lt;RegionalCouncilCode xmlns=&quot;&quot;&gt;-1&lt;/RegionalCouncilCode&gt;&#xd;
+	&lt;WardRef xmlns=&quot;&quot;&gt;78945&lt;/WardRef&gt;&#xd;
+	&lt;WardName xmlns=&quot;&quot;&gt;Port Tabot South&lt;/WardName&gt;&#xd;
+	&lt;TownlandRef xmlns=&quot;&quot;&gt;-1&lt;/TownlandRef&gt;&#xd;
+	&lt;PostTownRef xmlns=&quot;&quot;&gt;-1&lt;/PostTownRef&gt;&#xd;
+	&lt;CityRef xmlns=&quot;&quot;&gt;-1&lt;/CityRef&gt;&#xd;
+	&lt;CountyRef xmlns=&quot;&quot;&gt;-1&lt;/CountyRef&gt;&#xd;
+	&lt;CountryRef xmlns=&quot;&quot;&gt;-1&lt;/CountryRef&gt;&#xd;
+	&lt;PAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;RMAddressKey xmlns=&quot;&quot;&gt;-1&lt;/RMAddressKey&gt;&#xd;
+	&lt;VLARef xmlns=&quot;&quot;&gt;-1&lt;/VLARef&gt;&#xd;
+	&lt;OrdnanceSurveyRef xmlns=&quot;&quot;&gt;-1&lt;/OrdnanceSurveyRef&gt;&#xd;
+	&lt;SAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefined xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedNum xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedText xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;SAOUserDefinedDate xsi:nil=&quot;true&quot; xmlns=&quot;&quot;/&gt;&#xd;
+	&lt;PAOAuditDetails xmlns=&quot;&quot;&gt;&#xd;
+		&lt;CreatedBy&gt;&#xd;
+			&lt;UserID/&gt;&#xd;
+			&lt;UserName/&gt;&#xd;
+		&lt;/CreatedBy&gt;&#xd;
+		&lt;LastModifiedBy&gt;&#xd;
+			&lt;UserID/&gt;&#xd;
+			&lt;UserName/&gt;&#xd;
+		&lt;/LastModifiedBy&gt;&#xd;
+	&lt;/PAOAuditDetails&gt;&#xd;
+	&lt;SAOAuditDetails xmlns=&quot;&quot;&gt;&#xd;
+		&lt;CreatedBy&gt;&#xd;
+			&lt;UserID/&gt;&#xd;
+			&lt;UserName/&gt;&#xd;
+		&lt;/CreatedBy&gt;&#xd;
+		&lt;LastModifiedBy&gt;&#xd;
+			&lt;UserID/&gt;&#xd;
+			&lt;UserName/&gt;&#xd;
+		&lt;/LastModifiedBy&gt;&#xd;
+	&lt;/SAOAuditDetails&gt;&#xd;
+&lt;/FWTProperty&gt;</xml>
+                </xml>
+              </Action>
+              <Action>
+                <id>6ee08a85-333d-4d9f-a47f-377f55dfdc72</id>
+                <type>xsl</type>
+                <name>property_marker_xsl</name>
+                <displayname>Property Marker XSL</displayname>
+                <xsl>
+                  <xsl>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#xd;
+&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:flt=&quot;http://www.lagan.com/wsdl/FLTypes&quot; xmlns:dfor=&quot;http://kana.com/dforms&quot; exclude-result-prefixes=&quot;dfor flt&quot;&gt;&#xd;
+&#xd;
+	&lt;xsl:template match=&quot;//flt:FWTProperty&quot;&gt;&#xd;
+		&lt;dfor:markers&gt;&#xd;
+			&lt;dfor:marker&gt;&#xd;
+				&lt;dfor:longitude&gt;&#xd;
+				    &lt;xsl:value-of select=&quot;GPSItmGeoCode&quot; /&gt;&#xd;
+				&lt;/dfor:longitude&gt;&#xd;
+				&lt;dfor:latitude&gt;&#xd;
+					&lt;xsl:value-of select=&quot;GPSUtmGeoCode&quot; /&gt;&#xd;
+				&lt;/dfor:latitude&gt;&#xd;
+				&lt;dfor:title&gt;&#xd;
+					&lt;xsl:value-of select=&quot;BriefDetails/ObjectID/flt:ObjectReference[1]&quot; /&gt;&#xd;
+				&lt;/dfor:title&gt;&#xd;
+				&lt;dfor:icon&gt;&lt;/dfor:icon&gt;&#xd;
+				&lt;dfor:description&gt;&#xd;
+					&lt;xsl:value-of select=&quot;BriefDetails/flt:ObjectDescription&quot; /&gt;&#xd;
+				&lt;/dfor:description&gt;&#xd;
+			&lt;/dfor:marker&gt;&#xd;
+		&lt;/dfor:markers&gt;&#xd;
+	&lt;/xsl:template&gt;&#xd;
+&#xd;
+&lt;/xsl:stylesheet&gt;</xsl>
+                  <currentpayload>true</currentpayload>
+                </xsl>
+              </Action>
+            </actions>
+          </chain>
+        </Component>
+      </components>
+      <restmeta>
+        <secure>false</secure>
+        <external>false</external>
+        <httpmethod>POST</httpmethod>
+        <bodyrequired>false</bodyrequired>
+        <responsereturned>false</responsereturned>
+        <headers/>
+        <parameters/>
+        <produces/>
+        <consumes/>
+        <resulttransformers>
+          <ResultTransformer>
+            <resulttype>application/json</resulttype>
+            <transformertype>xsl</transformertype>
+          </ResultTransformer>
+          <ResultTransformer>
+            <resulttype>application/xml</resulttype>
+            <transformertype>xsl</transformertype>
+          </ResultTransformer>
+          <ResultTransformer>
+            <resulttype>text/html</resulttype>
+            <transformertype>xsl</transformertype>
+          </ResultTransformer>
+        </resulttransformers>
+        <requestexamples>
+          <Example>
+            <type>application/json</type>
+          </Example>
+          <Example>
+            <type>application/xml</type>
+          </Example>
+        </requestexamples>
+        <responseexamples>
+          <Example>
+            <type>application/json</type>
+          </Example>
+          <Example>
+            <type>application/xml</type>
+          </Example>
+          <Example>
+            <type>text/html</type>
+          </Example>
+        </responseexamples>
+      </restmeta>
+      <isRest>false</isRest>
+      <retry>false</retry>
+      <retrycount>0</retrycount>
+    </ProcessMeta>
+  </processes>
+  <datasources/>
+  <wsdls/>
+  <converters/>
+  <snippets/>
+  <processtasks/>
+</Configuration>
