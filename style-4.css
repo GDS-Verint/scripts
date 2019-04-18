@@ -1,4 +1,40 @@
 /*
+Colours being used:
+    Error red (darkest) warning notice border:
+        #b10e1e
+    Error red (darker):
+        #b03535
+    Error red lighter
+        #d45252
+    Main color (box blue)
+        #0072ef
+    Highlight yellow
+        #FFBF47, #ffbf47
+    Softer white:
+        #e8f0de
+    Soft grey (read-only)
+        #DDD
+    Info notice background:
+        #d3edf8
+    Darker blue (Info notice border and icon):
+        #00529B, #0056B3
+    Box green, green button:
+        #00823b
+    Darker green for highlights:
+        #00682e
+    Dark green for borders:
+        #003618	
+    Orange button, box orange
+        #CE4C03
+    Darker orange for highlights:
+        #9D3703
+    Dark Orange for borders
+        #bc5114
+    White text:
+        white, #fff, #FFF
+*/
+
+/*
 -----------------------------------------------
 KS: searches - Start
 -----------------------------------------------
