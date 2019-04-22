@@ -1,69 +1,318 @@
-//KS: use this to get status
-var mapScriptStatus = jQuery.Deferred();
+//If max selected assets is undefined then use Luthfans draw asset layer
+/*Luthfans */
+var luthfan = true;
+var faultReportingSearchResults = new Object();
+var streetAddress='';
 
-var Map, Point, SimpleMarkerSymbol, PictureMarkerSymbol, Graphic, GraphicsLayer, InfoWindow, Circle, Units, GeometryService, SpatialReference, Color, Popup, Geocoder, OverviewMap, Identify, Find, InfoTemplate, PictureMarkerSymbol;
+var sx_customer_id='';
 
-require(["esri/map", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/graphic", "esri/layers/GraphicsLayer", "esri/dijit/InfoWindow", "esri/geometry/Circle", "esri/units", "esri/tasks/GeometryService", "esri/SpatialReference", "esri/Color", "esri/dijit/Popup", "esri/dijit/Geocoder", "esri/dijit/OverviewMap", "esri/tasks/identify", "esri/tasks/find", "esri/InfoTemplate", "esri/symbols/PictureMarkerSymbol", "dojo/domReady!"],
-	function(classMap, classPoint, classSimpleMarkerSymbol, classPictureMarkerSymbol, classGraphic, classGraphicsLayer, classInfoWindow, classCircle, classUnits, classGeometryService, classSpatialReference, classColor, classPopup, classGeocoder, classOverviewMap, classIdentify, classFind, classInfoTemplate, classPictureMarkerSymbol) {
-		Map=classMap; Point=classPoint; SimpleMarkerSymbol=classSimpleMarkerSymbol; PictureMarkerSymbol=classPictureMarkerSymbol; Graphic=classGraphic; GraphicsLayer=classGraphicsLayer; InfoWindow=classInfoWindow; Circle=classCircle; Units=classUnits; GeometryService=classGeometryService; SpatialReference=classSpatialReference; Color=classColor; Popup=classPopup; Geocoder=classGeocoder; OverviewMap=classOverviewMap; Identify=classIdentify; Find=classFind; InfoTemplate=classInfoTemplate; PictureMarkerSymbol=classPictureMarkerSymbol;
-		mapScriptStatus.resolve();//KS allows you to identify when classes are loaded
-		//Trig: When all the classes are loaded. A better method that can be used in a function is mapScriptStatus.done()
-		$(formName()).trigger('_map_classesLoaded');
-	}
-);
+var site_name_temp = '';
 
+ function parseRSMarker(response){
 
-var mapParams = {
-    //KS: normally would be empty (maybe a few empty properties), but it being populated simulates adding global varables that would've been added by an extra script
-    extent: [334905.5753111506, 310733.193633054, 680181.2782575564, 663544.2449834899],// minX, maxX, minY, maxY
-	WKID: 27700,
-	WKIDProj4: '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs',
-	geolocateButton: true,
-	geolocateAuto: false,
-	geolocateWKID: 4326,
-	geolocateWKIDProj4:'+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs',//likely is the proj4 for 4326
-	centerLonLat: {x:325226.83303699945, y:673836.5572347812},
-	centerZoom: 1,
-	geometryServer: 'https://edinburghcouncilmaps.info/arcgis/rest/services/Utilities/Geometry/GeometryServer',
-	drawWindowMultiplier:1.25,
-	selectMultiple:true, //Default is false
-	selectStorage:[/*{
-            points:[],
-            uniqueField:'OBJECTID',
-    	    selectedAssets:[11888935,12144406,12144405,12144948,12144862],
-    	    selectSymbol:{color:[25, 135, 6], size:"12", outline:{color: [6, 6, 89],width: "1"}},
-    	    wkid:27700,
-        },*/{
-            points:[],
-            uniqueField:'FEATURE_ID',
-        	selectedAssets:['RHF12','RHF10','RHF24'],
-        	selectSymbol:{color:[4, 4, 100], size:"5", outline:{color: [100, 6, 6],width: "1"}},
-        	wkid:27700,
-    }],
-	searchURL:{base: window.location.origin+'/locatorhub/arcgis/rest/services/CAG/POSTCODE/GeocodeServer/findAddressCandidates?&SingleLine=&Fuzzy=true&outFields=*&maxLocations=2000&f=pjson&outSR=27700',varParams:['LH_POSTCODE']},
-	baseLayerService: window.location.origin+'/arcgis/rest/services/Basemaps/BasemapColour/MapServer/find',
-	backgroundMapService: window.location.origin+'/arcgis/rest/services/Basemaps/BasemapColour/MapServer',
-	addressSearchService:{base: window.location.origin+'/arcgis/rest/services/CAG/ADDRESS/GeocodeServer/reverseGeocode?distance=300&outSR=27700&f=json'},
-	processResultURL: window.location.origin+'/ci/AjaxCustom/cagSearch',
-	
-};
+ var xmax = esrimap.extent['xmax'];
+ var ymax = esrimap.extent['ymax'];
+ var xmin = esrimap.extent['xmin'];
+ var ymin = esrimap.extent['ymin'];
 
-function getMapParams(){return mapParams;}//KS accessor to give a level of abstraction when we need it
-function deleteMapParam(propertyName){
-	var noRefCopy = JSON.parse(JSON.stringify(getMapParams()[propertyName]))
-	var isDeleted = delete getMapParams()[propertyName];
-	//Trig[propDeleted, isDeleted, copyOfContents]: lets you know if something from mapParams was deleted and if so, what it was
-	$(formName()).trigger('_map_paramDeleted',[propertyName, isDeleted, noRefCopy]);
+     require([ "esri/symbols/SimpleMarkerSymbol", "esri/graphic", "esri/Color", "esri/InfoTemplate", "esri/symbols/PictureMarkerSymbol", "dojo/domReady!" ],
+        function(SimpleMarkerSymbol,  Graphic,  Color, InfoTemplate, PictureMarkerSymbol) {
+            caseLayer = new esri.layers.GraphicsLayer({id:"case_marker_layer"});
+              $.each(response.data, function( i, result ) {
+                  
+                     var point = new Point(Number(result.longitude), Number(result.latitude), new esri.SpatialReference({ wkid: 27700 }));
+    				 var markerSymbol = new PictureMarkerSymbol(result.icon, 64, 64);
+    			
+    				 markerSymbol.setOffset(0, 0);
+    				 var caseGraphic = new Graphic(point, markerSymbol);
+    				 caseGraphic.setAttributes({"title":'', "description": result.description, "caseid": result.title});
+    				 //console.log(result.description);
+    				 //esrimap.graphics.add(marker);
+                     caseLayer.add(caseGraphic);
+
+             });
+             //console.log(caseLayer)
+               caseLayer.on('click', function(event) {
+                  console.log(event.graphic.attributes.caseid)
+                  KDF.setVal('txt_case_id_subscribe', event.graphic.attributes.caseid)
+    		   if (typeof esrimap.getLayer("graphicsLayer2") !== 'undefined') {
+                   esrimap.getLayer("graphicsLayer2").hide();
+               }
+    			});
+    			esrimap.addLayer(caseLayer);
+             }); 
+            
+            //console.log('esrimap length boys' + esrimap.graphicsLayerIds.length)
+            //esrimap.reorderLayer(esrimap.getLayer("case_marker_layer"), esrimap.graphicsLayerIds.length + 1);
+             //console.log(esrimap)
 }
-function setMapParams(obj){
-	//KS Overwrites properties
-	for(var property in obj){
-		getMapParams()[property] = obj[property];
-	}
+
+$(document).on('keypress','#dform_widget_txt_postcode',function() {
+  if (event.keyCode == 13) {
+    event.preventDefault();
+    searchBegin();
+  }
+});
+
+// let's get back to this after the meeting
+$(document).on('click','.mapConfirm',function() {
+    KDF.setVal('txt_issuestreet',KDF.getVal('le_gis_rgeo_desc'));
+    //call process adapter
+   // KDF.customdata('get_street_id', 'create', true, true, {'street_name': site_name_temp});
+    KDF.gotoNextPage();
+ });
+ 
+$(document).on('click','#dform_widget_button_but_search',function() {
+  searchBegin();
+});
+
+
+$(document).on('click','#dform_widget_button_but_nextcall',function() {
+  console.log('next clicked');
+    
+    if (typeof esrimap !== 'undefined'){
+		clearPreviousLayer();
+		esrimap.infoWindow.hide();
+        drawBaseLayer();
+        //esrimap.setZoom(2);
+        var centerpoint = new Point(325375, 673865, new esri.SpatialReference({wkid: 27700}));
+		esrimap.centerAndZoom(centerpoint, 2);
+    }
+  
+});
+function keatonHighlightMissingAsset(globalX, globalY) {
+    
+    clearPreviousLayer();
+    showLoading();
+            
+	var newlayer = new GraphicsLayer();
+	var xcoord = parseInt(globalX);
+	var ycoord = parseInt(globalY);
+	console.log('ini geometry x ' + xcoord);
+
+	var url = getMapParams().addressSearchService.base;
+	url += '&location='+xcoord+'%2C+'+ycoord;//KS is the + within the string suposed to be there?
 	
+	console.log(url);
+
+	$.ajax({url: url,  crossDomain: true}).done(function(result) {
+		streetAddress = result.address;
+		console.log(result.address);
+
+		hideLoading();
+		console.log(streetAddress.Address);
+		 var content = streetAddress.Address + '</br></br>'
+		 + '<button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm Location</button></div>' ;
+
+		 var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: getMapParams().WKID}));
+
+		var markerSymbol = new PictureMarkerSymbol('/dformresources/content/map-blue.png', 64, 64);
+		markerSymbol.setOffset(0, 32);
+		var marker = new Graphic(centerpoint, markerSymbol);
+		marker.setAttributes({"value1": '1', "value2": '2', "value3": '3'});
+		newlayer.add(marker);
+		newlayer.on('click', function(event) {
+			setInfoWindowContent(content,xcoord,ycoord);
+		});
+		esrimap.addLayer(newlayer);
+
+		setInfoWindowContent(content,xcoord,ycoord);
+	}).fail(function() {
+		KDF.showError('It looks like the connection to our mapping system has failed, please try to log the fault again');
+	});
+		
 }
-var specifics = mapParams;function setSpecifics(obj){setMapParams(obj);}function getSpecifics(){getMapParams();}
-function drawAssetLayer(layersToKeep){
+
+function luthfanHighlightMissingAsset(globalX, globalY){//Override if luthfan = true
+	    
+    //clearPreviousLayer();
+    showLoading();
+            
+	//var newlayer = new GraphicsLayer();
+	var xcoord = parseInt(globalX);
+	var ycoord = parseInt(globalY);
+	//console.log('ini geometry x ' + xcoord);
+
+	var url = 'https://edinburghcouncilmaps.info/locatorhub/arcgis/rest/services/CAG/ADDRESS/GeocodeServer/reverseGeocode?location=' + xcoord + '%2C+' + ycoord +'&distance=300&outSR=27700&f=json';
+	console.log(url);
+
+	$.ajax({url: url ,  dataType: 'jsonp', crossDomain: true, jsonp: true}).done(function(result) {
+		streetAddress = result.address;
+		//console.log(result.address);
+
+		hideLoading();
+		//console.log(streetAddress.Address);
+		 var content = streetAddress.Address + '</br></br>'
+		 + '<button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm Location</button></div>' ;
+         
+         esrimap.infoWindow.setTitle('');
+        	esrimap.infoWindow.setContent(content);
+		 var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: 27700}));
+         esrimap.infoWindow.show(centerpoint);
+         
+         //getOpenCaseMarker();
+         
+        /*
+		var markerSymbol = new PictureMarkerSymbol('/dformresources/content/map-blue.png', 64, 64);
+		markerSymbol.setOffset(0, 32);
+		var marker = new Graphic(centerpoint, markerSymbol);
+		marker.setAttributes({"value1": '1', "value2": '2', "value3": '3'});
+		newlayer.add(marker);
+		newlayer.on('click', function(event) {
+			setInfoWindowContent(content,xcoord,ycoord);
+		});
+		esrimap.addLayer(newlayer);
+        */
+        
+        
+		//setInfoWindowContent(content,xcoord,ycoord);
+		/*
+		if (typeof esrimap.getLayer("case_marker_layer") !== 'undefined' ) {
+		    esrimap.reorderLayer(esrimap.getLayer("case_marker_layer"), esrimap.graphics.graphics.length + 1);
+		}*/
+	});
+}
+function luthfanDrawAssetLayer(){//TODO update URL
+	    
+    // if flytipping & overflowing litter bin then return false | litter & flytipping form speisifc
+    if (KDF.getVal('rad_problem_option')) {
+        if (KDF.getVal('rad_problem_option') === 'flytipping' ) {
+            return false;
+        }
+    } 
+    
+    if (KDF.getVal('txt_formname')) {
+        if (KDF.getVal('txt_formname') === 'dog_fouling') {
+            return false;
+        }
+    }
+    
+    
+    KDF.hideMessages();
+    
+    var esriAssetUrl='';
+    
+    if (typeof esrimap.getLayer("asset_layer") !== 'undefined') {
+        esrimap.removeLayer(esrimap.getLayer("asset_layer"));
+    }
+    
+    if (typeof esrimap.getLayer("case_marker_layer") !== 'undefined') {
+        esrimap.removeLayer(esrimap.getLayer("case_marker_layer"));
+    }
+
+    var xmaxE = esrimap.extent.xmax;
+    var ymaxE = esrimap.extent.ymax;
+    var xminE = esrimap.extent.xmin;
+    var yminE = esrimap.extent.ymin;
+    
+    //console.log(xmaxE + ' ' + ymaxE + ' ' + xminE + ' ' + yminE);
+    
+    var infoWindowContent;
+    
+    if (KDF.getVal('txt_formname')){
+        if (KDF.getVal('txt_formname') === 'road_sign'){
+            esriAssetUrl = 'https://edinburghcouncilmaps.info/arcgis/rest/services/CouncilAssets/ConfirmAssets2/MapServer/7/query?f=pjson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=27700&outFields=*&outSR=27700&transformForward=false' + '&geometry=%7B%22xmin%22%3A' + xminE + '%2C%22ymin%22%3A' + yminE + '%2C%22xmax%22%3A' + xmaxE + '%2C%22ymax%22%3A' + ymaxE + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A27700%7D%7D';
+        } else if (KDF.getVal('txt_formname') === 'litter_flytipping'){ 
+            esriAssetUrl = 'https://edinburghcouncilmaps.info/arcgis/rest/services/CouncilAssets/ConfirmAssets2/MapServer/26/query?f=pjson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=27700&outFields=*&outSR=27700&transformForward=false' + '&geometry=%7B%22xmin%22%3A' + xminE + '%2C%22ymin%22%3A' + yminE + '%2C%22xmax%22%3A' + xmaxE + '%2C%22ymax%22%3A' + ymaxE + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A27700%7D%7D';   
+        }
+    } else if (KDF.getVal('asset_layer')){ // communal bin spesific
+        //KS asset layer NUMBER defined on form TODO check it's number and 'continue' if not to avoid assigning invalid assetURL, might still be possible to use an excisting one
+        esriAssetUrl = 'https://edinburghcouncilmaps.info/arcgis/rest/services/CouncilAssets/ConfirmAssets2/MapServer/' + KDF.getVal('asset_layer') + '/query?f=pjson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=27700&outFields=*&outSR=27700&transformForward=false' + '&geometry=%7B%22xmin%22%3A' + xminE + '%2C%22ymin%22%3A' + yminE + '%2C%22xmax%22%3A' + xmaxE + '%2C%22ymax%22%3A' + ymaxE + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A27700%7D%7D';;
+    }
+
+    //var esriAssetUrl = 'https://edinburghcouncilmaps.info/arcgis/rest/services/CouncilAssets/ConfirmAssets2/MapServer/7/query?f=pjson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=27700&outFields=*&outSR=27700&transformForward=false' + '&geometry=%7B%22xmin%22%3A' + xminE + '%2C%22ymin%22%3A' + yminE + '%2C%22xmax%22%3A' + xmaxE + '%2C%22ymax%22%3A' + ymaxE + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A27700%7D%7D';
+
+    $.ajax({url: esriAssetUrl, dataType: 'jsonp', crossDomain: true
+	}).done(function(response) {
+	    //console.log(response.features);
+
+	    require([ "esri/symbols/SimpleMarkerSymbol", "esri/graphic", "esri/Color", "dojo/domReady!" ],
+        function(SimpleMarkerSymbol,  Graphic,  Color) {
+
+		assetLayer = new esri.layers.GraphicsLayer({id:"asset_layer"});
+
+        var redColor = Color.fromArray([0, 204, 153]);
+        var sms;
+			if (specifics.markerSymbol){
+			    //KS: use defind object to create marker
+				sms = new SimpleMarkerSymbol(specifics.markerSymbol);
+		    }else{
+			    //KS: use default marker
+				sms = new SimpleMarkerSymbol({
+                  color: redColor,
+                  size: "12",
+                  outline: {
+                    color: [0, 153, 255],
+                    width: "5px",
+                  }
+                });
+		    }
+		   sms.setOffset(0, 0);
+        
+	    $.each(response.features, function( key, value ) {
+	        //console.log(value.geometry.x); 
+	        
+	        infoWindowContent = '';
+	        
+	        if (KDF.getVal('asset_layer')) {
+	            infoWindowContent = '<b>Asset ID</b> : ' + value.attributes.ASSET_ID + '</br><b>Location : </b>' + 
+								value.attributes.feature_location + '</br><b>Site Name : </b>' + value.attributes.site_name
+								+ '</br><b>Type Name : </b>' + value.attributes.feature_type_name
+								 + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm location</button></div>';
+	        } else {
+	            //console.log('litter')
+	         infoWindowContent = '<b>Asset ID</b> : ' + value.attributes.ASSET_ID + '</br><b>Location : </b>' + 
+								value.attributes.LOCATION + '</br><b>Site Name : </b>' + value.attributes.SITE_NAME + '</br><b>Type Name : </b>' + value.attributes.TYPE_NAME
+								 + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm location</button></div>';
+         
+	        }
+	        
+	        var point = new Point(Number(value.geometry.x), Number(value.geometry.y), new esri.SpatialReference({ wkid: 27700 }));
+	        var graphic = new esri.Graphic(point, sms);  
+	         if (KDF.getVal('asset_layer')) {
+	              graphic.setAttributes({"title": '', "description": infoWindowContent, "site_name":value.attributes.site_name, "latitude":value.geometry.y, "longitude":value.geometry.x});
+	        } else {
+                 graphic.setAttributes({"title": '', "description": infoWindowContent, "site_name": value.attributes.SITE_NAME, "latitude":value.geometry.y, "longitude":value.geometry.x});
+	        }
+	     
+		    assetLayer.add(graphic);
+	    });
+	    
+	         // assign the click event to the 
+    	     assetLayer.on('click', function(event) {
+    	         console.log(event.graphic.attributes)
+    	         
+    	         site_name_temp = event.graphic.attributes.site_name;
+    				//console.log(event.mapPoint.x);
+    				if (typeof esrimap.getLayer("graphicsLayer2") !== 'undefined') {
+                        esrimap.removeLayer(esrimap.getLayer("graphicsLayer2"));
+                    }
+                    
+                    var lan = event.graphic.attributes.latitude ;
+                    var long =  event.graphic.attributes.longitude ;
+                    
+                     KDF.customdata('reverse-geocode-edinburgh', 'create', true, true, {'longitude': long.toString() , 'latitude' : lan.toString()});
+                    KDF.unlock();
+                   // esrimap.centerAt(new Point(event.mapPoint.x, event.mapPoint.y, new esri.SpatialReference({ wkid: 27700 })));
+    			});
+
+        	 esrimap.addLayer(assetLayer);
+		 
+		    //console.log(esrimap);
+		  
+		      for (var i = 0; i < esrimap.graphics.graphics.length -1; i++){
+                  //KS Remove all but last layer
+                  console.log(esrimap.graphics.graphics[i])
+                  esrimap.graphics.remove(esrimap.graphics.graphics[i]);
+              }
+
+        });
+	}).fail(function() {
+	    KDF.showError('It looks like the connection to our mapping system has failed, please try to log the fault again');
+	});	
+}
+
+function keatonDrawAssetLayer(layersToKeep){
     //console.log('layersToKeep:')
     //console.log(layersToKeep)
     //KS: layersToKeep e.g. [esrimap.Graphics.graphics[0], esrimap.Graphics.graphics[1]]
@@ -169,6 +418,82 @@ function drawAssetLayer(layersToKeep){
 	});	
 }
 
+/**/
+
+
+//KS: use this to get status
+var mapScriptStatus = jQuery.Deferred();
+
+var Map, Point, SimpleMarkerSymbol, PictureMarkerSymbol, Graphic, GraphicsLayer, InfoWindow, Circle, Units, GeometryService, SpatialReference, Color, Popup, Geocoder, OverviewMap, Identify, Find, InfoTemplate, PictureMarkerSymbol;
+
+require(["esri/map", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/graphic", "esri/layers/GraphicsLayer", "esri/dijit/InfoWindow", "esri/geometry/Circle", "esri/units", "esri/tasks/GeometryService", "esri/SpatialReference", "esri/Color", "esri/dijit/Popup", "esri/dijit/Geocoder", "esri/dijit/OverviewMap", "esri/tasks/identify", "esri/tasks/find", "esri/InfoTemplate", "esri/symbols/PictureMarkerSymbol", "dojo/domReady!"],
+	function(classMap, classPoint, classSimpleMarkerSymbol, classPictureMarkerSymbol, classGraphic, classGraphicsLayer, classInfoWindow, classCircle, classUnits, classGeometryService, classSpatialReference, classColor, classPopup, classGeocoder, classOverviewMap, classIdentify, classFind, classInfoTemplate, classPictureMarkerSymbol) {
+		Map=classMap; Point=classPoint; SimpleMarkerSymbol=classSimpleMarkerSymbol; PictureMarkerSymbol=classPictureMarkerSymbol; Graphic=classGraphic; GraphicsLayer=classGraphicsLayer; InfoWindow=classInfoWindow; Circle=classCircle; Units=classUnits; GeometryService=classGeometryService; SpatialReference=classSpatialReference; Color=classColor; Popup=classPopup; Geocoder=classGeocoder; OverviewMap=classOverviewMap; Identify=classIdentify; Find=classFind; InfoTemplate=classInfoTemplate; PictureMarkerSymbol=classPictureMarkerSymbol;
+		mapScriptStatus.resolve();//KS allows you to identify when classes are loaded
+		//Trig: When all the classes are loaded. A better method that can be used in a function is mapScriptStatus.done()
+		$(formName()).trigger('_map_classesLoaded');
+	}
+);
+
+
+var mapParams = {
+    //KS: normally would be empty (maybe a few empty properties), but it being populated simulates adding global varables that would've been added by an extra script
+    extent: [334905.5753111506, 310733.193633054, 680181.2782575564, 663544.2449834899],// minX, maxX, minY, maxY
+	WKID: 27700,
+	WKIDProj4: '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs',
+	geolocateButton: true,
+	geolocateAuto: false,
+	geolocateWKID: 4326,
+	geolocateWKIDProj4:'+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs',//likely is the proj4 for 4326
+	centerLonLat: {x:325226.83303699945, y:673836.5572347812},
+	centerZoom: 1,
+	geometryServer: 'https://edinburghcouncilmaps.info/arcgis/rest/services/Utilities/Geometry/GeometryServer',
+	drawWindowMultiplier:1.25,
+	selectMultiple:true, //Default is false
+	selectStorage:[/*{
+            points:[],
+            uniqueField:'OBJECTID',
+    	    selectedAssets:[11888935,12144406,12144405,12144948,12144862],
+    	    selectSymbol:{color:[25, 135, 6], size:"12", outline:{color: [6, 6, 89],width: "1"}},
+    	    wkid:27700,
+        },*/{
+            points:[],
+            uniqueField:'FEATURE_ID',
+        	selectedAssets:['RHF12','RHF10','RHF24'],
+        	selectSymbol:{color:[4, 4, 100], size:"5", outline:{color: [100, 6, 6],width: "1"}},
+        	wkid:27700,
+    }],
+	searchURL:{base: window.location.origin+'/locatorhub/arcgis/rest/services/CAG/POSTCODE/GeocodeServer/findAddressCandidates?&SingleLine=&Fuzzy=true&outFields=*&maxLocations=2000&f=pjson&outSR=27700',varParams:['LH_POSTCODE']},
+	baseLayerService: window.location.origin+'/arcgis/rest/services/Basemaps/BasemapColour/MapServer/find',
+	backgroundMapService: window.location.origin+'/arcgis/rest/services/Basemaps/BasemapColour/MapServer',
+	addressSearchService:{base: window.location.origin+'/arcgis/rest/services/CAG/ADDRESS/GeocodeServer/reverseGeocode?distance=300&outSR=27700&f=json'},
+	processResultURL: window.location.origin+'/ci/AjaxCustom/cagSearch',
+	
+};
+
+function getMapParams(){return mapParams;}//KS accessor to give a level of abstraction when we need it
+function deleteMapParam(propertyName){
+	var noRefCopy = JSON.parse(JSON.stringify(getMapParams()[propertyName]))
+	var isDeleted = delete getMapParams()[propertyName];
+	//Trig[propDeleted, isDeleted, copyOfContents]: lets you know if something from mapParams was deleted and if so, what it was
+	$(formName()).trigger('_map_paramDeleted',[propertyName, isDeleted, noRefCopy]);
+}
+function setMapParams(obj){
+	//KS Overwrites properties
+	for(var property in obj){
+		getMapParams()[property] = obj[property];
+	}
+	
+}
+var specifics = mapParams;function setSpecifics(obj){setMapParams(obj);}function getSpecifics(){getMapParams();}
+function drawAssetLayer(layersToKeep){
+	if (getMapParams().selectQueueSize > 1){
+		keatonDrawAssetLayer(layersToKeep);
+	}else{
+		luthfanDrawAssetLayer();
+	}
+}
+
 function getWindowDrawBounds(xyMinMax){
     var scale = 1;
     if (getMapParams().drawWindowMultiplier !== null){
@@ -272,6 +597,14 @@ function getCommunalAssetURl() {
 		return getMapParams().assetURL;
 	    }   
         }
+		else if (specifics.formName === 'litter_flytipping'){
+	        specifics.assetURL = 'https://edinburghcouncilmaps.info/arcgis/rest/services/CouncilAssets/ConfirmAssets2/MapServer/26/query?f=pjson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=27700&outFields=*&outSR=27700&transformForward=false';
+	        
+	        console.log('call bro 2')
+		   return specifics.assetURL;
+		   
+	     }
+    }
         
     }
     else{
@@ -473,6 +806,13 @@ function zoomChanged(evt){
 		    //console.log('zoom under default');
 	    //KS zoom is at or more magnified than max level - so draw it
 	        drawAssetLayer();
+			if (luthfan) {
+				var xmaxE = esrimap.extent.xmax;
+				var ymaxE = esrimap.extent.ymax;
+				var xminE = esrimap.extent.xmin;
+				var yminE = esrimap.extent.ymin;
+				getOpenCaseMarker(xmaxE, xminE, ymaxE, yminE);
+			}
 	    }else{
 		    //console.log('zoom over default');
 	        //KS remove assets if above extent - aesthetic only
@@ -545,46 +885,11 @@ function mapClicked(marker, map) {
 }
 
 function highlightMissingAsset(globalX, globalY) {
-    
-    clearPreviousLayer();
-    showLoading();
-            
-	var newlayer = new GraphicsLayer();
-	var xcoord = parseInt(globalX);
-	var ycoord = parseInt(globalY);
-	console.log('ini geometry x ' + xcoord);
-
-	var url = getMapParams().addressSearchService.base;
-	url += '&location='+xcoord+'%2C+'+ycoord;//KS is the + within the string suposed to be there?
-	
-	console.log(url);
-
-	$.ajax({url: url,  crossDomain: true}).done(function(result) {
-		streetAddress = result.address;
-		console.log(result.address);
-
-		hideLoading();
-		console.log(streetAddress.Address);
-		 var content = streetAddress.Address + '</br></br>'
-		 + '<button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm Location</button></div>' ;
-
-		 var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: getMapParams().WKID}));
-
-		var markerSymbol = new PictureMarkerSymbol('/dformresources/content/map-blue.png', 64, 64);
-		markerSymbol.setOffset(0, 32);
-		var marker = new Graphic(centerpoint, markerSymbol);
-		marker.setAttributes({"value1": '1', "value2": '2', "value3": '3'});
-		newlayer.add(marker);
-		newlayer.on('click', function(event) {
-			setInfoWindowContent(content,xcoord,ycoord);
-		});
-		esrimap.addLayer(newlayer);
-
-		setInfoWindowContent(content,xcoord,ycoord);
-	}).fail(function() {
-		KDF.showError('It looks like the connection to our mapping system has failed, please try to log the fault again');
-	});
-		
+	if (getMapParams().selectQueueSize > 1){
+		keatonHighlightMissingAsset(globalX, globalY)
+	}else{
+		luthfanHighlightMissingAsset(globalX, globalY)
+	}
 }
 
 function processResult(searchInput){
@@ -610,6 +915,7 @@ function processResult(searchInput){
                 resultAssetArray[value.Abbreviation]['ymax'] = value.Street_Start_Y;
                 resultAssetArray[value.Abbreviation]['xmin']= value.Street_End_X;
                 resultAssetArray[value.Abbreviation]['ymin']= value.Street_End_Y;
+				resultAssetArray[value.Abbreviation]['USRN']= value.USRN;
           
 	        });
 	        
@@ -625,7 +931,9 @@ function processResult(searchInput){
 	          if(resultCount == 1){
 	              var xmax, xmin, ymax, ymin;
 	              $.each(resultAssetArray, function(key, resultAssetArray ) {
-					  
+					if (typeof KDF.getVal('txt_usrn') !== 'undefined') {
+    	                  KDF.setVal('txt_usrn', resultAssetArray.USRN);
+    	              }
 		          xmax = parseFloat(resultAssetArray.xmax);
 	                  xmin = parseFloat(resultAssetArray.xmin);
 	                  ymax = parseFloat(resultAssetArray.ymax);
@@ -926,31 +1234,25 @@ function addGeolocateButton(le_gis){
 	$(formName()).trigger('_map_geolocateButtonAdded',[parent.find('.esriLocateButton'), content]);
 }
 
-//Added by Luthfan, based from Herts, some changes by KS
-function parseRSMarker(response){
-	//KS: updated to use getWindowDrawBounds to suppoert getting with window multiplier
-	var xy = getWindowDrawBounds({
-		xMax:esrimap.extent.xmax,
-		yMax:esrimap.extent.ymax,
-		xMin:esrimap.extent.xmin,
-		yMin:esrimap.extent.ymin,
-	});
-	//KS Added require classes to central require
-	$.each(response.data, function( i, result ) {
-		if (xy.xMax >= result.longitude && xy.yMax >= result.latitude && xy.xMin <= result.longitude && xy.yMin <= result.latitude) {
-			var point = new Point(Number(result.longitude), Number(result.latitude), new esri.SpatialReference({ wkid: getMapParams().WKID }));
-			var markerSymbol = new PictureMarkerSymbol('/dformresources/content/map-green.png', 64, 64);
-
-			markerSymbol.setOffset(0, 0);//KS likely need an offset of 0,32 or 32,0 to be centered
-			var marker = new Graphic(point, markerSymbol);
-			marker.setAttributes({"title": '', "description": result.description});
-			
-			esrimap.graphics.add(marker);
-			//Trig[longitude, latitude, WKID, description]: when a case marker is displayed, this will give location and description
-			$(formName()).trigger('_map_caseMarkerDisplayed',[result.longitude, result.latitude, getMapParams().WKID, result.description]);
-		}
-	});
+function getOpenCaseMarker(xmax, xmin, ymax, ymin){
+       if (KDF.getVal('txt_eventcode')) { 
+                 
+                 //console.log('mantap')
+                 //console.log(KDF.getVal('txt_customer_id'))
+                 if (typeof KDF.getVal('txt_customer_id') !== undefined && KDF.getVal('txt_customer_id') !== "") {
+                   sx_customer_id = KDF.getVal('txt_customer_id'); 
+                    //console.log('asdf')
+                 } else if (KDF.getVal('txt_customer_id') === "") {
+                    sx_customer_id = '999999999'; 
+                     //console.log('assdf11df')
+                 }
+                 //console.log(sx_customer_id);
+               KDF.customdata('open_case_marker', 'create', true, true, {'eventcode': KDF.getVal('txt_eventcode'),'customerid': sx_customer_id, 'xmax': xmax.toString(), 'xmin':xmin.toString(), 'ymax': ymax.toString(), 'ymin': ymin.toString()});
+                //KDF.customdata('get_open_case_marker', 'create', true, true, {'eventcode': KDF.getVal('txt_eventcode')});
+                KDF.unlock();
+             }   
 }
+
 
 function formName(){
 	//KS: I want triggers to work same way as api.js, so need this to get name
