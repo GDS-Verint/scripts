@@ -1,3 +1,91 @@
+/*To match edinburgh portal*/
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v19/KFOmCnqEu92Fr1Mu7GxKOzY.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v19/KFOmCnqEu92Fr1Mu4mxK.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+#dform_container {
+    font-family: "Roboto", sans-serif;
+}
+
+#dform_container input, #dform_container select, #dform_container textarea {
+    font-size: 1.4em;
+    padding: 8px;
+}
+
+.btn-gov, .btn-back, .btn-gov:hover, .btn-gov:focus, .btn-back:hover, .btn-back:focus, .btn-orange, .btn-orange:focus, .btn-orange:hover{
+    background-color: #fff !important;
+    border: 2px solid #6d3465 !important;
+    border-radius: 4.5rem !important;
+    color: #6d3465 !important;
+    cursor: pointer !important;
+    display: inline-block !important;
+    font-family: "Roboto",sans-serif !important;
+    margin: 0 0 .75rem !important;
+    padding: .625rem 1.5rem !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+    -webkit-transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
+    -o-transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
+    transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
+    vertical-align: middle !important;
+    box-shadow: none !important;
+    font-size:16px!important;
+}
+.btn-continue, .btn-continue:hover, .btn-continue:focus{
+    background-color: #fff !important;
+    border: 2px solid #6d3465 !important;
+    border-radius: 4.5rem !important;
+    color: #6d3465 !important;
+    cursor: pointer !important;
+    display: inline-block !important;
+    font-family: "Roboto",sans-serif !important;
+    margin: 0 0 .75rem !important;
+    padding: .625rem 1.5rem !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+    -webkit-transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
+    -o-transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
+    transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
+    vertical-align: middle !important;
+    box-shadow: none !important;
+    font-size:16px!important;
+    
+    background-color: #6d3465 !important;
+    border-color: #6d3465 !important;
+    color: #fff !important;
+}
+
+.btn-gov:hover, .btn-gov:focus, .btn-back:hover, .btn-back:focus{
+    background-color: #000 !important;
+    border-color: #000 !important;
+    color: #fff !important;
+}
+.btn-continue:hover, .btn-continue:focus{
+    background-color: #000 !important;
+    border-color: #000 !important;
+    color: #fff !important;
+}
+
+
+/*Edinburgh portal adaption END*/
+
+
+
 /*
 Colours being used:
     Error red (darkest) warning notice border:
@@ -7,7 +95,7 @@ Colours being used:
     Error red lighter
         #d45252
     Main color (box blue)
-        #0072ef
+        #6d3465
     Highlight yellow
         #FFBF47, #ffbf47
     Softer white:
@@ -15,9 +103,9 @@ Colours being used:
     Soft grey (read-only)
         #DDD
     Info notice background:
-        #d3edf8
+        #f0eaef
     Darker blue (Info notice border and icon):
-        #00529B, #0056B3
+        #5c2c55, #5c2c55
     Box green, green button:
         #00823b
     Darker green for highlights:
@@ -34,6 +122,27 @@ Colours being used:
         white, #fff, #FFF
 */
 
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v19/KFOmCnqEu92Fr1Mu7GxKOzY.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v19/KFOmCnqEu92Fr1Mu4mxK.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+#dform_container {
+    font-family: "Roboto", sans-serif;
+}
+
 /*
 -----------------------------------------------
 KS: searches - Start
@@ -44,7 +153,7 @@ KS: searches - Start
 }
 .cs-gov fieldset, .ss-gov fieldset, .ps-gov fieldset, .os-gov fieldset, .search-gov fieldset {
     border: none !important;
-    border-left: 5px solid #0072ef !important;
+    border-left: 5px solid #6d3465 !important;
     border-radius: 0 !important;
     
 }
@@ -53,7 +162,7 @@ KS: searches - Start
     left: -15px !important;
     padding-left: 20px !important;
     font-weight: bold !important;
-    background: #0072ef !important;
+    background: #6d3465 !important;
     color: white !important;
     
 }
@@ -84,14 +193,14 @@ KS: area Start
 .area-gov > fieldset{
     border: none !important;
     border-radius: 0 !important;
-    border-left: 5px solid #0072ef !important;
+    border-left: 5px solid #6d3465 !important;
 }
 .area-gov > fieldset > legend{
     position: relative !important;
     left: -15px !important;
     padding-left: 20px !important;
     font-weight: bold !important;
-    background: #0072ef !important;
+    background: #6d3465 !important;
     color: white !important;
 }
 
@@ -105,7 +214,7 @@ KS: area Start
 .area-no-group > fieldset > legend, .cs-no-group legend, .ss-no-group legend, .ps-no-group legend, .os-no-group legend, .search-no-group legend{
     left: 0 !important;
     padding-left: 0 !important;
-    color: #0072ef !important;
+    color: #6d3465 !important;
     background: none !important;
 }
 
@@ -149,16 +258,16 @@ Need to deside on new generic button - the continue should be promanant - maybe 
 
 /*btn-gov------------------------------------*/
 .btn-gov{
-    box-shadow: inset 0 -2px 0 /*#003618*/ #00529B !important;
-    background: /*#00823b*/ #0072ef!important;
+    box-shadow: inset 0 -2px 0 /*#003618*/ #5c2c55 !important;
+    background: /*#00823b*/ #6d3465!important;
 }
 .btn-gov:hover{
-    box-shadow: inset 0 -2px 0 /*#003618*/ #00529B !important;
-    background: /*#00682e*/ #0056B3!important;
+    box-shadow: inset 0 -2px 0 /*#003618*/ #5c2c55 !important;
+    background: /*#00682e*/ #5c2c55!important;
     
 }
 .btn-gov:focus{
-    box-shadow: inset 0 -2px 0 /*#003618*/ #00529B, 0 0 0 3px #FFBF47 !important;
+    box-shadow: inset 0 -2px 0 /*#003618*/ #5c2c55, 0 0 0 3px #FFBF47 !important;
 }
 
   
@@ -242,7 +351,7 @@ Need to deside on new generic button - the continue should be promanant - maybe 
 
 /*btn-link------------------------------------*/
 .btn-link{
-    color:#0072ef!important;
+    color:#6d3465!important;
     background: none !important;
     border: none !important;
     cursor: pointer !important;
@@ -356,12 +465,12 @@ KS: file-gov Start
 .file-gov .dform_filenames span{
     display: inline-block;
     /*KS: removed to be up to WCAG2AAA
-    color: #0072ef !important;
+    color: #6d3465 !important;
     padding: 2px;
     margin: 2px;
     border-radius: 5px;
     margin-right: 2px !important;
-    border: 2px solid #0072ef;*/
+    border: 2px solid #6d3465;*/
 }
 /*KS: removes the >> before file names*/
 .file-gov .dform_filenames span:before{
@@ -370,21 +479,21 @@ KS: file-gov Start
 
 /*KS: darken when hover-able */
 .file-gov  input:hover ~ .file-gov-icon{
-    background: #0056B3 !important; /*Darkened Varint blue*/
+    background: #5c2c55 !important; /*Darkened Varint blue*/
 }
 /*KS: darken when hover-able */
 .file-gov  input:focus ~ .file-gov-icon{
-    background: #0056B3 !important; /*Darkened Varint blue*/
-    box-shadow: inset 0 -2px 0 #00529B, 0 0 0 3px #FFBF47 !important;
+    background: #5c2c55 !important; /*Darkened Varint blue*/
+    box-shadow: inset 0 -2px 0 #5c2c55, 0 0 0 3px #FFBF47 !important;
 }
 /*KS depreciated: style when field with error is focused*/
 .file-gov  input.dform_fielderror:focus ~ .file-gov-icon{
-    box-shadow: inset 0 -2px 0 #00529B, 0px 0.2px 0px 2px #d45252, 0px 0.2px 0px 5px #FFBF47 !important;
+    box-shadow: inset 0 -2px 0 #5c2c55, 0px 0.2px 0px 2px #d45252, 0px 0.2px 0px 5px #FFBF47 !important;
     border-color: #d45252 !important;
 }
 /*KS depreciated: change border to red when it has an error*/
 .file-gov  .dform_fielderror ~ .file-gov-icon{
-    box-shadow: inset 0 -2px 0 #00529B, 0px 0.2px 0px 2px #d45252;
+    box-shadow: inset 0 -2px 0 #5c2c55, 0px 0.2px 0px 2px #d45252;
     outline: none;
 }
 .file-gov-icon {
@@ -398,11 +507,11 @@ KS: file-gov Start
   
   /*KS: GOV button*/
   color: #fff;
-  box-shadow: inset 0 -2px 0 #00529B; /*Dark blue*/
+  box-shadow: inset 0 -2px 0 #5c2c55; /*Dark blue*/
   border: none;
   border-radius: 0px;
   outline-offset: -1px;
-  background: #0072ef; /*Verint blue*/
+  background: #6d3465; /*Verint blue*/
   
   
   /*KS: too subtle to notice change: -webkit-transition: background 0.5s ease-out; -moz-transition: background 0.5s ease-out;   -o-transition: background 0.5s ease-out;    transition: background 0.5s ease-out;*/
@@ -462,10 +571,10 @@ KS: file-gov Start
     visibility: visible;
     height: 30px !important;
     margin: 5px !important;
-    border: 2px solid #0072ef !important;/*Verint blue*/ 
+    border: 2px solid #6d3465 !important;/*Verint blue*/ 
 }
 .file-progress .dform_fileupload_progressbar > div{
-    background: #0072ef !important; /*Verint blue*/
+    background: #6d3465 !important; /*Verint blue*/
 }
 
 /*File-no-legend-------------------------------*/
@@ -693,12 +802,12 @@ KS: Info notice - Start
 */
 .info-notice {
     position: relative;
-    background-color: #D3EDF8;
+    background-color: #f0eaef;
     padding: 10px 10px 10px 55px;
     /*padding-left: 55px;
     padding-top:10px;
     padding-bottom:10px;*/
-    border: solid #00529B;
+    border: solid #5c2c55;
     border-width: 5px ;
     margin-bottom: 15px;
 }
@@ -711,7 +820,7 @@ KS: Info notice - Start
   left: 0;
   height: 41px;
   width: 41px;
-  background-color: #00529B;/*uncheck background*/
+  background-color: #5c2c55;/*uncheck background*/
   border-radius: 50%;
   margin-left: 5px;
   -ms-transform: translateY(-50%);
@@ -786,8 +895,8 @@ KS: Custom gov radio buttons - Start
   width: 35px;
   background-color: white;/*uncheck background*/
   border-radius: 75%;
-  /*border: 3px solid #0072ef;Inconsistint sizing between host and VOF*/
-  box-shadow: inset 0 0 0 3px #0072ef;
+  /*border: 3px solid #6d3465;Inconsistint sizing between host and VOF*/
+  box-shadow: inset 0 0 0 3px #6d3465;
 }
 /*KS: Create the indicator (the dot/circle - hidden when not checked) */
 .rad-check:after {
@@ -806,7 +915,7 @@ KS: Custom gov radio buttons - Start
   width: 21px;
   height: 21px;
   border-radius: 50%;
-  background: #0072ef;
+  background: #6d3465;
 }
 /*KS: Customizes the help text */
 .rad-gov > div > fieldset .helptext {
@@ -835,7 +944,7 @@ KS: Custom gov radio buttons - Start
 }
 .rad-gov > div > fieldset > span  input:focus ~ .rad-check{
     /*border: 3px solid red !important;*/
-    box-shadow: 0 0 0 3px #FFBF47, inset 0 0 0 3px #0072ef;
+    box-shadow: 0 0 0 3px #FFBF47, inset 0 0 0 3px #6d3465;
 }
 .rad-gov > div > fieldset{
     margin: 0 !important;
@@ -885,12 +994,12 @@ KS: gov checkbox Start
   left: 0;
   height: 29px;
   width: 29px;
-  border: 3px solid #0072ef;
+  border: 3px solid #6d3465;
   border-radius: 15%;
 }
 /*KS: When the checkbox is checked, add a blue background */
 .chk-gov > div  input:checked ~ .chk-check {
-  background-color: #0072ef;
+  background-color: #6d3465;
 }
 /*KS: Create the indicator (the dot/circle - hidden when not checked) */
 .chk-check:after {
@@ -990,11 +1099,11 @@ KS: Custom gov multi-checkbox - Start
   width: 29px;
   background-color: white;/*uncheck background*/
   border-radius: 15%;
-  border: 3px solid #0072ef;
+  border: 3px solid #6d3465;
 }
 /*KS: When checked, it fills background*/
 .mchk-gov > div > fieldset > span  input:checked ~ .mchk-check {
-    background-color: #0072ef;
+    background-color: #6d3465;
 }
 /*KS: Create the indicator (the dot/circle - hidden when not checked) */
 .mchk-check:after {
@@ -1128,7 +1237,7 @@ KS: Custom gov multi-checkbox - Start
     margin-bottom: 6px;
 }
 .box-blue{
-    background: #0072ef;
+    background: #6d3465;
     margin-bottom: 6px;
 }
 .box-orange{
@@ -1185,7 +1294,7 @@ KS: Custom gov multi-checkbox - Start
     height: 0px;
 }
 .detail-block{
-    border-left: 5px solid #0072ef;
+    border-left: 5px solid #6d3465;
     padding-left: 10px;
     position: relative;
     top: -7px;
@@ -1382,69 +1491,3 @@ KS: Custom gov multi-checkbox - Start
 abbr{
     text-decoration-line: none;
 }
-
-
-/*To match edinburgh portal*/
-#dform_container input, #dform_container select, #dform_container textarea {
-    font-size: 1.4em;
-    padding: 8px;
-}
-
-.btn-gov, .btn-back, .btn-gov:hover, .btn-gov:focus, .btn-back:hover, .btn-back:focus, .btn-orange, .btn-orange:focus, .btn-orange:hover{
-    background-color: #fff !important;
-    border: 2px solid #6d3465 !important;
-    border-radius: 4.5rem !important;
-    color: #6d3465 !important;
-    cursor: pointer !important;
-    display: inline-block !important;
-    font-family: "Roboto",sans-serif !important;
-    margin: 0 0 .75rem !important;
-    padding: .625rem 1.5rem !important;
-    text-align: center !important;
-    text-decoration: none !important;
-    text-transform: uppercase !important;
-    -webkit-transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
-    -o-transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
-    transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
-    vertical-align: middle !important;
-    box-shadow: none !important;
-    font-size:16px!important;
-}
-.btn-continue, .btn-continue:hover, .btn-continue:focus{
-    background-color: #fff !important;
-    border: 2px solid #6d3465 !important;
-    border-radius: 4.5rem !important;
-    color: #6d3465 !important;
-    cursor: pointer !important;
-    display: inline-block !important;
-    font-family: "Roboto",sans-serif !important;
-    margin: 0 0 .75rem !important;
-    padding: .625rem 1.5rem !important;
-    text-align: center !important;
-    text-decoration: none !important;
-    text-transform: uppercase !important;
-    -webkit-transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
-    -o-transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
-    transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
-    vertical-align: middle !important;
-    box-shadow: none !important;
-    font-size:16px!important;
-    
-    background-color: #6d3465 !important;
-    border-color: #6d3465 !important;
-    color: #fff !important;
-}
-
-.btn-gov:hover, .btn-gov:focus, .btn-back:hover, .btn-back:focus{
-    background-color: #000 !important;
-    border-color: #000 !important;
-    color: #fff !important;
-}
-.btn-continue:hover, .btn-continue:focus{
-    background-color: #000 !important;
-    border-color: #000 !important;
-    color: #fff !important;
-}
-
-
-/*Edinburgh portal adaption END*/
