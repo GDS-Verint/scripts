@@ -596,15 +596,11 @@ function getCommunalAssetURl() {
 		getMapParams().assetURL = 'https://edinburghcouncilmaps.info/arcgis/rest/services/CouncilAssets/ConfirmAssets2/MapServer/3/query?f=pjson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=27700&outFields=*&outSR=27700&transformForward=false';
 		return getMapParams().assetURL;
 	    }   
-        }
-		else if (specifics.formName === 'litter_flytipping'){
-	        specifics.assetURL = 'https://edinburghcouncilmaps.info/arcgis/rest/services/CouncilAssets/ConfirmAssets2/MapServer/26/query?f=pjson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=27700&outFields=*&outSR=27700&transformForward=false';
-	        
-	        console.log('call bro 2')
-		   return specifics.assetURL;
-		   
-	     }
-    }
+        }else if (specifics.formName === 'litter_flytipping'){
+	     specifics.assetURL = 'https://edinburghcouncilmaps.info/arcgis/rest/services/CouncilAssets/ConfirmAssets2/MapServer/26/query?f=pjson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=27700&outFields=*&outSR=27700&transformForward=false';
+	     console.log('call bro 2')
+	     return specifics.assetURL;
+	}
         
     }
     else{
