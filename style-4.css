@@ -1382,3 +1382,69 @@ KS: Custom gov multi-checkbox - Start
 abbr{
     text-decoration-line: none;
 }
+
+
+/*To match edinburgh portal*/
+#dform_container input, #dform_container select, #dform_container textarea {
+    font-size: 1.4em;
+    padding: 8px;
+}
+
+.btn-gov, .btn-back, .btn-gov:hover, .btn-gov:focus, .btn-back:hover, .btn-back:focus, .btn-orange, .btn-orange:focus, .btn-orange:hover{
+    background-color: #fff !important;
+    border: 2px solid #6d3465 !important;
+    border-radius: 4.5rem !important;
+    color: #6d3465 !important;
+    cursor: pointer !important;
+    display: inline-block !important;
+    font-family: "Roboto",sans-serif !important;
+    margin: 0 0 .75rem !important;
+    padding: .625rem 1.5rem !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+    -webkit-transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
+    -o-transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
+    transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
+    vertical-align: middle !important;
+    box-shadow: none !important;
+    font-size:16px!important;
+}
+.btn-continue, .btn-continue:hover, .btn-continue:focus{
+    background-color: #fff !important;
+    border: 2px solid #6d3465 !important;
+    border-radius: 4.5rem !important;
+    color: #6d3465 !important;
+    cursor: pointer !important;
+    display: inline-block !important;
+    font-family: "Roboto",sans-serif !important;
+    margin: 0 0 .75rem !important;
+    padding: .625rem 1.5rem !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+    -webkit-transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
+    -o-transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
+    transition: background-color .1s ease-out,border-color .1s ease-out,color .1s ease-out !important;
+    vertical-align: middle !important;
+    box-shadow: none !important;
+    font-size:16px!important;
+    
+    background-color: #6d3465 !important;
+    border-color: #6d3465 !important;
+    color: #fff !important;
+}
+
+.btn-gov:hover, .btn-gov:focus, .btn-back:hover, .btn-back:focus{
+    background-color: #000 !important;
+    border-color: #000 !important;
+    color: #fff !important;
+}
+.btn-continue:hover, .btn-continue:focus{
+    background-color: #000 !important;
+    border-color: #000 !important;
+    color: #fff !important;
+}
+
+
+/*Edinburgh portal adaption END*/
