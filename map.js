@@ -424,11 +424,11 @@ function keatonDrawAssetLayer(layersToKeep){
 //KS: use this to get status
 var mapScriptStatus = jQuery.Deferred();
 
-var TemplatePicker, Map, Point, SimpleMarkerSymbol, PictureMarkerSymbol, Graphic, GraphicsLayer, InfoWindow, Circle, Units, GeometryService, SpatialReference, Color, Popup, Geocoder, OverviewMap, Identify, Find, InfoTemplate, PictureMarkerSymbol;
+var Map, Point, SimpleMarkerSymbol, PictureMarkerSymbol, Graphic, GraphicsLayer, InfoWindow, Circle, Units, GeometryService, SpatialReference, Color, Popup, Geocoder, OverviewMap, Identify, Find, InfoTemplate, PictureMarkerSymbol;
 
-require(["esri/dijit/editing/TemplatePicker", "esri/map", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/graphic", "esri/layers/GraphicsLayer", "esri/dijit/InfoWindow", "esri/geometry/Circle", "esri/units", "esri/tasks/GeometryService", "esri/SpatialReference", "esri/Color", "esri/dijit/Popup", "esri/dijit/Geocoder", "esri/dijit/OverviewMap", "esri/tasks/identify", "esri/tasks/find", "esri/InfoTemplate", "esri/symbols/PictureMarkerSymbol", "dojo/domReady!"],
-	function(classTemplatePicker, classMap, classPoint, classSimpleMarkerSymbol, classPictureMarkerSymbol, classGraphic, classGraphicsLayer, classInfoWindow, classCircle, classUnits, classGeometryService, classSpatialReference, classColor, classPopup, classGeocoder, classOverviewMap, classIdentify, classFind, classInfoTemplate, classPictureMarkerSymbol) {
-		TemplatePicker=classTemplatePicker; Map=classMap; Point=classPoint; SimpleMarkerSymbol=classSimpleMarkerSymbol; PictureMarkerSymbol=classPictureMarkerSymbol; Graphic=classGraphic; GraphicsLayer=classGraphicsLayer; InfoWindow=classInfoWindow; Circle=classCircle; Units=classUnits; GeometryService=classGeometryService; SpatialReference=classSpatialReference; Color=classColor; Popup=classPopup; Geocoder=classGeocoder; OverviewMap=classOverviewMap; Identify=classIdentify; Find=classFind; InfoTemplate=classInfoTemplate; PictureMarkerSymbol=classPictureMarkerSymbol;
+require(["esri/map", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/graphic", "esri/layers/GraphicsLayer", "esri/dijit/InfoWindow", "esri/geometry/Circle", "esri/units", "esri/tasks/GeometryService", "esri/SpatialReference", "esri/Color", "esri/dijit/Popup", "esri/dijit/Geocoder", "esri/dijit/OverviewMap", "esri/tasks/identify", "esri/tasks/find", "esri/InfoTemplate", "esri/symbols/PictureMarkerSymbol", "dojo/domReady!"],
+	function(classMap, classPoint, classSimpleMarkerSymbol, classPictureMarkerSymbol, classGraphic, classGraphicsLayer, classInfoWindow, classCircle, classUnits, classGeometryService, classSpatialReference, classColor, classPopup, classGeocoder, classOverviewMap, classIdentify, classFind, classInfoTemplate, classPictureMarkerSymbol) {
+		Map=classMap; Point=classPoint; SimpleMarkerSymbol=classSimpleMarkerSymbol; PictureMarkerSymbol=classPictureMarkerSymbol; Graphic=classGraphic; GraphicsLayer=classGraphicsLayer; InfoWindow=classInfoWindow; Circle=classCircle; Units=classUnits; GeometryService=classGeometryService; SpatialReference=classSpatialReference; Color=classColor; Popup=classPopup; Geocoder=classGeocoder; OverviewMap=classOverviewMap; Identify=classIdentify; Find=classFind; InfoTemplate=classInfoTemplate; PictureMarkerSymbol=classPictureMarkerSymbol;
 		mapScriptStatus.resolve();//KS allows you to identify when classes are loaded
 		//Trig: When all the classes are loaded. A better method that can be used in a function is mapScriptStatus.done()
 		$(formName()).trigger('_map_classesLoaded');
@@ -441,7 +441,6 @@ var mapParams = {
     extent: [334905.5753111506, 310733.193633054, 680181.2782575564, 663544.2449834899],// minX, maxX, minY, maxY
 	WKID: 27700,
 	WKIDProj4: '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs',
-	markerSymbol:{color:[255, 183, 76], size:"8", outline:{color:[76, 76, 89],width: "1.5"}},
 	geolocateButton: true,
 	geolocateAuto: false,
 	geolocateWKID: 4326,
@@ -461,7 +460,7 @@ var mapParams = {
             points:[],
             uniqueField:'FEATURE_ID',
         	selectedAssets:['RHF12','RHF10','RHF24'],
-        	selectSymbol:{color:[240, 234, 239], size:"5", outline:{color: [109, 52, 101],width: "1.5"}},
+        	selectSymbol:{color:[4, 4, 100], size:"5", outline:{color: [100, 6, 6],width: "1"}},
         	wkid:27700,
     }],
 	searchURL:{base: window.location.origin+'/locatorhub/arcgis/rest/services/CAG/POSTCODE/GeocodeServer/findAddressCandidates?&SingleLine=&Fuzzy=true&outFields=*&maxLocations=2000&f=pjson&outSR=27700',varParams:['LH_POSTCODE']},
@@ -469,12 +468,6 @@ var mapParams = {
 	backgroundMapService: window.location.origin+'/arcgis/rest/services/Basemaps/BasemapColour/MapServer',
 	addressSearchService:{base: window.location.origin+'/arcgis/rest/services/CAG/ADDRESS/GeocodeServer/reverseGeocode?distance=300&outSR=27700&f=json'},
 	processResultURL: window.location.origin+'/ci/AjaxCustom/cagSearch',
-	img:{
-		'map-blue':['/dformresources/content/map-blue.png',64,64],
-		'map-green':['/dformresources/content/map-green.png',64,64],
-		'map-red':['/dformresources/content/map-red.png',64,64],
-	},
-	generateGISKey:true,
 	
 };
 
@@ -542,9 +535,6 @@ $('#dform_container').off('_KDF_mapReady').on('_KDF_mapReady', function(event, k
 	if (getMapParams().geolocateAuto){
 		geolocate();
 	}
-	/*if (getMapParams().generateGISKey){
-		generateGISKey();
-	}*/
 	//KS to avoid the bug with customerFeilds not being constructed at _KDF_ready
 	/*if (typeof regexSearch = 'function')*/ regexSearch("[0-9A-Za-z ]{3,}");
 	
@@ -1269,76 +1259,4 @@ function formName(){
 		//KS: just incase, this will work in most cases (it's what was used before)
 		return '#dform_container';
 	}
-}
-
-function generateGISKey(rootElement, params){
-	if (rootElement == undefined){
-		$('#dform_widget_le_gis').parent().prepend($('<div class="headerGIS" id="GIS_header"></div>'));
-		rootElement = $('#GIS_header')
-	}
-    var mp = getMapParams();
-	var key = [];
-	var candidates;
-	var nameAssetArray = params.nameAssetArray;
-	
-	if (nameAssetArray == undefined){
-	    candidates = [
-    		['Street light',mp.markerSymbol],
-    		//KS: enable to show what the multiselect symbol looks like ['Selected',mp.selectStorageDefaultUserSelect.selectSymbol],
-    		['Open issue',mp.img['map-green']],
-    		['Subscribed case',mp.img['map-blue']],
-    	]
-	}else{
-	  candidates = nameAssetArray;
-	}
-	
-	candidates.forEach(function(item){
-		if (item[1] != undefined){
-			//TODO function to convert resource/symbol into standard icon e.g. var asset = iconize(item[1], {type:'px', amount:32});
-			key.push(iconize(item[1], item[0]));
-		}
-	});
-	
-	rootElement.append('<div style="position: relative"><div id="GISLegend" class="GISLegend" style="position: absolute; right: 0; top: -60px;"></div></div>');
-	
-	var templatePicker = new TemplatePicker({
-          items:key,
-          rows:"auto",
-          columns:key.length,
-        },
-        'GISLegend'
-    );
-    
-    templatePicker.startup();
-    console.log(templatePicker.domNode)        
-    //KS html object templatePicker.domNode
-}
-
-function iconize(resource, name){
-    var isArray = Array.isArray(resource);
-    var isObject = resource && typeof resource === 'object' && resource.constructor === Object;
-    var item;
-    console.log(resource);
-    console.log(new SimpleMarkerSymbol(resource))
-    
-    if (isArray){
-        //KS likely a dformresource
-        //KS TODO validate resource excists
-        if (resource[1] != undefined && resource[2] != undefined){
-            //has size
-            item = new PictureMarkerSymbol(window.location.origin + resource[0], resource[1], resource[2]);
-            return {label: name, symbol: item, type:'esriPMS'};
-        }else{
-            //doesn't have size - use default resource size
-            item = new PictureMarkerSymbol(window.location.origin)
-            return {label: name, symbol: item, type:'esriPMS'};
-        }
-    }else if(!isArray && isObject){
-        //KS likely a simple marker symbol
-        item = new SimpleMarkerSymbol(resource)
-        return {label: name, description: name, symbol: item, type:'esriPMS'};
-    }else{
-        console.log("Can't find the value of passed resource")
-        return false;
-    }
 }
