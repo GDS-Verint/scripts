@@ -53,14 +53,6 @@ $(document).on('keypress','#dform_widget_txt_postcode',function() {
     searchBegin();
   }
 });
-
-// let's get back to this after the meeting
-$(document).on('click','.mapConfirm',function() {
-    KDF.setVal('txt_issuestreet',KDF.getVal('le_gis_rgeo_desc'));
-    //call process adapter
-   // KDF.customdata('get_street_id', 'create', true, true, {'street_name': site_name_temp});
-    KDF.gotoNextPage();
- });
  
 $(document).on('click','#dform_widget_button_but_search',function() {
   searchBegin();
