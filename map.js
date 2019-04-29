@@ -549,22 +549,6 @@ $(document).on('click','#dform_widget_button_but_search',function() {
   }
 });
 
-//KS: checking that it's ok to remove
-$(document).on('click','#dform_widget_button_but_nextcall',function() {
-  //console.log('next clicked');
-    
-    if (esrimap !== null){
-		clearPreviousLayer();
-		esrimap.infoWindow.hide();
-        drawBaseLayer();
-        //esrimap.setZoom(2);
-        var centerpoint = new Point(325375, 673865, new esri.SpatialReference({wkid: getMapParams().WKID}));
-		esrimap.centerAndZoom(centerpoint, 2);
-		drawAssetLayer();
-    }
-  
-});
-
 
 function getCommunalAssetURl() {
     //KS now supports a url asset code defined on an element called 'asset_layer' and a URL defined in the scriting tab within 'getMapParams().assetURL'. If none is found then return false (since no reasonable default can be supplied)
@@ -983,6 +967,8 @@ function hideLoading(error){
 }
 
 function searchBegin(){
+       KDF.showWidget('ahtm_report_without_map');
+    
        KDF.hideMessages();
        searchInput = KDF.getVal('txt_postcode');
        $('#dform_widget_fault_reporting_search_results').empty();
