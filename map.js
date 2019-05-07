@@ -14,9 +14,10 @@ var site_name_temp = '';
  var ymax = esrimap.extent['ymax'];
  var xmin = esrimap.extent['xmin'];
  var ymin = esrimap.extent['ymin'];
+ 
 
-     require([ "esri/symbols/SimpleMarkerSymbol", "esri/graphic", "esri/Color", "esri/InfoTemplate", "esri/symbols/PictureMarkerSymbol", "dojo/domReady!" ],
-        function(SimpleMarkerSymbol,  Graphic,  Color, InfoTemplate, PictureMarkerSymbol) {
+     require([ "esri/graphic", "esri/Color", "esri/InfoTemplate", "esri/symbols/PictureMarkerSymbol", "dojo/domReady!" ],
+        function(Graphic,  Color, InfoTemplate, PictureMarkerSymbol) {
             caseLayer = new esri.layers.GraphicsLayer({id:"case_marker_layer"});
               $.each(response.data, function( i, result ) {
                   
@@ -25,25 +26,34 @@ var site_name_temp = '';
     			
     				 markerSymbol.setOffset(0, 0);
     				 var caseGraphic = new Graphic(point, markerSymbol);
-    				 caseGraphic.setAttributes({"title":'', "description": result.description, "caseid": result.title});
-    				 //console.log(result.description);
-    				 //esrimap.graphics.add(marker);
+    				 caseGraphic.setAttributes({"title":'', "description": result.description, "caseid": result.title, "latitude": result.latitude, "longitude": result.longitude});
+    				 
                      caseLayer.add(caseGraphic);
 
              });
-             //console.log(caseLayer)
                caseLayer.on('click', function(event) {
-                  console.log(event.graphic.attributes.caseid)
-                  KDF.setVal('txt_case_id_subscribe', event.graphic.attributes.caseid)
-    		   if (typeof esrimap.getLayer("graphicsLayer2") !== 'undefined') {
-                   esrimap.getLayer("graphicsLayer2").hide();
-               }
-    			});
-    			esrimap.addLayer(caseLayer);
-             }); 
-            
-            //console.log('esrimap length boys' + esrimap.graphicsLayerIds.length)
-            //esrimap.reorderLayer(esrimap.getLayer("case_marker_layer"), esrimap.graphicsLayerIds.length + 1);
+                     esrimap.infoWindow.hide();
+                      //console.log(event.graphic.attributes.latitude)
+                        
+                       esrimap.setInfoWindowOnClick(false);
+                    
+                      KDF.setVal('txt_case_id_subscribe', event.graphic.attributes.caseid)
+                	  if (typeof esrimap.getLayer("graphicsLayer2") !== 'undefined') {
+                           esrimap.getLayer("graphicsLayer2").hide();
+                       }
+                           
+                       var lan = event.graphic.attributes.latitude ;
+                       var long =  event.graphic.attributes.longitude ;
+                       
+                       //var centerpoint = new Point(parseInt(long), parseInt(lan), new esri.SpatialReference({wkid: 27700}));
+		               // esrimap.centerAndZoom(centerpoint, 6);
+                           
+                       luthfancallInfoWindow2(parseInt(lan), parseInt(long));
+                       
+                     });
+                           
+            	esrimap.addLayer(caseLayer);
+       }); 
              //console.log(esrimap)
 }
 
@@ -222,13 +232,20 @@ function luthfanDrawAssetLayer(){//TODO update URL
         function(SimpleMarkerSymbol,  Graphic,  Color) {
 
 		assetLayer = new esri.layers.GraphicsLayer({id:"asset_layer"});
+        /*
+        var infoTemplate = new InfoTemplate();
+        
+         infoTemplate.setTitle("hello there");
+         infoTemplate.setContent("please pop up");
 
+        assetLayer.setInfoTemplate(infoTemplate);
+        */
         var redColor = Color.fromArray([0, 204, 153]);
-        var sms;
-			if (specifics.markerSymbol){
 			    //KS: use defind object to create marker
 				sms = new SimpleMarkerSymbol(specifics.markerSymbol);
-		    }else{
+		    
+        var sms;
+			if (specifics.markerSymbol){}else{
 			    //KS: use default marker
 				sms = new SimpleMarkerSymbol({
                   color: redColor,
@@ -248,33 +265,44 @@ function luthfanDrawAssetLayer(){//TODO update URL
 	        
 	        if (KDF.getVal('asset_layer')) {
 	            infoWindowContent = '<b>Asset ID</b> : ' + value.attributes.ASSET_ID + '</br><b>Location : </b>' + 
-								value.attributes.feature_location + '</br><b>Site Name : </b>' + value.attributes.site_name
-								+ '</br><b>Type Name : </b>' + value.attributes.feature_type_name
+								value.attributes.feature_location + '</br><b>Site name : </b>' + value.attributes.site_name
+								+ '</br><b>Type name : </b>' + value.attributes.feature_type_name
 								 + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm location</button></div>';
 	        } else {
 	            //console.log('litter')
 	         infoWindowContent = '<b>Asset ID</b> : ' + value.attributes.ASSET_ID + '</br><b>Location : </b>' + 
-								value.attributes.LOCATION + '</br><b>Site Name : </b>' + value.attributes.SITE_NAME + '</br><b>Type Name : </b>' + value.attributes.TYPE_NAME
+								value.attributes.LOCATION + '</br><b>Site name : </b>' + value.attributes.SITE_NAME + '</br><b>Type name : </b>' + value.attributes.TYPE_NAME
 								 + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm location</button></div>';
          
 	        }
 	        
 	        var point = new Point(Number(value.geometry.x), Number(value.geometry.y), new esri.SpatialReference({ wkid: 27700 }));
 	        var graphic = new esri.Graphic(point, sms);  
+	        /*
+	           var infoTemplate = new InfoTemplate();
+
+             infoTemplate.setTitle("");
+             infoTemplate.setContent("${description}");
+             
+	        graphic.setInfoTemplate(infoTemplate);
+	        */
+	        
+	        
 	         if (KDF.getVal('asset_layer')) {
 	              graphic.setAttributes({"title": '', "description": infoWindowContent, "site_name":value.attributes.site_name, "latitude":value.geometry.y, "longitude":value.geometry.x});
 	        } else {
                  graphic.setAttributes({"title": '', "description": infoWindowContent, "site_name": value.attributes.SITE_NAME, "latitude":value.geometry.y, "longitude":value.geometry.x});
 	        }
-	     
+	
+	      
 		    assetLayer.add(graphic);
 	    });
 	    
 	         // assign the click event to the 
     	     assetLayer.on('click', function(event) {
     	         console.log(event.graphic.attributes)
-    	         
-    	         site_name_temp = event.graphic.attributes.site_name;
+    	         esrimap.setInfoWindowOnClick(false);
+    	         //site_name_temp = event.graphic.attributes.site_name;
     				//console.log(event.mapPoint.x);
     				if (typeof esrimap.getLayer("graphicsLayer2") !== 'undefined') {
                         esrimap.removeLayer(esrimap.getLayer("graphicsLayer2"));
@@ -285,7 +313,18 @@ function luthfanDrawAssetLayer(){//TODO update URL
                     
                      KDF.customdata('reverse-geocode-edinburgh', 'create', true, true, {'longitude': long.toString() , 'latitude' : lan.toString()});
                     KDF.unlock();
-                   // esrimap.centerAt(new Point(event.mapPoint.x, event.mapPoint.y, new esri.SpatialReference({ wkid: 27700 })));
+                    
+                    if (typeof KDF.getVal('txt_lat') != 'undefined' && KDF.getVal('txt_long') != 'undefined') {
+                        KDF.setVal('txt_lat', lan.toString());
+                        KDF.setVal('txt_long', long.toString());
+                    }
+                    
+                   // esrimap.centerAndZoom(new Point(long, lan, new esri.SpatialReference({ wkid: 27700 })), 6);
+                  //assetLayer.redraw();
+                  luthfancallInfoWindow(infoWindowContent, lan, long);
+                  
+                  // esrimap.centerAt(new Point(long, lan, new esri.SpatialReference({ wkid: 27700 })));
+                   
     			});
 
         	 esrimap.addLayer(assetLayer);
@@ -459,7 +498,8 @@ var mapParams = {
 	baseLayerService: window.location.origin+'/arcgis/rest/services/Basemaps/BasemapColour/MapServer/find',
 	backgroundMapService: window.location.origin+'/arcgis/rest/services/Basemaps/BasemapColour/MapServer',
 	addressSearchService:{base: window.location.origin+'/arcgis/rest/services/CAG/ADDRESS/GeocodeServer/reverseGeocode?distance=300&outSR=27700&f=json'},
-	processResultURL: window.location.origin+'/ci/AjaxCustom/cagSearch',
+	//processResultURL: window.location.origin+'/ci/AjaxCustom/cagSearch',
+	processResultURL:{base: window.location.origin+'/locatorhub/arcgis/rest/services/CAG/STREET/GeocodeServer/findAddressCandidates?SingleLine=&Fuzzy=true&outFields=*&maxLocations=2000&outSR=27700&f=pjson',varParams:['LH_STREET']}
 	
 };
 
@@ -549,7 +589,6 @@ $(document).on('click','#dform_widget_button_but_search',function() {
   }
 });
 
-
 function getCommunalAssetURl() {
     //KS now supports a url asset code defined on an element called 'asset_layer' and a URL defined in the scriting tab within 'getMapParams().assetURL'. If none is found then return false (since no reasonable default can be supplied)
     if (KDF.getVal('asset_layer')){ //Returns true if defined
@@ -592,22 +631,28 @@ function postcodeSearch(searchInput) {
 	
     var xcoord;
     var ycoord;
+    var USRN;
     
-	$.ajax({url: esriServiceURL, dataType: 'jsonp', crossDomain: true}).done(function(response) {
+	$.ajax({url: esriServiceURL, dataType: 'json', crossDomain: true}).done(function(response) {
         //console.log('Response below:')
         //console.log(response.candidates.length)
         
-        if (response.candidates.length !== 0){
+        if (response.candidates.length <= 2){
         
            $.each(response.candidates, function( key, value ) {
                  xcoord=value.location.x;
                  ycoord=value.location.y;
+                 USRN=value.attributes.USRN;
            });
+           
+           if (typeof KDF.getVal('txt_usrn') !== 'undefined') {
+            	     KDF.setVal('txt_usrn', USRN);
+            	   }
+           
 			hideLoading();
 			var popCenterpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: getMapParams().WKID}));
     		var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: getMapParams().WKID}));
-    		esrimap.centerAndZoom(centerpoint, 5);
-		
+    		esrimap.centerAndZoom(centerpoint, 6);
         } else {
             KDF.showWidget('html_nosearchfound');
 		    hideLoading();
@@ -755,6 +800,37 @@ function callInfoWindow(content, marker, map){
 		
 }
 
+function luthfancallInfoWindow(content, lat, long){
+    esrimap.infoWindow.hide();
+    console.groupCollapsed('infowindow content:');
+    console.log(content);
+    console.groupEnd();
+
+		var centerpoint = new Point(long, lat, new esri.SpatialReference({wkid: getMapParams().WKID}));
+
+		esrimap.infoWindow.setTitle('');
+		esrimap.infoWindow.setContent(content);
+		
+		esrimap.infoWindow.anchor = "right";
+		esrimap.infoWindow.show(centerpoint);
+		esrimap.centerAt(centerpoint);
+		
+}
+
+function luthfancallInfoWindow2(lat, long){
+    esrimap.infoWindow.hide();
+
+		var centerpoint = new Point(long, lat, new esri.SpatialReference({wkid: getMapParams().WKID}));
+
+		//esrimap.infoWindow.setTitle('');
+		//esrimap.infoWindow.setContent('');
+		
+		esrimap.infoWindow.anchor = "right";
+		esrimap.infoWindow.show(centerpoint);
+		esrimap.centerAndZoom(centerpoint,6);
+		
+}
+
 function zoomChanged(evt){
 	//drawAssetLayer();
 	if (evt['levelChange']==true) {console.log('Zoom: '+evt.lod.level);}
@@ -804,22 +880,14 @@ $(document).on('change','#dform_widget_fault_reporting_search_results' , functio
             key,
             faultReportingSearchResults
           ) {
-            if (selectResult == faultReportingSearchResults.site_name) {
+              
+               if (selectResult == faultReportingSearchResults.site_name) {
+                esrimap.centerAndZoom(new Point(faultReportingSearchResults.xCoord, faultReportingSearchResults.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
                 
-                  if (faultReportingSearchResults.east !==undefined && faultReportingSearchResults.east !=='' && faultReportingSearchResults.north !==undefined && faultReportingSearchResults.north !==''){
-    							//console.log(faultReportingSearchResults.north);
-    							centreOnEsriResult('', '', '', '', '', '', faultReportingSearchResults.north, faultReportingSearchResults.north);
-    						}
-    			  else {
-            			  var xmax = parseFloat(faultReportingSearchResults.xmax);
-                          var xmin = parseFloat(faultReportingSearchResults.xmin);
-                          var ymax = parseFloat(faultReportingSearchResults.ymax);
-                          var ymin = parseFloat(faultReportingSearchResults.ymin);
-            
-                          centreOnEsriResult('','',xmax,xmin,ymax,ymin,'','');
-    			       }
-
-            }
+                   if (typeof KDF.getVal('txt_usrn') !== 'undefined') {
+            	     KDF.setVal('txt_usrn', faultReportingSearchResults.USRN);
+            	   }
+               }
           });
         }
 });
@@ -870,50 +938,49 @@ function processResult(searchInput){
 	var resultCount = 0;
 	
 	var resultAssetArray = new Object();
+	
+	var esriServiceURL = getMapParams().processResultURL.base
+    esriServiceURL += '&LH_STREET='+searchInput+'*';
 
-	$.ajax({url: getMapParams().processResultURL,  crossDomain: true, method: 'POST',
-	data: {w_id: '6', search_term: searchInput, search_type: 'street'}
+	$.ajax({url: esriServiceURL, dataType: 'json', crossDomain: true, method: 'GET'
 	}).done(function(response) {
-	    console.log(response);
-	   	if(response.length === 0){
+	    //console.log(response);
+	   	if(response.length === 2){
     		KDF.showWidget('html_nosearchfound');
     		hideLoading();
 	    } else {
-	        $.each(jQuery.parseJSON(response), function( key, value ) {
-                
-                resultAssetArray[value.Abbreviation] = new Object();
-                resultAssetArray[value.Abbreviation]['site_name'] = value.Abbreviation;
-                resultAssetArray[value.Abbreviation]['xmax'] = value.Street_Start_X;
-                resultAssetArray[value.Abbreviation]['ymax'] = value.Street_Start_Y;
-                resultAssetArray[value.Abbreviation]['xmin']= value.Street_End_X;
-                resultAssetArray[value.Abbreviation]['ymin']= value.Street_End_Y;
-				resultAssetArray[value.Abbreviation]['USRN']= value.USRN;
+	        $.each(response.candidates, function( key, value ) {
+                resultAssetArray[value.attributes.STREET_DESCRIPTOR] = new Object();
+                resultAssetArray[value.attributes.STREET_DESCRIPTOR]['site_name'] = value.attributes.LOCATOR_DESCRIPTION;
+                resultAssetArray[value.attributes.STREET_DESCRIPTOR]['xCoord'] = value.location.x;
+                resultAssetArray[value.attributes.STREET_DESCRIPTOR]['yCoord'] = value.location.y;
+				resultAssetArray[value.attributes.STREET_DESCRIPTOR]['USRN']= value.attributes.USRN;
           
 	        });
 	        
 	        console.log(resultAssetArray);
+	    }
 	        
-	          $.each(jQuery.parseJSON(response), function( key, value ) {
+	          $.each(response.candidates, function( key, value ) {
 	             resultCount++;
 	          });
-	          
+	         
 	          console.log(resultCount);
-	          //console.log(resultAssetArray[value.Abbreviation].xmax);
+	         
 	          
 	          if(resultCount == 1){
-	              var xmax, xmin, ymax, ymin;
+	              
 	              $.each(resultAssetArray, function(key, resultAssetArray ) {
 					if (typeof KDF.getVal('txt_usrn') !== 'undefined') {
     	                  KDF.setVal('txt_usrn', resultAssetArray.USRN);
     	              }
-		          xmax = parseFloat(resultAssetArray.xmax);
-	                  xmin = parseFloat(resultAssetArray.xmin);
-	                  ymax = parseFloat(resultAssetArray.ymax);
-	                  ymin = parseFloat(resultAssetArray.ymin);
+    	              
+    	              esrimap.centerAndZoom(new Point(resultAssetArray.xCoord, resultAssetArray.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
+		         
 	              });
 				  
-	                centreOnEsriResult('', '', xmax, xmin, ymax, ymin, '', '');
-	          } else {
+	               // centreOnEsriResult('', '', xmax, xmin, ymax, ymin, '', '');
+	          }  else {
 	               $('label[for=dform_widget_fault_reporting_search_results]').html('<label for="dform_widget_fault_reporting_search_results">Multiple results, please select one:</label>');
 	               $('#dform_widget_fault_reporting_search_results').append($('<option>', {value: 'Please select a location',text: 'Please select'}))
 	               $.each(resultAssetArray, function(key, resultAssetArray2 ) {
@@ -924,9 +991,11 @@ function processResult(searchInput){
 	               });
 	          }
 	         
-	    }
 	    
+	   
 	    faultReportingSearchResults = resultAssetArray;
+	    
+	   
 	    	hideLoading();
 
 	    }).fail(function() {
@@ -967,7 +1036,10 @@ function hideLoading(error){
 }
 
 function searchBegin(){
-       KDF.showWidget('ahtm_report_without_map');
+        
+       //KDF.showWidget('ahtm_report_without_map');
+       
+       KDF.showWidget('but_no_map');
     
        KDF.hideMessages();
        searchInput = KDF.getVal('txt_postcode');
@@ -977,7 +1049,7 @@ function searchBegin(){
   
        showLoading();
        
-       if (searchInput.charAt(0) !== 'E'){
+       if (searchInput.charAt(0) !== 'E' && searchInput.charAt(1) !== 'H'){
            processResult(searchInput);
        } else {
            postcodeSearch(searchInput);
@@ -1036,11 +1108,18 @@ function centreOnEsriResult(geometryX, geometryY, xmax, xmin, ymax, ymin, north,
 		marker.setAttributes({"value1": '1', "value2": '2', "value3": '3'});
 		newlayer.add(marker);
 		esrimap.addLayer(newlayer);
+		
+		console.log('geometryY!=')
     } else if (ymin!='') {
 		  var spatialref = new esri.SpatialReference({ wkid: getMapParams().WKID }); //ref to British national grid projected coordinates
 		  var selectedExtent = new esri.geometry.Extent(xmax,ymax,xmin,ymin,spatialref);
-
+            console.log('ymin!=')
 		  esrimap.setExtent(selectedExtent);
+		  if (parseInt(esrimap.getZoom()) !== 6){
+		      console.log('helo')
+		        esrimap.setZoom(6);
+		  }
+		
     } else if (north != '') {
 		  var e = parseInt(east);
 		  var n = parseInt(north);
@@ -1048,6 +1127,7 @@ function centreOnEsriResult(geometryX, geometryY, xmax, xmin, ymax, ymin, north,
 		  var selectedExtent = new esri.geometry.Extent(e - 250, n - 250, e + 250 , n + 250, spatialref);
 
 		  esrimap.setExtent(selectedExtent);
+		  console.log('north !=')
     }
     
 }
