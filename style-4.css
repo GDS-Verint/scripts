@@ -1215,7 +1215,7 @@ KS: Custom gov multi-checkbox - Start
 }
 
 .search-no-results .dform_widget_search_closeresults{
-    font-family: sans-serif !important;
+    /*font-family: sans-serif !important;*/
     padding: 10px;
     margin-left: 0 !important;
 }
