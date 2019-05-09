@@ -434,14 +434,46 @@ function keatonDrawAssetLayer(layersToKeep){
 		    }
 		});
 		
-
 		removeLayers(esrimap.graphics, activeLayers);
+		
+		//KS: attempt to match luthfans work. Seems like it creates way too many triggers.
+		esrimap.getLayer(esrimap.graphicsLayerIds[2]).on('click',assetLayerClick(event));
+		
 	}).fail(function() {
 		KDF.showError('It looks like the connection to our mapping system has failed, please try to log the fault again');
 	});	
 }
 
-/**/
+function assetLayerClick(event){
+	//KS: attempt to seperate event from draw asset function
+	console.log(event.graphic.attributes)
+
+	if (typeof esrimap.getLayer("graphicsLayer2") !== 'undefined') {
+		esrimap.removeLayer(esrimap.getLayer("graphicsLayer2"));
+	}
+
+	var lan = event.graphic.attributes.latitude;
+	var long =  event.graphic.attributes.longitude;
+
+	KDF.customdata('reverse-geocode-edinburgh', 'create', true, true, {'longitude': long.toString() , 'latitude' : lan.toString()});
+	KDF.unlock();
+
+	if (typeof KDF.getVal('txt_confirm_lat') != 'undefined' && KDF.getVal('txt_confirm_lon') != 'undefined') {
+		KDF.setVal('txt_confirm_lat', lan.toString());
+		KDF.setVal('txt_confirm_lon', long.toString());
+	}
+
+	if (typeof KDF.getVal('txt_confirm_sitecode') != 'undefined') {
+		KDF.setVal('txt_confirm_sitecode', event.graphic.attributes.site_code);
+	}
+
+	KDF.setVal('txt_confirm_assetid', event.graphic.attributes.ASSET_ID);
+
+	//luthfancallInfoWindow(event.graphic.attributes.description, lan, long);
+	//esrimap.centerAt(new Point(long, lan, new esri.SpatialReference({ wkid: 27700 })));
+}
+
+/*Diverge end - END*/
 
 
 //KS: use this to get status
