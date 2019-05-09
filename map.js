@@ -63,11 +63,6 @@ $(document).on('keypress','#dform_widget_txt_postcode',function() {
     searchBegin();
   }
 });
- 
-$(document).on('click','#dform_widget_button_but_search',function() {
-  searchBegin();
-});
-
 
 $(document).on('click','#dform_widget_button_but_nextcall',function() {
   console.log('next clicked');
