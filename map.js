@@ -278,20 +278,11 @@ function luthfanDrawAssetLayer(){//TODO update URL
 	        
 	        var point = new Point(Number(value.geometry.x), Number(value.geometry.y), new esri.SpatialReference({ wkid: 27700 }));
 	        var graphic = new esri.Graphic(point, sms);  
-	        /*
-	           var infoTemplate = new InfoTemplate();
-
-             infoTemplate.setTitle("");
-             infoTemplate.setContent("${description}");
-             
-	        graphic.setInfoTemplate(infoTemplate);
-	        */
-	        
 	        
 	         if (KDF.getVal('asset_layer')) {
-	              graphic.setAttributes({"title": '', "description": infoWindowContent, "site_name":value.attributes.site_name, "latitude":value.geometry.y, "longitude":value.geometry.x});
+	             graphic.setAttributes({"title": '', "description": infoWindowContent, "latitude":value.geometry.y, "longitude":value.geometry.x, "site_code": value.attributes.site_code});
 	        } else {
-                 graphic.setAttributes({"title": '', "description": infoWindowContent, "site_name": value.attributes.SITE_NAME, "latitude":value.geometry.y, "longitude":value.geometry.x});
+                 graphic.setAttributes({"title": '', "description": infoWindowContent,"latitude":value.geometry.y, "longitude":value.geometry.x, "site_code": value.attributes.SITE_CODE, "ASSET_ID": value.attributes.ASSET_ID});
 	        }
 	
 	      
@@ -301,9 +292,9 @@ function luthfanDrawAssetLayer(){//TODO update URL
 	         // assign the click event to the 
     	     assetLayer.on('click', function(event) {
     	         console.log(event.graphic.attributes)
-    	         esrimap.setInfoWindowOnClick(false);
-    	         //site_name_temp = event.graphic.attributes.site_name;
-    				//console.log(event.mapPoint.x);
+    	         
+    	         //esrimap.setInfoWindowOnClick(false);
+    	    
     				if (typeof esrimap.getLayer("graphicsLayer2") !== 'undefined') {
                         esrimap.removeLayer(esrimap.getLayer("graphicsLayer2"));
                     }
@@ -314,14 +305,20 @@ function luthfanDrawAssetLayer(){//TODO update URL
                      KDF.customdata('reverse-geocode-edinburgh', 'create', true, true, {'longitude': long.toString() , 'latitude' : lan.toString()});
                     KDF.unlock();
                     
-                    if (typeof KDF.getVal('txt_lat') != 'undefined' && KDF.getVal('txt_long') != 'undefined') {
-                        KDF.setVal('txt_lat', lan.toString());
-                        KDF.setVal('txt_long', long.toString());
+                    if (typeof KDF.getVal('txt_confirm_lat') != 'undefined' && KDF.getVal('txt_confirm_lon') != 'undefined') {
+                        KDF.setVal('txt_confirm_lat', lan.toString());
+                        KDF.setVal('txt_confirm_lon', long.toString());
                     }
+                    
+                    if (typeof KDF.getVal('txt_confirm_sitecode') != 'undefined') {
+                        KDF.setVal('txt_confirm_sitecode', event.graphic.attributes.site_code);
+                    }
+                    
+                    KDF.setVal('txt_confirm_assetid', event.graphic.attributes.ASSET_ID);
                     
                    // esrimap.centerAndZoom(new Point(long, lan, new esri.SpatialReference({ wkid: 27700 })), 6);
                   //assetLayer.redraw();
-                  luthfancallInfoWindow(infoWindowContent, lan, long);
+                  luthfancallInfoWindow(event.graphic.attributes.description, lan, long);
                   
                   // esrimap.centerAt(new Point(long, lan, new esri.SpatialReference({ wkid: 27700 })));
                    
@@ -575,8 +572,6 @@ $('#dform_container').off('_KDF_mapReady').on('_KDF_mapReady', function(event, k
 var faultReportingSearchResults = new Object();
 var streetAddress='';
 
-
-// Jquery event delegate so when the confirm location button clicked it can call another function
 $(document).on('click','.mapConfirm',function() {
     KDF.setVal('txt_issuestreet',KDF.getVal('le_gis_rgeo_desc'));
     KDF.gotoNextPage();
@@ -637,7 +632,7 @@ function postcodeSearch(searchInput) {
         //console.log('Response below:')
         //console.log(response.candidates.length)
         
-        if (response.candidates.length <= 2){
+        if (response.candidates.length > 2){
         
            $.each(response.candidates, function( key, value ) {
                  xcoord=value.location.x;
@@ -645,14 +640,16 @@ function postcodeSearch(searchInput) {
                  USRN=value.attributes.USRN;
            });
            
-           if (typeof KDF.getVal('txt_usrn') !== 'undefined') {
-            	     KDF.setVal('txt_usrn', USRN);
+           if (typeof KDF.getVal('txt_confirm_sitecode') !== 'undefined') {
+            	     KDF.setVal('txt_confirm_sitecode', USRN);
             	   }
            
 			hideLoading();
 			var popCenterpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: getMapParams().WKID}));
     		var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: getMapParams().WKID}));
     		esrimap.centerAndZoom(centerpoint, 6);
+    		
+    		KDF.showWidget('but_no_map');
         } else {
             KDF.showWidget('html_nosearchfound');
 		    hideLoading();
@@ -813,8 +810,17 @@ function luthfancallInfoWindow(content, lat, long){
 		
 		esrimap.infoWindow.anchor = "right";
 		esrimap.infoWindow.show(centerpoint);
-		esrimap.centerAt(centerpoint);
 		
+		 if (esrimap.getLevel() != '6') {
+            	        console.log('test');
+            	        esrimap.centerAndZoom(centerpoint, 6);
+            	    } else {
+            	        esrimap.centerAt(centerpoint);
+            	    }
+    	
+		//esrimap.centerAndZoom(centerpoint,6);
+		
+		console.log(esrimap);
 }
 
 function luthfancallInfoWindow2(lat, long){
@@ -883,10 +889,19 @@ $(document).on('change','#dform_widget_fault_reporting_search_results' , functio
               
                if (selectResult == faultReportingSearchResults.site_name) {
                 esrimap.centerAndZoom(new Point(faultReportingSearchResults.xCoord, faultReportingSearchResults.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
+                KDF.showWidget('but_no_map');
                 
-                   if (typeof KDF.getVal('txt_usrn') !== 'undefined') {
-            	     KDF.setVal('txt_usrn', faultReportingSearchResults.USRN);
+                   if (typeof KDF.getVal('txt_confirm_sitecode') !== 'undefined') {
+            	     KDF.setVal('txt_confirm_sitecode', faultReportingSearchResults.USRN);
             	   }
+            	   
+            	   KDF.setVal('txt_street_id', '');
+    	              KDF.setVal('txt_set_title', '');
+    	             KDF.setVal('txt_confirm_lon', '');
+    	              KDF.setVal('txt_confirm_lat', '');
+    	              KDF.setVal('txt_confirm_assetid', '');
+            	   
+            	   KDF.setStreetID(faultReportingSearchResults.LOCATOR_DESCRIPTION,false,'');
                }
           });
         }
@@ -971,12 +986,19 @@ function processResult(searchInput){
 	          if(resultCount == 1){
 	              
 	              $.each(resultAssetArray, function(key, resultAssetArray ) {
-					if (typeof KDF.getVal('txt_usrn') !== 'undefined') {
-    	                  KDF.setVal('txt_usrn', resultAssetArray.USRN);
+					if (typeof KDF.getVal('txt_confirm_sitecode') !== 'undefined') {
+    	                  KDF.setVal('txt_confirm_sitecode', resultAssetArray.USRN);
     	              }
     	              
+    	              KDF.setVal('txt_street_id', '');
+    	              KDF.setVal('txt_set_title', '');
+    	             KDF.setVal('txt_confirm_lon', '');
+    	              KDF.setVal('txt_confirm_lat', '');
+    	               KDF.setVal('txt_confirm_assetid', '');
+    	              
+    	              KDF.setStreetID(resultAssetArray.LOCATOR_DESCRIPTION,false,'');
     	              esrimap.centerAndZoom(new Point(resultAssetArray.xCoord, resultAssetArray.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
-		         
+		                KDF.showWidget('but_no_map');
 	              });
 				  
 	               // centreOnEsriResult('', '', xmax, xmin, ymax, ymin, '', '');
@@ -1038,9 +1060,8 @@ function hideLoading(error){
 function searchBegin(){
         
        //KDF.showWidget('ahtm_report_without_map');
-       
-       KDF.showWidget('but_no_map');
-    
+      
+       KDF.hideWidget('but_no_map');
        KDF.hideMessages();
        searchInput = KDF.getVal('txt_postcode');
        $('#dform_widget_fault_reporting_search_results').empty();
