@@ -10,7 +10,7 @@ function defineDefaultStyle(){
     //KS: adds the recommended default styling - and acts a single location to change them
 	//KS: for the love of StackExchange don't put 'all' or 'recommended' in here
     var recommended = [
-        'mchk','chk','rad','txt','dt','eml','num','pas','tel','time','txta','sel','file','btn','search','highlightRequired','search-no-results','field-label-right-align','txta-length','txta-length-listener','detailToggle','noResultsFound','txt-enter-trigger-btn',
+        'mchk','chk','rad','txt','dt','eml','num','pas','tel','time','txta','sel','file','btn','search','highlightRequired','search-no-results','field-label-right-align','txta-length','txta-length-listener','detailToggle','noResultsFound','selectResult','txt-enter-trigger-btn',
     ];
     if (debugStyle) console.debug('@defineDefaultStyle() the defined recommended styles that will be used ['+recommended.toString()+']')
     defaultNewStyle(recommended);
@@ -153,6 +153,9 @@ function defaultNewStyle(elements){
 			break;
 		    case'noResultsFound':
 			listenerFunctions['noResultsFound']();
+			break;
+		    case'selectResult':
+			listenerFunctions['selectResult']();
 			break;
 		    case'txt-enter-trigger-btn':
 			listenerFunctions['txt-enter-trigger-btn']();
@@ -431,12 +434,20 @@ var listenerFunctions = {
 		$(formName()).trigger('_style_listenerAdded',['detailToggle']);	
 	},
 	'noResultsFound':function(){
-		$(formName()).off('_KDF_search').on('_KDF_search', function(event, kdf, response, type, name) {
+		$(formName()).on('_KDF_search', function(event, kdf, response, type, name) {
 			//KS: call noResultsFound with 'this' set to the search element that triggered the event
 			noResultsFound.call($('[name="'+name+'_id"]'))
 		});
 		//KS: trigger: '_style_listenerAdded, [listenerName]'
 		$(formName()).trigger('_style_listenerAdded',['noResultsFound']);	
+	},
+	'selectResult':function(){
+		$(formName()).on('_KDF_search', function(event, kdf, response, type, name) {
+			//KS: call selectResult with 'this' set to the search element that triggered the event
+			selectResult.call($('[name="'+name+'_id"]'))
+		});
+		//KS: trigger: '_style_listenerAdded, [listenerName]'
+		$(formName()).trigger('_style_listenerAdded',['selectResult']);	
 	},
 	'txt-enter-trigger-btn':function(){
 		console.log('txt-enter-trigger-btn called - disabled for testing')
@@ -505,9 +516,17 @@ function noResultsFound(){
         $(this).html('<option hidden>'+text+'</option>')
     }
 	//KS: trigger: '_style_noSearchResults, [element, noResultText]'
-	$(formName()).trigger('_style_detailToggled',[$(this), text]);
+	$(formName()).trigger('_style_noSearchResults',[$(this), text]);
 }
-
+function selectResult(){
+    //KS: when there is no results, add a non-selectable option to say such
+	var text = 'Please select a result…';
+    if ($(this).children().length > 0){
+	    $(this).find('> option:first').attr('hidden', '').text('Please select a result…')
+    }
+	//KS: trigger: '_style_selectResult, [element, selectResult]'
+	$(formName()).trigger('_style_selectResult',[$(this), text]);
+}
 
 function regexSearch(regex){
     //KS E.G.: regexSearch("[0-9A-Za-z ]{3,}")
@@ -554,14 +573,6 @@ function paramElementChange(possibleToChange){
         });
     }
 }
-
-//source: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
-//KS used to get an idea of the colour contrast, but would need an entire libary to do it to the extent I'd need
-function luminanace(r, g, b) {var a = [r, g, b].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow( (v + 0.055) / 1.055, 2.4 ); }); return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722; }
-function contrast(rgb1, rgb2) { return (luminanace(rgb1['r'], rgb1['g'], rgb1['b']) + 0.05) / (luminanace(rgb2['r'], rgb2['g'], rgb2['b']) + 0.05); }
-function rgbToHex(r, g, b) { return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1); }
-function hexToRgb(hex) { var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex); return result ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16),b: parseInt(result[3], 16)} : null; }
-
 
 function simpleColorCheck(bgColor, fgIfWhite, fgIfNot){
     //KS: if white, use a non-white colour, if non-white use white
