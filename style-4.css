@@ -1468,4 +1468,10 @@ abbr{
     border-color: #000 !important;
     color: #fff !important;
 }
+
+#dform_container .header1, #dform_container .header2, #dform_container .header3, #dform_container .header4, #dform_container .header5 , #dform_container .header6, #dform_container h1, #dform_container h2, #dform_container h3, #dform_container h4, #dform_container h5 , #dform_container h6{
+    /*KS: David wants header to be more consistant with text labels*/
+    font-weight: bold;
+}
+
 /*Edinburgh portal adaption END*/
