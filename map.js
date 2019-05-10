@@ -928,7 +928,7 @@ $(document).on('change','#dform_widget_fault_reporting_search_results' , functio
     	              KDF.setVal('txt_confirm_lat', '');
     	              KDF.setVal('txt_confirm_assetid', '');
             	   
-            	   KDF.setStreetID(faultReportingSearchResults.LOCATOR_DESCRIPTION,false,'');
+            	   //KDF.setStreetID(faultReportingSearchResults.LOCATOR_DESCRIPTION,false,'');
                }
           });
         }
@@ -1023,7 +1023,7 @@ function processResult(searchInput){
     	              KDF.setVal('txt_confirm_lat', '');
     	               KDF.setVal('txt_confirm_assetid', '');
     	              
-    	              KDF.setStreetID(resultAssetArray.LOCATOR_DESCRIPTION,false,'');
+    	              //KDF.setStreetID(resultAssetArray.LOCATOR_DESCRIPTION,false,'');
     	              esrimap.centerAndZoom(new Point(resultAssetArray.xCoord, resultAssetArray.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
 		                KDF.showWidget('but_no_map');
 	              });
