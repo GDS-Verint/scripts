@@ -442,6 +442,7 @@ var listenerFunctions = {
 		$(formName()).trigger('_style_listenerAdded',['noResultsFound']);	
 	},
 	'selectResult':function(){
+		console.log('within selectResult listenerFunction');
 		$(formName()).on('_KDF_search', function(event, kdf, response, type, name) {
 			//KS: call selectResult with 'this' set to the search element that triggered the event
 			selectResult.call($('[name="'+name+'_id"]'))
