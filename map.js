@@ -838,7 +838,7 @@ function luthfancallInfoWindow(content, lat, long){
 		esrimap.infoWindow.anchor = "right";
 		esrimap.infoWindow.show(centerpoint);
 		
-		 if (esrimap.getLevel() != '6') {
+		 if (esrimap.getLevel() < '6') {
             	        console.log('test');
             	        esrimap.centerAndZoom(centerpoint, 6);
             	    } else {
@@ -860,7 +860,12 @@ function luthfancallInfoWindow2(lat, long){
 		
 		esrimap.infoWindow.anchor = "right";
 		esrimap.infoWindow.show(centerpoint);
-		esrimap.centerAndZoom(centerpoint,6);
+		 if (esrimap.getLevel() < '6') {
+            	        console.log('test');
+            	        esrimap.centerAndZoom(centerpoint, 6);
+            	    } else {
+            	        esrimap.centerAt(centerpoint);
+            	    }
 		
 }
 
