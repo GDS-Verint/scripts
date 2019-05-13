@@ -1474,4 +1474,60 @@ abbr{
     font-weight: bold;
 }
 
+#GISLegend{
+    position:absolute;
+    right:0;
+    top:-70px;
+}
+#dform_container .templatePicker{
+    border: 0;
+    padding: 0;
+    -o-border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
+#dform_container .dojoxGridRowTable {
+    table-layout: fixed;
+    width: 0;
+}
+#dform_container .templatePicker .grid .dojoxGridCell {
+    border: 1px solid #FFFFFF;
+    outline: none;
+    line-height: 1.2;
+}
+#dform_container .dojoxGrid .dojoxGridCell {
+    border: 1px solid;
+    border-color: #EBEADB;
+    border-right-color: #D5CDB5;
+    padding: 0px;
+    text-align: left;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+#dform_container .templatePicker .grid .dojoxGridRowTable tr {
+    vertical-align: top;
+}
+#dform_container .dojoxGrid table {
+    padding: 0;
+}
+#dform_container .dojoxGridContent > div[role="presentation"], #dform_container .dojoxGridRow, #dform_container .dojoxGridContent{
+    width:auto !important;
+}
+#dform_container .dojoxGridRowTable tr:hover td{
+    background-color:unset;
+}
+#dform_container .dojoxGridCell {
+    border: none !important;
+    background-color: unset !important;
+    -o-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 0;
+    cursor: unset;
+}
+#dform_container .dojoxGridRowTable{
+    margin:0;
+}
+
 /*Edinburgh portal adaption END*/
