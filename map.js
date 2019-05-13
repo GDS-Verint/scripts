@@ -820,7 +820,7 @@ function callInfoWindow(content, marker, map){
 		map.infoWindow.setContent(content);
 		map.infoWindow.show(centerpoint);
 		//esrimap.centerAndZoom(centerpoint, 18);
-		drawAssetLayer();
+		//KS BUG that bypasses drawAssetLayer();
 		
 }
 
