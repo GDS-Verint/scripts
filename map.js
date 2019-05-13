@@ -814,13 +814,16 @@ function callInfoWindow(content, marker, map){
 			}
         }
 
-		var centerpoint = new Point(marker.geometry.x, marker.geometry.y, new esri.SpatialReference({wkid: getMapParams().WKID}));
+	var centerpoint = new Point(marker.geometry.x, marker.geometry.y, new esri.SpatialReference({wkid: getMapParams().WKID}));
 
-		map.infoWindow.setTitle('');
-		map.infoWindow.setContent(content);
-		map.infoWindow.show(centerpoint);
-		//esrimap.centerAndZoom(centerpoint, 18);
-		//KS BUG that bypasses drawAssetLayer();
+	map.infoWindow.setTitle('');
+	map.infoWindow.setContent(content);
+	map.infoWindow.show(centerpoint);
+	//esrimap.centerAndZoom(centerpoint, 18);
+	//popupOrZoomTo(map, centerpoint);
+	//KS BUG that bypasses 
+	//drawAssetLayer();
+	
 		
 }
 
