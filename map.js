@@ -903,15 +903,9 @@ function zoomChanged(evt){
 				getOpenCaseMarker(xmaxE, xminE, ymaxE, yminE);
 			}
 	    }else{
-		    //console.log('zoom over default');
 	        //KS remove assets if above extent - aesthetic only
-		if (getMapParams().selectQueueSize > 1){
-			esrimap.graphics.clear();
-		}else{
-			clearPreviousLayer();
-		}
-	        
-		
+		//esrimap.graphics.clear();
+		clearPreviousLayer();
 	    }
 	}
 	
