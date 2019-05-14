@@ -591,6 +591,7 @@ $('#dform_container').off('_KDF_mapReady').on('_KDF_mapReady', function(event, k
 	if (getMapParams().geolocateAuto){
 		geolocate();
 	}
+	hardcodeLegend();//KS won't work unless legend is defined in map params
 	//KS to avoid the bug with customerFeilds not being constructed at _KDF_ready
 	/*if (typeof regexSearch = 'function')*/ regexSearch("[0-9A-Za-z ]{3,}");
 	
@@ -1372,5 +1373,56 @@ function formName(){
 	}else{
 		//KS: just incase, this will work in most cases (it's what was used before)
 		return '#dform_container';
+	}
+}
+
+function hardcodeLegend(){
+	$('#legendRoot').remove()
+	//KS: this is a quick hardcoded version found in cpe_test. Use that one, we just needed something we could garentee would work for the demo - the other is dynamic and is made to be future proof.
+	
+	var legend = getMapParams().legend;
+
+	if (legend != undefined){
+		if ($('#dform_widget_le_gis_header').length < 1){
+			$('#dform_widget_gis_le_gis').prepend('<div class="headerGIS" id="dform_widget_le_gis_header"></div>');
+		}
+		
+		var items = 0;
+		if (legend.assetIcon != undefined) items++;
+		if (legend.selectedIcon != undefined) items++;
+		if (legend.openCase != undefined) items++;
+		if (legend.activeCase != undefined) items++;
+		
+		
+		var root = $('#dform_widget_le_gis_header');
+		
+		var html = '<div id="legendRoot" style="position: relative"><div class="templatePicker" id="GISLegend" widgetid="GISLegend"><div hidefocus="hidefocus" role="grid" dojoattachevent="onmouseout:_mouseOut" tabindex="0" class="dojoxGrid grid" id="dojox_grid_DataGrid_0" align="left" widgetid="dojox_grid_DataGrid_0" aria-readonly="true" style="height: auto; width: '+items*80+'px; user-select: none;"><div class="dojoxGridMasterHeader" dojoattachpoint="viewsHeaderNode" role="presentation" style="display: block; height: 0px;"><div class="dojoxGridHeader" dojoattachpoint="headerNode" role="presentation" style="display: none; width: 284px; left: 1px; top: 0px;"><div dojoattachpoint="headerNodeContainer" style="width:9000em" role="presentation"><div dojoattachpoint="headerContentNode" role="row"><table class="dojoxGridRowTable" border="0" cellspacing="0" cellpadding="0" role="presentation"><tbody><tr><th tabindex="-1" aria-readonly="true" role="columnheader" id="dojox_grid_DataGrid_0Hdr0" class="dojoxGridCell dojoDndItem " idx="0" style="width:6em;" dndtype="gridColumn_dojox_grid_DataGrid_0"><div class="dojoxGridSortNode">cell0</div></th><th tabindex="-1" aria-readonly="true" role="columnheader" id="dojox_grid_DataGrid_0Hdr1" class="dojoxGridCell dojoDndItem " idx="1" style="width:6em;" dndtype="gridColumn_dojox_grid_DataGrid_0"><div class="dojoxGridSortNode">cell1</div></th><th tabindex="-1" aria-readonly="true" role="columnheader" id="dojox_grid_DataGrid_0Hdr2" class="dojoxGridCell dojoDndItem " idx="2" style="width:6em;" dndtype="gridColumn_dojox_grid_DataGrid_0"><div class="dojoxGridSortNode">cell2</div></th><th tabindex="-1" aria-readonly="true" role="columnheader" id="dojox_grid_DataGrid_0Hdr3" class="dojoxGridCell dojoDndItem " idx="3" style="width:6em;" dndtype="gridColumn_dojox_grid_DataGrid_0"><div class="dojoxGridSortNode">cell3</div></th></tr></tbody></table></div></div></div></div><div class="dojoxGridMasterView" dojoattachpoint="viewsNode" role="presentation" style="height: 62px;"><div class="dojoxGridView" role="presentation" id="dojox_grid__View_2" widgetid="dojox_grid__View_2" style="width: 284px; left: 1px; top: 0px;"><input type="checkbox" class="dojoxGridHiddenFocus" dojoattachpoint="hiddenFocusNode" role="presentation"><input type="checkbox" class="dojoxGridHiddenFocus" role="presentation"><div class="dojoxGridScrollbox" dojoattachpoint="scrollboxNode" role="presentation"><div class="dojoxGridContent" dojoattachpoint="contentNode" hidefocus="hidefocus" role="presentation" style="height: 62px; width: 284px;"><div role="presentation" style="position: absolute; left: 0px; top: 0px;"><div class="dojoxGridRow" role="row" style=""><table class="dojoxGridRowTable" border="0" cellspacing="0" cellpadding="0" role="presentation"><tbody><tr>';
+		
+		if (legend.assetIcon != undefined){
+			var name = (legend.assetIcon.name != undefined) ? legend.assetIcon.name : 'Asset';
+			
+			html += '<td tabindex="-1" role="gridcell" class="dojoxGridCell" idx="0" style="width:6em;"><div class="item" style="text-align: center;" id="tpick-surface-0" widgetid="tpick-surface-0"><div class="itemSymbol" dojoattachpoint="_surfaceNode"><svg overflow="hidden" width="30" height="30"><defs></defs><circle fill="rgb(240, 234, 239)" fill-opacity="1" stroke="rgb(109, 52, 101)" stroke-opacity="1" stroke-width="2" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" cx="0" cy="0" r="5.333333333333333" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.00000000,15.00000000)"></circle></svg></div><div class="itemLabel">'+name+'</div></div></td>';
+		}
+		if (legend.selectedIcon != undefined){
+			var name = (legend.selectedIcon.name != undefined) ? legend.selectedIcon.name : 'Selected';
+			
+			html += '<td tabindex="-1" role="gridcell" class="dojoxGridCell " idx="1" style="width:6em;"><div class="item" style="text-align: center;" id="tpick-surface-1" widgetid="tpick-surface-1"><div class="itemSymbol" dojoattachpoint="_surfaceNode"><svg overflow="hidden" width="30" height="30"><defs></defs><path fill="rgb(109, 52, 101)" fill-opacity="1" stroke="rgb(109, 52, 101)" stroke-opacity="1" stroke-width="2" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" path="M -6.666666666666666,0 L 0,-6.666666666666666 L 6.666666666666666,0 L 0,6.666666666666666 L -6.666666666666666,0 E" d="M-6.6667 0L 0-6.6667L 6.6667 0L 0 6.6667L-6.6667 0" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.00000000,15.00000000)"></path></svg></div><div class="itemLabel">'+name+'</div></div></td>';
+		}
+		if (legend.openCase != undefined){
+			var name = (legend.openCase.name != undefined) ? legend.openCase.name : 'Open issue';
+			var url = (legend.openCase.url != undefined) ? legend.openCase.url : 'https://cpe-edinburghcc.squiz.co.uk/dformresources/content/map-green.png';
+			
+			html += '<td tabindex="-1" role="gridcell" class="dojoxGridCell " idx="2" style="width:6em;"><div class="item" style="text-align: center;" id="tpick-surface-2" widgetid="tpick-surface-2"><div class="itemSymbol" dojoattachpoint="_surfaceNode"><svg overflow="hidden" width="30" height="30"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-32" y="-32" width="64" height="64" preserveAspectRatio="none" xlink:href="'+url+'" transform="matrix(0.39062500,0.00000000,0.00000000,0.39062500,15.00000000,15.00000000)"></image></svg></div><div class="itemLabel">'+name+'</div></div></td>';
+		}
+		if (legend.activeCase != undefined){
+			var name = (legend.activeCase.name != undefined) ? legend.activeCase.name : 'Subscribed issue';
+			var url = (legend.activeCase.url != undefined) ? legend.activeCase.url : 'https://cpe-edinburghcc.squiz.co.uk/dformresources/content/map-blue.png';
+			
+			html += '<td tabindex="-1" role="gridcell" class="dojoxGridCell " idx="3" style="width:6em;"><div class="item" style="text-align: center;" id="tpick-surface-3" widgetid="tpick-surface-3"><div class="itemSymbol" dojoattachpoint="_surfaceNode"><svg overflow="hidden" width="30" height="30"><defs></defs><image fill-opacity="0" stroke="none" stroke-opacity="0" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" x="-32" y="-32" width="64" height="64" preserveAspectRatio="none" xlink:href="'+url+'" transform="matrix(0.39062500,0.00000000,0.00000000,0.39062500,15.00000000,15.00000000)"></image></svg></div><div class="itemLabel">'+name+'</div></div></td>';
+		}
+		
+		html += '</tr></tbody></table></div></div></div></div></div></div><div class="dojoxGridMasterMessages" style="display: none;" dojoattachpoint="messagesNode"></div><span dojoattachpoint="lastFocusNode" tabindex="0"></span></div></div></div></div></div>';
+		
+		root.html(html+root.html());
 	}
 }
