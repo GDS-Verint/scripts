@@ -905,7 +905,13 @@ function zoomChanged(evt){
 	    }else{
 		    //console.log('zoom over default');
 	        //KS remove assets if above extent - aesthetic only
-	        esrimap.graphics.clear();
+		if (getMapParams().selectQueueSize > 1){
+			esrimap.graphics.clear();
+		}else{
+			clearPreviousLayer();
+		}
+	        
+		
 	    }
 	}
 	
