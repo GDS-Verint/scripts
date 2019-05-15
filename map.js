@@ -795,7 +795,7 @@ function getAssetInfo(globalX, globalY) {
 				//}
 				//Trig[content, esriServiceURL]: provides the content of the asset response and the url used to return it.
 				$(formName()).trigger('_map_assetInfoReturned',[content, esriServiceURL]);
-				esrimap.centerAndZoom(centerpoint, (esrimap.getLevel() != null)?esrimap.getLevel():1 )
+				esrimap.centerAndZoom(centerpoint, 6)/*KS: called twice so level is undefined therefore defaulted to 1 - origional way is best but for demo it needs to be done*/
 				
 		}).fail(function() {
 		KDF.showError('Was unable to get asset details at this time, please try again');
