@@ -438,7 +438,7 @@ KS: file-gov Start
     cursor: pointer;
   margin-top: 7px;
   margin-left: 32px;
-  color: #e8f0de !important;
+  color: white !important;
   font-size: 16px;
   font-weight: bold;
 }
@@ -1527,7 +1527,7 @@ abbr{
 }
 
 /*CPE overwite - START*/
-#dform_container html, #dform_container button, #dform_container input, #dform_container select, #dform_container textarea, #dform_container a, #dform_container .buttonLink, #dform_container p, #dform_container div, #dform_container label, #dform_container legend {
+.file-gov-text, #dform_container html, #dform_container button, #dform_container input, #dform_container select, #dform_container textarea, #dform_container a, #dform_container .buttonLink, #dform_container p, #dform_container div, #dform_container label, #dform_container legend {
     font-family: "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;
     font-smoothing: antialiased;
