@@ -996,23 +996,22 @@ function processResult(searchInput){
 	$.ajax({url: esriServiceURL, dataType: 'json', crossDomain: true, method: 'GET'
 	}).done(function(response) {
 	    //console.log(response);
-	   	if(response.length > 2){
-			
-		 $.each(response.candidates, function( key, value ) {
-               		 resultAssetArray[value.attributes.STREET_DESCRIPTOR] = new Object();
-                	 resultAssetArray[value.attributes.STREET_DESCRIPTOR]['site_name'] = value.attributes.LOCATOR_DESCRIPTION;
-                	 resultAssetArray[value.attributes.STREET_DESCRIPTOR]['xCoord'] = value.location.x;
-                	 resultAssetArray[value.attributes.STREET_DESCRIPTOR]['yCoord'] = value.location.y;
-			 resultAssetArray[value.attributes.STREET_DESCRIPTOR]['USRN']= value.attributes.USRN;
+	   	if(response.length === 2){
+    		KDF.showWidget('html_nosearchfound');
+    		hideLoading();
+	    } else {
+	        $.each(response.candidates, function( key, value ) {
+                resultAssetArray[value.attributes.STREET_DESCRIPTOR] = new Object();
+                resultAssetArray[value.attributes.STREET_DESCRIPTOR]['site_name'] = value.attributes.LOCATOR_DESCRIPTION;
+                resultAssetArray[value.attributes.STREET_DESCRIPTOR]['xCoord'] = value.location.x;
+                resultAssetArray[value.attributes.STREET_DESCRIPTOR]['yCoord'] = value.location.y;
+				resultAssetArray[value.attributes.STREET_DESCRIPTOR]['USRN']= value.attributes.USRN;
           
 	         });
 	        
 	        console.log(resultAssetArray);
     		
-	    } else {
-	      	KDF.showWidget('html_nosearchfound');
-    		hideLoading();
-	    }
+	    } 
 	        
 	          $.each(response.candidates, function( key, value ) {
 	             resultCount++;
