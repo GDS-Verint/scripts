@@ -602,6 +602,18 @@ var streetAddress='';
 
 $(document).on('click','.mapConfirm',function() {
     KDF.setVal('txt_issuestreet',KDF.getVal('le_gis_rgeo_desc'));
+	//KS making the confirm values populate when location is confirmed
+    if(getMapParams().confirmIntergration != undefined){
+	    var confirm = getMapParams().confirmIntergration;
+	    if (confirm.lon != undefined && confirm.lat != undefined && confirm.assetid != undefined && confirm.sitecode != undefined){
+		    KDF.setVal('txt_confirm_lon', confirm.lon);
+		    KDF.setVal('txt_confirm_lat', confirm.lat);
+		    KDF.setVal('txt_confirm_assetid', confirm.assetid);
+		    KDF.setVal('txt_confirm_sitecode', confirm.sitecode);
+	    }else{
+		console.log('getMapParams().confirmIntergration defined but one of the values within is not')    
+	    }
+    }
     KDF.gotoNextPage();
  });
  
@@ -727,6 +739,14 @@ function getAssetInfo(globalX, globalY) {
 					}else{
 					    console.log(value.attributes['FEATURE_ID'])
 					    console.log(value)
+						if(getMapParams().confirmIntergration != undefined){
+							getMapParams().confirmIntergration = {
+							    lat:value.geometry['y'],
+							    lon:value.geometry['x'],
+							    sitecode:value.attributes['SITE_CODE'],
+							    assetid:value.attributes['ASSET_ID'],
+							}
+						}
 						//console.log('asset_popup_fields not defined');
 			//console.log(value.attributes);
 						if(getMapParams().popupFields){//KS object is defined (test with empty object, will return true but we might want that, considering default is null)
