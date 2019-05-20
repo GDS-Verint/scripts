@@ -275,22 +275,19 @@ function luthfanDrawAssetLayer(){//TODO update URL
 	        var graphic = new esri.Graphic(point, sms);  
 	        
 	         if (KDF.getVal('asset_layer')) {
-	             graphic.setAttributes({"title": '', "description": infoWindowContent, "latitude":value.geometry.y, "longitude":value.geometry.x, "site_code": value.attributes.site_code});
+	             graphic.setAttributes({"title": '', "description": infoWindowContent, "latitude":value.geometry.y, "longitude":value.geometry.x, "site_code": value.attributes.site_code, "ASSET_ID": value.attributes.ASSET_ID});
 	        } else {
                  graphic.setAttributes({"title": '', "description": infoWindowContent,"latitude":value.geometry.y, "longitude":value.geometry.x, "site_code": value.attributes.SITE_CODE, "ASSET_ID": value.attributes.ASSET_ID});
 	        }
-	
-	      
 		    assetLayer.add(graphic);
 	    });
 	    
-	         // assign the click event to the 
+	         // assign the click event to the graphic layer
     	     assetLayer.on('click', function(event) {
     	         console.log(event.graphic.attributes)
-    	         
     	         //esrimap.setInfoWindowOnClick(false);
     	    
-    				if (typeof esrimap.getLayer("graphicsLayer2") !== 'undefined') {
+    		   if (typeof esrimap.getLayer("graphicsLayer2") !== 'undefined') {
                         esrimap.removeLayer(esrimap.getLayer("graphicsLayer2"));
                     }
                     
@@ -298,7 +295,7 @@ function luthfanDrawAssetLayer(){//TODO update URL
                     var long =  event.graphic.attributes.longitude ;
                     
                      KDF.customdata('reverse-geocode-edinburgh', 'create', true, true, {'longitude': long.toString() , 'latitude' : lan.toString()});
-                    KDF.unlock();
+                     KDF.unlock();
                     
                     if (typeof KDF.getVal('txt_confirm_lat') != 'undefined' && KDF.getVal('txt_confirm_lon') != 'undefined') {
                         KDF.setVal('txt_confirm_lat', lan.toString());
@@ -314,20 +311,18 @@ function luthfanDrawAssetLayer(){//TODO update URL
                    // esrimap.centerAndZoom(new Point(long, lan, new esri.SpatialReference({ wkid: 27700 })), 6);
                   //assetLayer.redraw();
                   luthfancallInfoWindow(event.graphic.attributes.description, lan, long);
-                  
-                  // esrimap.centerAt(new Point(long, lan, new esri.SpatialReference({ wkid: 27700 })));
                    
-    			});
+    		});
 
         	 esrimap.addLayer(assetLayer);
 		 
-		    //console.log(esrimap);
+		 //console.log(esrimap);
 		  
-		      for (var i = 0; i < esrimap.graphics.graphics.length -1; i++){
+		  for (var i = 0; i < esrimap.graphics.graphics.length -1; i++){
                   //KS Remove all but last layer
                   console.log(esrimap.graphics.graphics[i])
                   esrimap.graphics.remove(esrimap.graphics.graphics[i]);
-              }
+                  }
 
         });
 	}).fail(function() {
