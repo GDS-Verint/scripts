@@ -577,7 +577,7 @@ function removeSelectedAssets(graphicLayer){
 function getAssetInfoFromCoord(point){
     
 }
-$('#dform_container').off('_KDF_mapReady').on('_KDF_mapReady', function(event, kdf, type, name, map, positionLayer, markerLayer, marker, projection) {
+$('#dform_container, '+formName()).off('_KDF_mapReady').on('_KDF_mapReady', function(event, kdf, type, name, map, positionLayer, markerLayer, marker, projection) {
 	//KS currently not working with map like _KDF_search is in style-4.js is
 	console.log('Script side _KDF_mapReady tiggered');
 	if (getMapParams().geolocateButton){
@@ -588,7 +588,15 @@ $('#dform_container').off('_KDF_mapReady').on('_KDF_mapReady', function(event, k
 	}
 	hardcodeLegend();//KS won't work unless legend is defined in map params
 	//KS to avoid the bug with customerFeilds not being constructed at _KDF_ready
-	/*if (typeof regexSearch = 'function')*/ regexSearch("[0-9A-Za-z ]{3,}");
+	/*if (typeof regexSearch = 'function')*/ 
+	regexSearch("[0-9A-Za-z ]{2,}");
+	//KS Show 'May take longer' message based on user journey	
+	$('#dform_widget_button_but_no_map').on('click',function(){
+		KDF.showWidget('hrd_investigate_longer');
+	});
+	$('.mapConfirm').on('click',function(){
+		KDF.hideWidget('hrd_investigate_longer');
+	});
 	
 });
 
@@ -1442,10 +1450,4 @@ function hardcodeLegend(){
 		root.html(html+root.html());
 	}
 }
-//KS Show 'May take longer' message based on user journey	
-$('#dform_widget_button_but_no_map').on('click',function(){
-	KDF.showWidget('hrd_investigate_longer');
-});
-$('.mapConfirm').on('click',function(){
-	KDF.hideWidget('hrd_investigate_longer');
-});
+
