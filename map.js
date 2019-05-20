@@ -1442,3 +1442,10 @@ function hardcodeLegend(){
 		root.html(html+root.html());
 	}
 }
+//KS Show 'May take longer' message based on user journey	
+$('#dform_widget_button_but_no_map').on('click',function(){
+	KDF.showWidget('hrd_investigate_longer');
+});
+$('.mapConfirm').on('click',function(){
+	KDF.hideWidget('hrd_investigate_longer');
+});
