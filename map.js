@@ -591,10 +591,10 @@ $('#dform_container').off('_KDF_mapReady').on('_KDF_mapReady', function(event, k
 	/*if (typeof regexSearch = 'function')*/ 
 	regexSearch("[0-9A-Za-z ]{2,}");
 	//KS Show 'May take longer' message based on user journey	
-	$('#dform_widget_button_but_no_map').on('click',function(){
+	$('#dform_container').on('click','#dform_widget_button_but_no_map',function(){
 		KDF.showWidget('hrd_investigate_longer');
 	});
-	$('.mapConfirm').on('click',function(){
+	$('#dform_container').on('click','.mapConfirm',function(){
 		KDF.hideWidget('hrd_investigate_longer');
 	});
 	
