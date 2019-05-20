@@ -1,5 +1,5 @@
 //If max selected assets is undefined then use Luthfans draw asset layer
-/*Luthfans */
+/*Luthfans*/
 var luthfan = true;
 var faultReportingSearchResults = new Object();
 var streetAddress='';
