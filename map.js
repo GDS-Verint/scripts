@@ -64,7 +64,7 @@ $(document).on('keypress','#dform_widget_txt_postcode',function() {
   }
 });
 
-$(document).on('click','#dform_widget_button_but_nextcall',function() {
+$(document).on('click','#dform_widget_button_but_nextcall, #dform_widget_button_but_continue_sign_type',function() {
   console.log('next clicked');
     
     if (typeof esrimap !== 'undefined'){
