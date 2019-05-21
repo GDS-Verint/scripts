@@ -178,8 +178,16 @@ function luthfanDrawAssetLayer(){//TODO update URL
         }
     } 
     
+	// dog fouling
     if (KDF.getVal('txt_formname')) {
         if (KDF.getVal('txt_formname') === 'dog_fouling') {
+            return false;
+        }
+    }
+    
+    // road sign unlit
+    if (KDF.getVal('rad_sign_type')) {
+        if (KDF.getVal('rad_sign_type') === 'unlit' ) {
             return false;
         }
     }
@@ -261,12 +269,11 @@ function luthfanDrawAssetLayer(){//TODO update URL
 	        if (KDF.getVal('asset_layer')) {
 	            infoWindowContent = '<b>Asset ID</b> : ' + value.attributes.ASSET_ID + '</br><b>Location : </b>' + 
 								value.attributes.feature_location + '</br><b>Site name : </b>' + value.attributes.site_name
-								+ '</br><b>Type name : </b>' + value.attributes.feature_type_name
 								 + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm location</button></div>';
 	        } else {
 	            //console.log('litter')
 	         infoWindowContent = '<b>Asset ID</b> : ' + value.attributes.ASSET_ID + '</br><b>Location : </b>' + 
-								value.attributes.LOCATION + '</br><b>Site name : </b>' + value.attributes.SITE_NAME + '</br><b>Type name : </b>' + value.attributes.TYPE_NAME
+								value.attributes.LOCATION + '</br><b>Site name : </b>' + value.attributes.SITE_NAME 
 								 + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm location</button></div>';
          
 	        }
@@ -288,7 +295,7 @@ function luthfanDrawAssetLayer(){//TODO update URL
     	         //esrimap.setInfoWindowOnClick(false);
     	    
     		   if (typeof esrimap.getLayer("graphicsLayer2") !== 'undefined') {
-                        esrimap.removeLayer(esrimap.getLayer("graphicsLayer2"));
+                        esrimap.getLayer("graphicsLayer2").hide();
                     }
                     
                     var lan = event.graphic.attributes.latitude ;
