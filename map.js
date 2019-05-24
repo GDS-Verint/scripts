@@ -64,7 +64,7 @@ $(document).on('keypress','#dform_widget_txt_postcode',function() {
   }
 });
 
-$(document).on('click','#dform_widget_button_but_nextcall, #dform_widget_button_but_continue_sign_type',function() {
+$(document).on('click','#dform_widget_button_but_nextcall, #dform_widget_button_but_continue_sign_type ,#dform_widget_button_but_9MB43U68',function() {
   console.log('next clicked');
     
     if (typeof esrimap !== 'undefined'){
@@ -293,7 +293,7 @@ function luthfanDrawAssetLayer(){//TODO update URL
     	     assetLayer.on('click', function(event) {
     	         console.log(event.graphic.attributes)
     	         //esrimap.setInfoWindowOnClick(false);
-    	    
+    	    esrimap.infoWindow.hide();
     		   if (typeof esrimap.getLayer("graphicsLayer2") !== 'undefined') {
                         esrimap.getLayer("graphicsLayer2").hide();
                     }
@@ -680,9 +680,9 @@ function postcodeSearch(searchInput) {
     
 	$.ajax({url: esriServiceURL, dataType: 'json', crossDomain: true}).done(function(response) {
         //console.log('Response below:')
-        //console.log(response.candidates.length)
+        console.log(response.candidates.length)
         
-        if (response.candidates.length > 2){
+        if (response.candidates.length !== 0){
         
            $.each(response.candidates, function( key, value ) {
                  xcoord=value.location.x;
@@ -712,12 +712,18 @@ function postcodeSearch(searchInput) {
 }
 
 function getAssetInfo(globalX, globalY) {
-   clearPreviousLayer();
+	var assetRadius = 15;
 
+	if (KDF.getVal('rad_issue_WINT') == 'RW16') {
+		assetRadius = 100;		
+ 	} 
+	
+   clearPreviousLayer();
+	console.log('jkasdfjksdff')
    var point = new Point([globalX, globalY]);
    var centerpoint = new Point(globalX, globalY, new esri.SpatialReference({wkid: getMapParams().WKID}));
 
-	var circleGeometry = new Circle(centerpoint,{"radius": 15, "numberOfPoints": 4, "radiusUnit": Units.METERS, "type": "extent"});
+	var circleGeometry = new Circle(centerpoint,{"radius": assetRadius, "numberOfPoints": 4, "radiusUnit": Units.METERS, "type": "extent"});
 	var esriServiceURL = '';
 	var content = '';
 
@@ -815,12 +821,14 @@ function getAssetInfo(globalX, globalY) {
 					//console.log('newLayer.on > callInfoWindow');
 					//if(popupOrZoomTo(esrimap, centerpoint)){
 						callInfoWindow(content, marker, esrimap);
+						console.log('marker click')
 					//}
 				});
 				
 				esrimap.addLayer(newlayer);
 				//console.log('Single after newLayer.on > callInfoWindow');
 				//if(popupOrZoomTo(esrimap, centerpoint)){
+					console.log('non marker click')
 					callInfoWindow(content, marker, esrimap);
 				//}
 				//Trig[content, esriServiceURL]: provides the content of the asset response and the url used to return it.
@@ -837,12 +845,24 @@ function callInfoWindow(content, marker, map){
     console.log(content);
     console.groupEnd();
         if(content == null || content==''){
-            if(getMapParams().defaultPopupContent){
-			    content = (getMapParams().defaultPopupContent instanceof Function) ? getMapParams().defaultPopupContent() : getMapParams().defaultPopupContent;
-			} else{
-				content = '<u><b>Asset not found.</b></u></br></br><u><b>If you believe there is an asset here please click below button to report.</b></u>'
-            + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Report this location</button></div>';
-			}
+
+			if (KDF.getVal('rad_issue_WINT') == 'RW16') {
+				content = '<p class="paragraph-medium">Valid new grit bin location</p><button id="mapConfirm" class="mapConfirm btn-continue" data-asset_id="">Confirm new location</button>'
+
+        	} else {
+        		if(getMapParams().defaultPopupContent){
+					content = (getMapParams().defaultPopupContent instanceof Function) ? getMapParams().defaultPopupContent() : getMapParams().defaultPopupContent;
+				} else{
+					content = '<u><b>Asset not found.</b></u></br></br><u><b>If you believe there is an asset here please click below button to report.</b></u>'
+				+ '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Report this location</button></div>';
+				}
+        	}
+        } else {
+        	console.log('helo')
+        	if (KDF.getVal('rad_issue_WINT') == 'RW16') {
+				content = '<p class="paragraph-medium">Another asset is within 100m, so you cannot report here</p>';
+				
+        	} 
         }
 
 	var centerpoint = new Point(marker.geometry.x, marker.geometry.y, new esri.SpatialReference({wkid: getMapParams().WKID}));
@@ -1136,11 +1156,13 @@ function searchBegin(){
        KDF.hideWidget('html_nosearchfound');
   
        showLoading();
-       
-       if (searchInput.toUpperCase().charAt(0) !== 'E' && searchInput.toUpperCase().charAt(1) !== 'H'){
-           processResult(searchInput);
-       } else {
+       console.log(searchInput.toUpperCase().charAt(0) + ' ' + searchInput.toUpperCase().charAt(1))
+       if (searchInput.toUpperCase().charAt(0) === 'E' && searchInput.toUpperCase().charAt(1) === 'H'){
+           
            postcodeSearch(searchInput);
+       } else {
+       	console.log('sf')
+           processResult(searchInput);
        }
        
 }
