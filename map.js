@@ -859,7 +859,7 @@ function callInfoWindow(content, marker, map){
         } else {
         	console.log('helo')
         	if (KDF.getVal('rad_issue_WINT') == 'RW16') {
-				content = '<p class="paragraph-normal">Another asset is within 100m, so you cannot report here</p>';
+				content = '<p class="paragraph-normal">You cannot request a grit bin within 100 meters on another grit bin, please select another location</p>';
 				
         	} 
         }
