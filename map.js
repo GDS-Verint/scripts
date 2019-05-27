@@ -64,7 +64,7 @@ $(document).on('keypress','#dform_widget_txt_postcode',function() {
   }
 });
 
-$(document).on('click','#dform_widget_button_but_nextcall, #dform_widget_button_but_continue_sign_type ,#dform_widget_button_but_9MB43U68',function() {
+$(document).on('click','#dform_widget_button_but_nextcall, #dform_widget_button_but_continue_sign_type ,#dform_widget_button_but_9MB43U68, #dform_widget_button_but_TZT3QJA7',function() {
   console.log('next clicked');
     
     if (typeof esrimap !== 'undefined'){
@@ -719,7 +719,6 @@ function getAssetInfo(globalX, globalY) {
  	} 
 	
    clearPreviousLayer();
-	console.log('jkasdfjksdff')
    var point = new Point([globalX, globalY]);
    var centerpoint = new Point(globalX, globalY, new esri.SpatialReference({wkid: getMapParams().WKID}));
 
@@ -847,7 +846,7 @@ function callInfoWindow(content, marker, map){
         if(content == null || content==''){
 
 			if (KDF.getVal('rad_issue_WINT') == 'RW16') {
-				content = '<p class="paragraph-medium">Valid new grit bin location</p><button id="mapConfirm" class="mapConfirm btn-continue" data-asset_id="">Confirm new location</button>'
+				content = '<p class="paragraph-normal">Valid new grit bin location</p><button id="mapConfirm" class="mapConfirm btn-continue" data-asset_id="">Confirm new location</button>'
 
         	} else {
         		if(getMapParams().defaultPopupContent){
@@ -860,7 +859,7 @@ function callInfoWindow(content, marker, map){
         } else {
         	console.log('helo')
         	if (KDF.getVal('rad_issue_WINT') == 'RW16') {
-				content = '<p class="paragraph-medium">Another asset is within 100m, so you cannot report here</p>';
+				content = '<p class="paragraph-normal">Another asset is within 100m, so you cannot report here</p>';
 				
         	} 
         }
