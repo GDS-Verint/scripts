@@ -295,8 +295,8 @@ var updateStyleFunctions = {
     		}
     		element.find('.file-gov-text').text('Select up to '+number+' files');
     		element.find('.dform_filenames').off('DOMNodeInserted DOMNodeRemoved').on('DOMNodeInserted DOMNodeRemoved', function(event) {
-    			if (event.type == 'DOMNodeInserted'){//KS: adding a file
-    				var current = $(this).children('span').length;
+    			var current = $(this).children('span').length;
+			if (event.type == 'DOMNodeInserted'){//KS: adding a file
     				if(current >= number){//KS: Can't add more
     					$(this).parent().find('input').addClass('visibility-hidden');
     					$(this).parent().find('.file-gov-text').text('Storage Full');
@@ -308,7 +308,7 @@ var updateStyleFunctions = {
 					$(formName()).trigger('_style_fileUploaded',[current,number,number-current])
     				}
     			} else {//KS: removing a file
-    				$(this).parent().find('input').removeClass('visibility-hidden');
+				$(this).parent().find('input').removeClass('visibility-hidden');
 					if(current == number){
 						//KS: Removed all files - display total number you can upload
 						$(this).parent().find('.file-gov-text').text('Select up to '+number+' files');
