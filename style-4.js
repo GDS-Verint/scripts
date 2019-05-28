@@ -309,7 +309,13 @@ var updateStyleFunctions = {
     				}
     			} else {//KS: removing a file
     				$(this).parent().find('input').removeClass('visibility-hidden');
-    				$(this).parent().find('.file-gov-text').text('Select up to '+number+' files');
+					if(current == number){
+						//KS: Removed all files - display total number you can upload
+						$(this).parent().find('.file-gov-text').text('Select up to '+number+' files');
+					} esle {
+						//KS: at least one file is uploaded - display number left
+						$(this).parent().find('.file-gov-text').text('Select up to '+(number-current)+' more');
+					}
 				//KS: trigger: '_style_fileUploaded, [currentFileNumber, maxFiles, slotsFree]'
 				$(formName()).trigger('_style_fileUploaded',[0,number,number]);
     			}
