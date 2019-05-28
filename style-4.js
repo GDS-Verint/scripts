@@ -1,7 +1,7 @@
 function toggleDebugStyle(){debugStyle = !debugStyle;} var debugStyle = false;
 /*//KS: put in _KDF_ready - uses all the reccomended styles - can add optional
 applyStyle(['recommended']);
-//KS: see 'Non-recommended defaults' within 'defaultNewStyle(elements)' for optional defaults*/
+//KS: see 'Non-recommended defaults' within 'defaultNewStyle(elements)' for optional defaults */
 
 function defineDefaultStyle(){
 	//KS: temp
