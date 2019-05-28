@@ -312,7 +312,7 @@ var updateStyleFunctions = {
 					if(current == number){
 						//KS: Removed all files - display total number you can upload
 						$(this).parent().find('.file-gov-text').text('Select up to '+number+' files');
-					} esle {
+					} else {
 						//KS: at least one file is uploaded - display number left
 						$(this).parent().find('.file-gov-text').text('Select up to '+(number-current)+' more');
 					}
