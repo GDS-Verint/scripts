@@ -251,15 +251,15 @@ var updateStyleFunctions = {
 	'file-gov': function(element){
 		$("[type='file']").attr('title', 'File upload');//KS: avoid WCAG error
 		element.find('> div > label').removeAttr("for");//KS: prevent legend from beinbg clickable
-        var el = element.find('input').not(":has(.file-gov-icon-a)");
-        el.after('<span class="file-gov-icon"><span class="file-gov-icon-a"></span><span class="file-gov-icon-b"></span><label class="file-gov-text">Select Files...</label></span>');
-        el.parent().css('position', 'relative');
-        el.find("input").insertAfter(el.find(".file-gov-icon"));
+        	var el = element.find('input').not(":has(.file-gov-icon-a)");
+        	el.after('<span class="file-gov-icon"><span class="file-gov-icon-a"></span><span class="file-gov-icon-b"></span><label class="file-gov-text">Select Files...</label></span>');
+        	el.parent().css('position', 'relative');
+        	el.find("input").insertAfter(el.find(".file-gov-icon"));
 		//KS if element selector is used, then it won't update elements that already have be updated
-        element.find('.helptext').each(function(){
-            //KS: used to rearrange elements
-            $(this).insertAfter($(this).parent().find(".file-gov-icon"));
-        });
+        	element.find('.helptext').each(function(){
+            		//KS: used to rearrange elements
+            		$(this).insertAfter($(this).parent().find(".file-gov-icon"));
+        	});
 	},
 	'detail-gov': function(element){
 		element.find('> p:first-child').each(function(){
@@ -279,51 +279,51 @@ var updateStyleFunctions = {
 		element.find('p, li').addClass(classStyle);
 	},
 	'file-limit': function(element){//KS: need to test what happens if over limit when it's applied
-    	var classes = element.attr('class').split(/\s+/);
-    	var hasClass = false;
-    	for (var i = 0; i < classes.length; i++){
-    		if (classes[i].startsWith('file-limit-')){
-    			hasClass=classes[i];
-    		}
-    	}
-    	if (hasClass){//KS: get the number
-    		var number = hasClass.substring(11, hasClass.length);
-    		number = parseInt(number,10);
-    		if (!(Number.isInteger(number) && number > 0 && number < 32)){
-    		    //Error - assume default of 3
-    			number = 3;
-    		}
-    		element.find('.file-gov-text').text('Select up to '+number+' files');
-    		element.find('.dform_filenames').off('DOMNodeInserted DOMNodeRemoved').on('DOMNodeInserted DOMNodeRemoved', function(event) {
-    			var current = $(this).children('span').length;
-			if (event.type == 'DOMNodeInserted'){//KS: adding a file
-    				if(current >= number){//KS: Can't add more
-    					$(this).parent().find('input').addClass('visibility-hidden');
-    					$(this).parent().find('.file-gov-text').text('Storage Full');
-					//KS: trigger: '_style_fileUploaded, [currentFileNumber, maxFiles, slotsFree]'
-					$(formName()).trigger('_style_fileUploaded',[number,number,0])
-    				}else{//KS: Can add more
-    					$(this).parent().find('.file-gov-text').text('Select up to '+(number-current)+' more');
-					//KS: trigger: '_style_fileUploaded, [currentFileNumber, maxFiles, slotsFree]'
-					$(formName()).trigger('_style_fileUploaded',[current,number,number-current])
-    				}
-    			} else {//KS: removing a file
-				$(this).parent().find('input').removeClass('visibility-hidden');
-					if(current-1 == 0){
-						//KS: Removed all files - display total number you can upload
-						$(this).parent().find('.file-gov-text').text('Select up to '+number+' files');
-					} else {
-						//KS: at least one file is uploaded - display number left
-						$(this).parent().find('.file-gov-text').text('Select up to '+(number-(current-1))+' more');
-					}
-				//KS: trigger: '_style_fileUploaded, [currentFileNumber, maxFiles, slotsFree]'
-				$(formName()).trigger('_style_fileUploaded',[0,number,(number-(current-1))]);
+    		var classes = element.attr('class').split(/\s+/);
+    		var hasClass = false;
+    		for (var i = 0; i < classes.length; i++){
+    			if (classes[i].startsWith('file-limit-')){
+    				hasClass=classes[i];
     			}
-    		});
-    	}else{
-    		if (debugStyle) console.debug("A file limit couldn't be applied to an element because it didn't have a file-limit-[number] style ")
-    	}
-    },
+    		}
+    		if (hasClass){//KS: get the number
+    			var number = hasClass.substring(11, hasClass.length);
+    			number = parseInt(number,10);
+    			if (!(Number.isInteger(number) && number > 0 && number < 32)){
+    		    		//Error - assume default of 3
+    				number = 3;
+    			}
+    			element.find('.file-gov-text').text('Select up to '+number+' files');
+    			element.find('.dform_filenames').off('DOMNodeInserted DOMNodeRemoved').on('DOMNodeInserted DOMNodeRemoved', function(event) {
+    				var current = $(this).children('span').length;
+				if (event.type == 'DOMNodeInserted'){//KS: adding a file
+    					if(current >= number){//KS: Can't add more
+    						$(this).parent().find('input').addClass('visibility-hidden');
+    						$(this).parent().find('.file-gov-text').text('Storage Full');
+						//KS: trigger: '_style_fileUploaded, [currentFileNumber, maxFiles, slotsFree]'
+						$(formName()).trigger('_style_fileUploaded',[number,number,0])
+    					}else{//KS: Can add more
+    						$(this).parent().find('.file-gov-text').text('Select up to '+(number-current)+' more');
+						//KS: trigger: '_style_fileUploaded, [currentFileNumber, maxFiles, slotsFree]'
+						$(formName()).trigger('_style_fileUploaded',[current,number,number-current])
+    					}
+    				} else {//KS: removing a file
+					$(this).parent().find('input').removeClass('visibility-hidden');
+						if(current-1 == 0){
+							//KS: Removed all files - display total number you can upload
+							$(this).parent().find('.file-gov-text').text('Select up to '+number+' files');
+						} else {
+							//KS: at least one file is uploaded - display number left
+							$(this).parent().find('.file-gov-text').text('Select up to '+(number-(current-1))+' more');
+						}
+					//KS: trigger: '_style_fileUploaded, [currentFileNumber, maxFiles, slotsFree]'
+					$(formName()).trigger('_style_fileUploaded',[0,number,(number-(current-1))]);
+    				}
+    			});
+    		}else{
+    			if (debugStyle) console.debug("A file limit couldn't be applied to an element because it didn't have a file-limit-[number] style ")
+    		}
+    	},
 	'search-no-results': function(element){//KS: param object op
         element.find('select').css('margin-right','0.25rem')
 		var el = element.find('.dform_widget_search_closeresults');/*.not(":has(.btn-continue)");*/
@@ -334,26 +334,26 @@ var updateStyleFunctions = {
 	    element.parent().addClass('txt-hidden');
 	},
 	'rad-margin': function(element){//KS: need to test what happens if over limit when it's applied
-	    //KS: change for a reusable function like: function getClassNumberWhenInRange(element, startsWith, [minNmber, maxNumber])
-    	var classes = element.attr('class').split(/\s+/);
-    	var hasClass = false;
-    	var startString = 'rad-margin-';
-    	for (var i = 0; i < classes.length; i++){
-    		if (classes[i].startsWith(startString)){
-    			hasClass=classes[i];
+	   	//KS: change for a reusable function like: function getClassNumberWhenInRange(element, startsWith, [minNmber, maxNumber])
+    		var classes = element.attr('class').split(/\s+/);
+    		var hasClass = false;
+    		var startString = 'rad-margin-';
+    		for (var i = 0; i < classes.length; i++){
+    			if (classes[i].startsWith(startString)){
+    				hasClass=classes[i];
+    			}
     		}
-    	}
-    	if (hasClass){//KS: get the number
-    		var number = hasClass.substring(startString.length, hasClass.length);
-    		number = parseInt(number,10);
-    		if (Number.isInteger(number) && number >= 0 && number <= 100){//KS: since it is %, unlikely to go over
+    		if (hasClass){//KS: get the number
+    			var number = hasClass.substring(startString.length, hasClass.length);
+    			number = parseInt(number,10);
+    			if (Number.isInteger(number) && number >= 0 && number <= 100){//KS: since it is %, unlikely to go over
 				marginArrange(element.find('legend'), 'rad-margin-'+number+'-legend');
 			}else{
-    		    if (debugStyle) console.debug(hasClass + 'is not a valid rad-margin, try rad-margin-50');
+    		    		if (debugStyle) console.debug(hasClass + 'is not a valid rad-margin, try rad-margin-50');
+    			}
+    		}else{
+    	    		if (debugStyle) console.debug('Could not add rad-margin to element. Try adding the class rad-margin-# (e.g. rad-margin-50) first')
     		}
-    	}else{
-    	    if (debugStyle) console.debug('Could not add rad-margin to element. Try adding the class rad-margin-# (e.g. rad-margin-50) first')
-    	}
 	},
 	'mchk-margin': function(element){//KS: need to test what happens if over limit when it's applied
 	    //KS: change for a reusable function like: function getClassNumberWhenInRange(element, startsWith, [minNmber, maxNumber])
@@ -671,5 +671,12 @@ function getFieldsLabels(isPosLeft){
 	selector = selector.substring(2,selector.length);//KS: remove first ', '
 	return selector;
 }
+
+//KS: IE compatability for .isInteger
+Number.isInteger = Number.isInteger || function(value) {
+    return typeof value === "number" && 
+           isFinite(value) && 
+           Math.floor(value) === value;
+};
 
 
