@@ -296,7 +296,6 @@ var updateStyleFunctions = {
     		element.find('.file-gov-text').text('Select up to '+number+' files');
     		element.find('.dform_filenames').off('DOMNodeInserted DOMNodeRemoved').on('DOMNodeInserted DOMNodeRemoved', function(event) {
     			var current = $(this).children('span').length;
-    			alert($(this).children('span').length)
 			if (event.type == 'DOMNodeInserted'){//KS: adding a file
     				if(current >= number){//KS: Can't add more
     					$(this).parent().find('input').addClass('visibility-hidden');
