@@ -591,7 +591,7 @@ $('#dform_container').off('_KDF_mapReady').on('_KDF_mapReady', function(event, k
 		addGeolocateButton($("[data-type='gis']"));
 	}
 	if (getMapParams().geolocateAuto){
-		geolocate();
+		setTimeout(function(){geolocate()}, 1);
 	}
 	hardcodeLegend();//KS won't work unless legend is defined in map params
 	//KS to avoid the bug with customerFeilds not being constructed at _KDF_ready
