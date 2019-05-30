@@ -1366,7 +1366,7 @@ function geolocate(){
 
 function geolocateLogic(lonLatWkid){
 	if (lonLatWkid){
-		var point = new Point(lonLatWkid.x, lonLatWkid.y, lonLatWkid.WKID);
+		var point = new Point(lonLatWkid.x, lonLatWkid.y, new SpatialReference(lonLatWkid.WKID));
 		console.log(point)
 		var withinExtent = isPointWithinSquare([point.x, point.y], getMapParams().extent);
 		if (withinExtent){
