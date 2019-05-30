@@ -584,7 +584,7 @@ function removeSelectedAssets(graphicLayer){
 function getAssetInfoFromCoord(point){
     
 }
-$(formName()).on('_KDF_mapReady', function(event, kdf, type, name, map, positionLayer, markerLayer, marker, projection) {
+$('#dform_container').on('_KDF_mapReady', function(event, kdf, type, name, map, positionLayer, markerLayer, marker, projection) {
 	//KS currently not working with map like _KDF_search is in style-4.js is
 	console.log('Script side _KDF_mapReady tiggered');
 	if (getMapParams().geolocateButton){
