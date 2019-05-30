@@ -310,7 +310,7 @@ var updateStyleFunctions = {
     				}
     			} else {//KS: removing a file
 				$(this).parent().find('input').removeClass('visibility-hidden');
-					if(current-1 == number){
+					if(current-1 == 0){
 						//KS: Removed all files - display total number you can upload
 						$(this).parent().find('.file-gov-text').text('Select up to '+number+' files');
 					} else {
@@ -318,7 +318,7 @@ var updateStyleFunctions = {
 						$(this).parent().find('.file-gov-text').text('Select up to '+(number-(current-1))+' more');
 					}
 				//KS: trigger: '_style_fileUploaded, [currentFileNumber, maxFiles, slotsFree]'
-				$(formName()).trigger('_style_fileUploaded',[0,number,(current-1)]);
+				$(formName()).trigger('_style_fileUploaded',[0,number,(number-(current-1))]);
     			}
     		});
     	}else{
