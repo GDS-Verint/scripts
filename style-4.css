@@ -421,7 +421,7 @@ KS: file-gov Start
   top: 17px;
   width: 19px;
   height: 0px;
-  border: solid #e8f0de;
+  border: solid #fff;
   border-width: 0 0 5px 0;
 }
 .file-gov-icon-b {
@@ -431,7 +431,7 @@ KS: file-gov Start
   top: 10px;
   width: 0px;
   height: 19px;
-  border: solid #e8f0de;
+  border: solid #fff;
   border-width: 0 5px 0 0;
 }
 .file-gov-text {
