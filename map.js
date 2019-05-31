@@ -1,4 +1,5 @@
 //If max selected assets is undefined then use Luthfans draw asset layer
+var canContinueWithoutMap = false;
 /*Luthfans */
 var luthfan = true;
 var faultReportingSearchResults = new Object();
@@ -699,7 +700,8 @@ function postcodeSearch(searchInput) {
     		var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: getMapParams().WKID}));
     		esrimap.centerAndZoom(centerpoint, 6);
     		
-    		KDF.showWidget('but_no_map');
+    		//KDF.showWidget('but_no_map');
+		canContinueWithoutMap = true;
         } else {
             KDF.showWidget('html_nosearchfound');
 		    hideLoading();
@@ -974,7 +976,8 @@ $(document).on('change','#dform_widget_fault_reporting_search_results' , functio
               
                if (selectResult == faultReportingSearchResults.site_name) {
                 esrimap.centerAndZoom(new Point(faultReportingSearchResults.xCoord, faultReportingSearchResults.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
-                KDF.showWidget('but_no_map');
+                //KDF.showWidget('but_no_map');
+		canContinueWithoutMap = true;
                 
                    if (typeof KDF.getVal('txt_confirm_sitecode') !== 'undefined') {
             	     KDF.setVal('txt_confirm_sitecode', faultReportingSearchResults.USRN);
@@ -1084,7 +1087,8 @@ function processResult(searchInput){
     	              
     	              //KDF.setStreetID(resultAssetArray.LOCATOR_DESCRIPTION,false,'');
     	              esrimap.centerAndZoom(new Point(resultAssetArray.xCoord, resultAssetArray.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
-		                KDF.showWidget('but_no_map');
+		              //KDF.showWidget('but_no_map');
+			      canContinueWithoutMap = true;
 	              });
 				  
 	               // centreOnEsriResult('', '', xmax, xmin, ymax, ymin, '', '');
@@ -1147,7 +1151,8 @@ function searchBegin(){
         
        //KDF.showWidget('ahtm_report_without_map');
       
-       KDF.hideWidget('but_no_map');
+       //KDF.hideWidget('but_no_map');
+	canContinueWithoutMap = false;
        KDF.hideMessages();
        searchInput = KDF.getVal('txt_postcode');
        $('#dform_widget_fault_reporting_search_results').empty();
