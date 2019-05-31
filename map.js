@@ -1111,7 +1111,7 @@ function processResult(searchInput){
 	               // centreOnEsriResult('', '', xmax, xmin, ymax, ymin, '', '');
 	          }  else {
 	               $('label[for=dform_widget_fault_reporting_search_results]').html('<label for="dform_widget_fault_reporting_search_results">Multiple results, please select one:</label>');
-	               $('#dform_widget_fault_reporting_search_results').append($('<option>', {value: 'Please select a location',text: 'Please select'}))
+	               $('#dform_widget_fault_reporting_search_results').append($('<option value="Please select a location" disabled>Please select</option>'))
 	               $.each(resultAssetArray, function(key, resultAssetArray2 ) {
 	                   console.log(resultAssetArray2.site_name);
     		    	   $('#dform_widget_fault_reporting_search_results').append($('<option>', {value: resultAssetArray2.site_name,text: resultAssetArray2.site_name}))
