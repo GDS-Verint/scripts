@@ -1,15 +1,21 @@
 //If max selected assets is undefined then use Luthfans draw asset layer
 var canContinueWithoutMap = false;
-$('#dform_widget_button_but_no_map').on('click',function(){
+$(document).on('click','#dform_widget_button_but_no_map',function() {
 	if(canContinueWithoutMap){
 		KDF.hideWidget('ahtm_no-map_message');
+		if (typeof KDF.getVal('txt_confirm_sitecode') !== 'undefined') {
+	        KDF.customdata('get_streetid_usrn', 'create', true, true, {'USRN': KDF.getVal('txt_confirm_sitecode')});
+		}
 		KDF.gotoNextPage();
 	}else{
 		console.log('canContinueWithoutMap != true');
 		KDF.showWidget('ahtm_no-map_message');
+		/*KS: for smoother scrolling, but focus causes issues
+		
 		$([document.documentElement, document.body]).animate({
 			scrollTop: $("[data-name='ahtm_no-map_message']").offset().top
-		}, 1000);
+		}, 1000);*/
+		$('#dform_widget_txt_postcode').focus()
 	}
 });
 
