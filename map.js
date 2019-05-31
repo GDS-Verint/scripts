@@ -702,6 +702,7 @@ function postcodeSearch(searchInput) {
     		
     		//KDF.showWidget('but_no_map');
 		canContinueWithoutMap = true;
+		KDF.hideWidget('ahtm_no-map_message');
         } else {
             KDF.showWidget('html_nosearchfound');
 		    hideLoading();
@@ -978,6 +979,7 @@ $(document).on('change','#dform_widget_fault_reporting_search_results' , functio
                 esrimap.centerAndZoom(new Point(faultReportingSearchResults.xCoord, faultReportingSearchResults.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
                 //KDF.showWidget('but_no_map');
 		canContinueWithoutMap = true;
+		KDF.hideWidget('ahtm_no-map_message');
                 
                    if (typeof KDF.getVal('txt_confirm_sitecode') !== 'undefined') {
             	     KDF.setVal('txt_confirm_sitecode', faultReportingSearchResults.USRN);
@@ -1089,6 +1091,7 @@ function processResult(searchInput){
     	              esrimap.centerAndZoom(new Point(resultAssetArray.xCoord, resultAssetArray.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
 		              //KDF.showWidget('but_no_map');
 			      canContinueWithoutMap = true;
+			      KDF.hideWidget('ahtm_no-map_message');
 	              });
 				  
 	               // centreOnEsriResult('', '', xmax, xmin, ymax, ymin, '', '');
