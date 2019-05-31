@@ -11,7 +11,9 @@ $('#dform_widget_button_but_no_map').on('click',function(){
 			scrollTop: $("[data-name='ahtm_no-map_message']").offset().top
 		}, 1000);
 	}
-}
+});
+
+
 /*Luthfans */
 var luthfan = true;
 var faultReportingSearchResults = new Object();
