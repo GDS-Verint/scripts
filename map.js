@@ -1,5 +1,17 @@
 //If max selected assets is undefined then use Luthfans draw asset layer
 var canContinueWithoutMap = false;
+$('#dform_widget_button_but_no_map').on('click',function(){
+	if(canContinueWithoutMap){
+		KDF.hideWidget('ahtm_no-map_message');
+		KDF.gotoNextPage();
+	}else{
+		console.log('canContinueWithoutMap != true');
+		KDF.showWidget('ahtm_no-map_message');
+		$([document.documentElement, document.body]).animate({
+			scrollTop: $("[data-name='ahtm_no-map_message']").offset().top
+		}, 1000);
+	}
+}
 /*Luthfans */
 var luthfan = true;
 var faultReportingSearchResults = new Object();
