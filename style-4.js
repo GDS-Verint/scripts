@@ -2,13 +2,15 @@ function toggleDebugStyle(){debugStyle = !debugStyle;} var debugStyle = false;
 /*//KS: put in _KDF_ready - uses all the reccomended styles - can add optional
 applyStyle(['recommended']);
 //KS: see 'Non-recommended defaults' within 'defaultNewStyle(elements)' for optional defaults */
+function commonRegex(){
+	regexSearch("[0-9A-Za-z ]{2,}");
+	regexSearch('[0-9A-Za-z ]{1,}',
+		    '.dform_widget_searchfield.txt-gov [data-customalias="forename"]');
+	regexSearch('^(([gG][iI][rR] {0,}0[aA]{2})|((([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y]?[0-9][0-9]?)|(([a-pr-uwyzA-PR-UWYZ][0-9][a-hjkstuwA-HJKSTUW])|([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) {0,}[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))$',
+		    '.dform_widget_searchfield.txt-gov [data-customalias="postcode"]');
+}
 
 function defineDefaultStyle(){
-	//KS: temp
-	regexSearch("[0-9A-Za-z ]{2,}");
-	console.log($('.pc_regex').length + ' elements appling postcode regex to')
-	regexSearch('^(([gG][iI][rR] {0,}0[aA]{2})|((([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y]?[0-9][0-9]?)|(([a-pr-uwyzA-PR-UWYZ][0-9][a-hjkstuwA-HJKSTUW])|([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) {0,}[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))$',
-		    '.pc_regex');
 	//KS: can define listeners here, but can't later on, need to call 
     //KS: adds the recommended default styling - and acts a single location to change them
 	//KS: for the love of StackExchange don't put 'all' or 'recommended' in here
@@ -205,6 +207,10 @@ function applyNewStyle(){
             }
         }
     });
+	
+	//KS: needs to be applied after styles are added
+	commonRegex();
+	
 	//KS: trigger: '_style_styleApplied, [elementSelectorsUsed, hadDefaultsInArray]'
 	$(formName()).trigger('_style_styleApplied',[elementsToUpdate, (hasDefaultsInArguments) ? arguments[0] : false]);
 }
