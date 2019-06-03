@@ -1,4 +1,4 @@
-//Last edited 31 May 15:55
+//Last edited 3/6 19:17
 //If max selected assets is undefined then use Luthfans draw asset layer
 /*Luthfans */
 var luthfan = true;
@@ -1696,9 +1696,9 @@ function addToQueue(assetObj, optAssetField){
 			//KS: remove duplicate asset
 			var excisitng = assetObj['attributes']['ASSET_ID'];
 			var current = [];
-			queueWithAsset.selectedAssets.forEach(function(assetID)){
+			queueWithAsset.selectedAssets.forEach(function(assetID){
 				current.push(assetID['attributes']['ASSET_ID']);
-			}
+			});
 			
 			queueWithAsset.selectedAssets.splice(current.indexOf(excisitng),1);
 			
@@ -1740,9 +1740,9 @@ function isAssetSelected(asset, optSpecificField){
 	var arraysContaining = [];//KS need to do returnParam.length to check in response
 	userSelectedAssets.forEach(function(selectedAssetFilter){
 		var current = [];
-		selectedAssetFilter.selectedAssets.forEach(function(currentAsset)){
+		selectedAssetFilter.selectedAssets.forEach(function(currentAsset){
 			current.push(currentAsset['attributes']['ASSET_ID']);
-		}
+		});
 		
 	    if (current.indexOf(assetID) > -1){
 	        if ((optSpecificField && optSpecificField==selectedAssetFilter.uniqueField) || !optSpecificField){
