@@ -535,9 +535,12 @@ function selectResult(){
 	$(formName()).trigger('_style_selectResult',[$(this), text]);
 }
 
-function regexSearch(regex){
+function regexSearch(regex, selector){
+	if (selector === undefined){
+		selector = ".search-gov input:text, .apply-regex, #dform_widget_txt_postcode";
+	}//Else use custome selector
     //KS E.G.: regexSearch("[0-9A-Za-z ]{3,}")
-	var elements = $(".search-gov input:text, .apply-regex, #dform_widget_txt_postcode");
+	var elements = $(selector);
 	elements.attr('pattern',regex);
 	
 	//KS: trigger: '_style_regexApplied, [elements, regex]'
