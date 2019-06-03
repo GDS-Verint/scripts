@@ -1848,9 +1848,9 @@ function applyAssetListener(){
     $('.queueButton').off().on('click',function(){
         //alert('.queueButton triggered')
         //convert to the one which looks at parent element and filters 
-    	var assetId = $(this).attr('data-asset_id');
-    	if (assetId){
-    		addToQueue(assetId);
+    	var assetObj = JSON.parse($('jsonAsset').text());
+    	if (assetObj){
+    		addToQueue(assetObj);
     		esrimap.infoWindow.hide();
     		drawAssetLayer();
     	}
