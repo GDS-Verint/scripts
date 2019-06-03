@@ -384,15 +384,6 @@ function keatonDrawAssetLayer(layersToKeep){
 		    if (notUsed){
 		        eachPoints.push([point.geometry.x, point.geometry.y]);
 		    }
-		    /*if (getMapParams().selectStorage.selectedAssets.includes(point.attributes[getMapParams().selectStorage.uniqueField])){
-		        console.log(point.attributes[getMapParams().selectStorage.uniqueField])
-		        selectedPoints.push([point.geometry.x, point.geometry.y]);
-		    }else{
-		        eachPoints.push([point.geometry.x, point.geometry.y]);
-		    }*/
-			//KS using ~OBJECTID must be used here - since that information gets stripped out when added
-		    //replaceSymbol(graphic, getMapParams().selectStorage.uniqueField, getMapParams().selectStorage.selectedAssets, getMapParams().selectStorage.selectSymbol)
-		
 		});
 		
 		var sms;
@@ -510,16 +501,10 @@ var mapParams = {
 	geometryServer: 'https://edinburghcouncilmaps.info/arcgis/rest/services/Utilities/Geometry/GeometryServer',
 	drawWindowMultiplier:1.25,
 	selectMultiple:true, //Default is false
-	selectStorage:[/*{
-            points:[],
-            uniqueField:'OBJECTID',
-    	    selectedAssets:[11888935,12144406,12144405,12144948,12144862],
-    	    selectSymbol:{color:[25, 135, 6], size:"12", outline:{color: [6, 6, 89],width: "1"}},
-    	    wkid:27700,
-        },*/{
+	selectStorage:[{
             points:[],
             uniqueField:'FEATURE_ID',
-        	selectedAssets:['RHF12','RHF10','RHF24'],
+        	selectedAssets:[],
         	selectSymbol:{color:[4, 4, 100], size:"5", outline:{color: [100, 6, 6],width: "1"}},
         	wkid:27700,
     }],
@@ -577,15 +562,6 @@ function removeLayers(esriGraphics, layersToKeep){
 		});
 		if (remove) esriGraphics.remove(esriGraphics.graphics[i]);
 	}
-}
-function replaceSymbol(graphicLayer, fieldID, selectArray, selectSymbol){
-	//KS select
-}
-function removeSelectedAssets(graphicLayer){
-	
-}
-function getAssetInfoFromCoord(point){
-    
 }
 $('#dform_container').on('_KDF_mapReady', function(event, kdf, type, name, map, positionLayer, markerLayer, marker, projection) {
 	//KS currently not working with map like _KDF_search is in style-4.js is
@@ -1700,9 +1676,10 @@ $(document).on('click','#dform_widget_button_but_no_map',function() {
 	}
 });
 
-function addToQueue(assetID, optAssetField){
+function addToQueue(assetObj, optAssetField){
+	//KS assetObj is now a graphic
     if (optAssetField === undefined) optAssetField = getMapParams().selectQueueAssetAttribute;
-	var assetFields = isAssetSelected(assetID, optAssetField);
+	var assetFields = isAssetSelected(assetObj, optAssetField);
 	var queueMax = getMapParams().selectQueueSize;
 	var queueSize = 0;
 	var selectQueues = getSelectFilter('userSelect', true, true);
@@ -1714,32 +1691,39 @@ function addToQueue(assetID, optAssetField){
 	    console.log(assetFields)
 		//KS within select, must remove
 		assetFields.forEach(function(queueWithAsset){//KS remove element
-			queueWithAsset.selectedAssets.splice(queueWithAsset.selectedAssets.indexOf(assetID),1);
+			//KS: remove duplicate asset
+			var excisitng = assetObj['attributes']['ASSET_ID'];
+			var current = [];
+			queueWithAsset.selectedAssets.forEach(function(assetID)){
+				current.push(assetID['attributes']['ASSET_ID']);
+			}
+			
+			queueWithAsset.selectedAssets.splice(current.indexOf(excisitng),1);
 			
 			queueSize -= 1;
 			
-			$(formName()).trigger('_map_selectQueueInteraction',[assetID, 'removed', queueMax, queueSize, queueWithAsset]);
+			$(formName()).trigger('_map_selectQueueInteraction',[assetObj, 'removed', queueMax, queueSize, queueWithAsset]);
 		});
 	}else{
 		//KS not selected, add to select queue (if can add more)
 		if (queueMax >= queueSize +1){
 			//KS: can  add
 			console.log(selectQueues);
-			selectQueues[0].selectedAssets.push(assetID);
+			selectQueues[0].selectedAssets.push(assetObj);
 			
-			$(formName()).trigger('_map_selectQueueInteraction',[assetID, 'pushed', queueMax, queueSize+1, selectQueues[0]]);
+			$(formName()).trigger('_map_selectQueueInteraction',[assetObj, 'pushed', queueMax, queueSize+1, selectQueues[0]]);
 		}else{
 			//KS queue is full, remove last (may be from other form)
 			if (selectQueues[0].selectedAssets.length > 0){
 				//KS can remove to make room for new asset
 				selectQueues[0].selectedAssets.shift()
-				selectQueues[0].selectedAssets.push(assetID);
+				selectQueues[0].selectedAssets.push(assetObj);
 				
-				$(formName()).trigger('_map_selectQueueInteraction',[assetID, 'shiftThenPushed', queueMax, queueSize, selectQueues[0]]);
+				$(formName()).trigger('_map_selectQueueInteraction',[assetObj, 'shiftThenPushed', queueMax, queueSize, selectQueues[0]]);
 			} else{
 				console.log('No room in primary selectStorage to add asset as there are to many secondary assets');
 				
-				/*$(formName()).trigger('_map_selectQueueInteraction',[assetID, 'secondaryFull', selectQueues[0]]);*/
+				/*$(formName()).trigger('_map_selectQueueInteraction',[assetObj, 'secondaryFull', selectQueues[0]]);*/
 			}
 		}
 	}
@@ -1748,19 +1732,21 @@ function addToQueue(assetID, optAssetField){
 function isAssetSelected(asset, optSpecificField){
 	//KS the =true means match all if none is supplied
 	//KS to identify if we should add or remove asset from select list
+	var assetID = asset['attributes']['ASSET_ID'];
 	var userSelectedAssets = getSelectFilter('userSelect', true);//KS get the user selected assets
 	console.log('asset');console.log(asset);
 	var arraysContaining = [];//KS need to do returnParam.length to check in response
 	userSelectedAssets.forEach(function(selectedAssetFilter){
-	    if (selectedAssetFilter.selectedAssets.indexOf(asset) > -1){
+		var current = [];
+		selectedAssetFilter.selectedAssets.forEach(function(currentAsset)){
+			current.push(currentAsset['attributes']['ASSET_ID']);
+		}
+		
+	    if (current.indexOf(assetID) > -1){
 	        if ((optSpecificField && optSpecificField==selectedAssetFilter.uniqueField) || !optSpecificField){
 	            arraysContaining.push(selectedAssetFilter);
 	        }
 	    }
-	    //console.log(selectedAssetFilter.selectedAssets);
-	    //if ((!optSpecificField && optSpecificField==selectedAssetFilter.uniqueField) || !optSpecificField){
-	    //    arraysContaining.push(selectedAssetFilter);
-	    //}
 	});
 	return arraysContaining;
 }
