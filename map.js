@@ -1631,6 +1631,8 @@ var infoTemplates = {
     		content += '</br><button id="queueAdd" class="btn-continue queueButton queueAdd" data-asset_id="'+assetId+'">Select '+assetId+'</button></div>';
     		//KS display add to queue
     	}
+		
+		content += '<p id=jsonAsset class="dform_hidden">'+JSON.stringify(graphic)+'</p>';
         
 		//Trig[content, esriServiceURL]: provides the content of the asset response and the url used to return it.
 		//$(formName()).trigger('_map_assetInfoReturned',[content, esriServiceURL]);
