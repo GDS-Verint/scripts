@@ -1,4 +1,4 @@
-//Last edited 3/6 19:17
+//Last edited 3/6 19:19
 //If max selected assets is undefined then use Luthfans draw asset layer
 /*Luthfans */
 var luthfan = true;
