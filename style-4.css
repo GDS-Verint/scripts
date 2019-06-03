@@ -1550,5 +1550,8 @@ abbr{
     margin-right: initial;
     clear: initial;
 }
+.actionList{
+    display: none;
+}
 /*CPE overrite - END*/
 /*Edinburgh portal adaption END*/
