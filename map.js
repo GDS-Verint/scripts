@@ -1643,7 +1643,8 @@ var infoTemplates = {
 			    assetid:graphic.attributes['ASSET_ID'],
 			}
 		}
-        return content;
+        content += '<p id=jsonAsset class="dform_hidden">'+JSON.stringify(graphic)+'</p>';
+	    return content;
     },
     
     popupFields:function(graphic){
