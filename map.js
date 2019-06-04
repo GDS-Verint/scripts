@@ -273,7 +273,8 @@ function luthfanDrawAssetLayer(){//TODO update URL
 								 + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm location</button></div>';
 	        } else {
 	            //console.log('litter')
-	         infoWindowContent = '<b>Asset ID</b> : ' + value.attributes.ASSET_ID + '</br><b>Location : </b>' + 
+	         infoWindowContent = '</br><b>Location : </b>' + 
+			 infoWindowContent =  '</br><b>Location : </b>' + 
 								value.attributes.LOCATION + '</br><b>Site name : </b>' + value.attributes.SITE_NAME 
 								 + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm location</button></div>';
          
