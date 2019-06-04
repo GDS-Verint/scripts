@@ -599,7 +599,7 @@ $('#dform_container').on('_KDF_mapReady', function(event, kdf, type, name, map, 
 	hardcodeLegend();//KS won't work unless legend is defined in map params
 	//KS to avoid the bug with customerFeilds not being constructed at _KDF_ready
 	/*if (typeof regexSearch = 'function')*/ 
-	regexSearch("[0-9A-Za-z ]{2,}");
+	//regexSearch("[0-9A-Za-z ]{2,}");
 	//KS Show 'May take longer' message based on user journey	
 	
 	
@@ -1491,7 +1491,7 @@ var _KDF_mapReady = jQuery.Deferred();
 
 _KDF_ready.done(function(){
 	//KS: will be called when _KDF_ready is resolved - please define content of functions elseware (no function(){} within here)
-	regexSearch("[0-9A-Za-z ]{2,}");
+	//regexSearch("[0-9A-Za-z ]{2,}");
 	
 	
 });
