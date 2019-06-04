@@ -1666,7 +1666,7 @@ var infoTemplates = {
 			    assetid:graphic.attributes['ASSET_ID'],
 			}
 		}
-	    content += '<p id=jsonAsset class="dform_hidden">'+JSON.stringify(graphic)+'</p>';
+	    content += '<p id="jsonAsset" class="dform_hidden">'+JSON.stringify(graphic)+'</p>';
         return content;
     },
     
