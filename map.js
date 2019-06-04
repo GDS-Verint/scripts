@@ -1,4 +1,4 @@
-//Last edited 4/6/19 after revert and including luthfans code
+//Last edited 10:06 4-6-19 
 //If max selected assets is undefined then use Luthfans draw asset layer
 /*Luthfans */
 var luthfan = true;
@@ -273,7 +273,7 @@ function luthfanDrawAssetLayer(){//TODO update URL
 								 + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm location</button></div>';
 	        } else {
 	            //console.log('litter')
-	         infoWindowContent = '<b>Location : </b>' + 
+	         infoWindowContent = '</br><b>Location : </b>' + 
 								value.attributes.LOCATION + '</br><b>Site name : </b>' + value.attributes.SITE_NAME 
 								 + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm location</button></div>';
          
@@ -384,6 +384,15 @@ function keatonDrawAssetLayer(layersToKeep){
 		    if (notUsed){
 		        eachPoints.push([point.geometry.x, point.geometry.y]);
 		    }
+		    /*if (getMapParams().selectStorage.selectedAssets.includes(point.attributes[getMapParams().selectStorage.uniqueField])){
+		        console.log(point.attributes[getMapParams().selectStorage.uniqueField])
+		        selectedPoints.push([point.geometry.x, point.geometry.y]);
+		    }else{
+		        eachPoints.push([point.geometry.x, point.geometry.y]);
+		    }*/
+			//KS using ~OBJECTID must be used here - since that information gets stripped out when added
+		    //replaceSymbol(graphic, getMapParams().selectStorage.uniqueField, getMapParams().selectStorage.selectedAssets, getMapParams().selectStorage.selectSymbol)
+		
 		});
 		
 		var sms;
@@ -501,10 +510,16 @@ var mapParams = {
 	geometryServer: 'https://edinburghcouncilmaps.info/arcgis/rest/services/Utilities/Geometry/GeometryServer',
 	drawWindowMultiplier:1.25,
 	selectMultiple:true, //Default is false
-	selectStorage:[{
+	selectStorage:[/*{
+            points:[],
+            uniqueField:'OBJECTID',
+    	    selectedAssets:[11888935,12144406,12144405,12144948,12144862],
+    	    selectSymbol:{color:[25, 135, 6], size:"12", outline:{color: [6, 6, 89],width: "1"}},
+    	    wkid:27700,
+        },*/{
             points:[],
             uniqueField:'FEATURE_ID',
-        	selectedAssets:[],
+        	selectedAssets:['RHF12','RHF10','RHF24'],
         	selectSymbol:{color:[4, 4, 100], size:"5", outline:{color: [100, 6, 6],width: "1"}},
         	wkid:27700,
     }],
@@ -562,6 +577,15 @@ function removeLayers(esriGraphics, layersToKeep){
 		});
 		if (remove) esriGraphics.remove(esriGraphics.graphics[i]);
 	}
+}
+function replaceSymbol(graphicLayer, fieldID, selectArray, selectSymbol){
+	//KS select
+}
+function removeSelectedAssets(graphicLayer){
+	
+}
+function getAssetInfoFromCoord(point){
+    
 }
 $('#dform_container').on('_KDF_mapReady', function(event, kdf, type, name, map, positionLayer, markerLayer, marker, projection) {
 	//KS currently not working with map like _KDF_search is in style-4.js is
@@ -1642,8 +1666,7 @@ var infoTemplates = {
 			    assetid:graphic.attributes['ASSET_ID'],
 			}
 		}
-        content += '<p id=jsonAsset class="dform_hidden">'+JSON.stringify(graphic)+'</p>';
-	    return content;
+        return content;
     },
     
     popupFields:function(graphic){
@@ -1677,10 +1700,9 @@ $(document).on('click','#dform_widget_button_but_no_map',function() {
 	}
 });
 
-function addToQueue(assetObj, optAssetField){
-	//KS assetObj is now a graphic
+function addToQueue(assetID, optAssetField){
     if (optAssetField === undefined) optAssetField = getMapParams().selectQueueAssetAttribute;
-	var assetFields = isAssetSelected(assetObj, optAssetField);
+	var assetFields = isAssetSelected(assetID, optAssetField);
 	var queueMax = getMapParams().selectQueueSize;
 	var queueSize = 0;
 	var selectQueues = getSelectFilter('userSelect', true, true);
@@ -1692,39 +1714,32 @@ function addToQueue(assetObj, optAssetField){
 	    console.log(assetFields)
 		//KS within select, must remove
 		assetFields.forEach(function(queueWithAsset){//KS remove element
-			//KS: remove duplicate asset
-			var excisitng = assetObj['attributes']['ASSET_ID'];
-			var current = [];
-			queueWithAsset.selectedAssets.forEach(function(assetID)){
-				current.push(assetID['attributes']['ASSET_ID']);
-			}
-			
-			queueWithAsset.selectedAssets.splice(current.indexOf(excisitng),1);
+			queueWithAsset.selectedAssets.splice(queueWithAsset.selectedAssets.indexOf(assetID),1);
 			
 			queueSize -= 1;
 			
-			$(formName()).trigger('_map_selectQueueInteraction',[assetObj, 'removed', queueMax, queueSize, queueWithAsset]);
+			$(formName()).trigger('_map_selectQueueInteraction',[assetID, 'removed', queueMax, queueSize, queueWithAsset]);
 		});
 	}else{
 		//KS not selected, add to select queue (if can add more)
 		if (queueMax >= queueSize +1){
 			//KS: can  add
 			console.log(selectQueues);
-			selectQueues[0].selectedAssets.push(assetObj);
+			selectQueues[0].selectedAssets.push(assetID);
 			
-			$(formName()).trigger('_map_selectQueueInteraction',[assetObj, 'pushed', queueMax, queueSize+1, selectQueues[0]]);
+			$(formName()).trigger('_map_selectQueueInteraction',[assetID, 'pushed', queueMax, queueSize+1, selectQueues[0]]);
 		}else{
 			//KS queue is full, remove last (may be from other form)
 			if (selectQueues[0].selectedAssets.length > 0){
 				//KS can remove to make room for new asset
 				selectQueues[0].selectedAssets.shift()
-				selectQueues[0].selectedAssets.push(assetObj);
+				selectQueues[0].selectedAssets.push(assetID);
 				
-				$(formName()).trigger('_map_selectQueueInteraction',[assetObj, 'shiftThenPushed', queueMax, queueSize, selectQueues[0]]);
+				$(formName()).trigger('_map_selectQueueInteraction',[assetID, 'shiftThenPushed', queueMax, queueSize, selectQueues[0]]);
 			} else{
 				console.log('No room in primary selectStorage to add asset as there are to many secondary assets');
 				
-				/*$(formName()).trigger('_map_selectQueueInteraction',[assetObj, 'secondaryFull', selectQueues[0]]);*/
+				/*$(formName()).trigger('_map_selectQueueInteraction',[assetID, 'secondaryFull', selectQueues[0]]);*/
 			}
 		}
 	}
@@ -1733,21 +1748,19 @@ function addToQueue(assetObj, optAssetField){
 function isAssetSelected(asset, optSpecificField){
 	//KS the =true means match all if none is supplied
 	//KS to identify if we should add or remove asset from select list
-	var assetID = asset['attributes']['ASSET_ID'];
 	var userSelectedAssets = getSelectFilter('userSelect', true);//KS get the user selected assets
 	console.log('asset');console.log(asset);
 	var arraysContaining = [];//KS need to do returnParam.length to check in response
 	userSelectedAssets.forEach(function(selectedAssetFilter){
-		var current = [];
-		selectedAssetFilter.selectedAssets.forEach(function(currentAsset)){
-			current.push(currentAsset['attributes']['ASSET_ID']);
-		}
-		
-	    if (current.indexOf(assetID) > -1){
+	    if (selectedAssetFilter.selectedAssets.indexOf(asset) > -1){
 	        if ((optSpecificField && optSpecificField==selectedAssetFilter.uniqueField) || !optSpecificField){
 	            arraysContaining.push(selectedAssetFilter);
 	        }
 	    }
+	    //console.log(selectedAssetFilter.selectedAssets);
+	    //if ((!optSpecificField && optSpecificField==selectedAssetFilter.uniqueField) || !optSpecificField){
+	    //    arraysContaining.push(selectedAssetFilter);
+	    //}
 	});
 	return arraysContaining;
 }
