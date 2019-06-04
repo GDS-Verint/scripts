@@ -1,4 +1,4 @@
-//Last edited 3/6 19:19
+//Last edited 31 May 15:55
 //If max selected assets is undefined then use Luthfans draw asset layer
 /*Luthfans */
 var luthfan = true;
@@ -273,7 +273,7 @@ function luthfanDrawAssetLayer(){//TODO update URL
 								 + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm location</button></div>';
 	        } else {
 	            //console.log('litter')
-	         infoWindowContent =  '</br><b>Location : </b>' + 
+	         infoWindowContent = '<b>Asset ID</b> : ' + value.attributes.ASSET_ID + '</br><b>Location : </b>' + 
 								value.attributes.LOCATION + '</br><b>Site name : </b>' + value.attributes.SITE_NAME 
 								 + '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm location</button></div>';
          
@@ -1631,8 +1631,6 @@ var infoTemplates = {
     		content += '</br><button id="queueAdd" class="btn-continue queueButton queueAdd" data-asset_id="'+assetId+'">Select '+assetId+'</button></div>';
     		//KS display add to queue
     	}
-		
-		content += '<p id=jsonAsset class="dform_hidden">'+JSON.stringify(graphic)+'</p>';
         
 		//Trig[content, esriServiceURL]: provides the content of the asset response and the url used to return it.
 		//$(formName()).trigger('_map_assetInfoReturned',[content, esriServiceURL]);
@@ -1696,9 +1694,9 @@ function addToQueue(assetObj, optAssetField){
 			//KS: remove duplicate asset
 			var excisitng = assetObj['attributes']['ASSET_ID'];
 			var current = [];
-			queueWithAsset.selectedAssets.forEach(function(assetID){
+			queueWithAsset.selectedAssets.forEach(function(assetID)){
 				current.push(assetID['attributes']['ASSET_ID']);
-			});
+			}
 			
 			queueWithAsset.selectedAssets.splice(current.indexOf(excisitng),1);
 			
@@ -1740,9 +1738,9 @@ function isAssetSelected(asset, optSpecificField){
 	var arraysContaining = [];//KS need to do returnParam.length to check in response
 	userSelectedAssets.forEach(function(selectedAssetFilter){
 		var current = [];
-		selectedAssetFilter.selectedAssets.forEach(function(currentAsset){
+		selectedAssetFilter.selectedAssets.forEach(function(currentAsset)){
 			current.push(currentAsset['attributes']['ASSET_ID']);
-		});
+		}
 		
 	    if (current.indexOf(assetID) > -1){
 	        if ((optSpecificField && optSpecificField==selectedAssetFilter.uniqueField) || !optSpecificField){
@@ -1848,9 +1846,9 @@ function applyAssetListener(){
     $('.queueButton').off().on('click',function(){
         //alert('.queueButton triggered')
         //convert to the one which looks at parent element and filters 
-    	var assetObj = JSON.parse($('jsonAsset').text());
-    	if (assetObj){
-    		addToQueue(assetObj);
+    	var assetId = $(this).attr('data-asset_id');
+    	if (assetId){
+    		addToQueue(assetId);
     		esrimap.infoWindow.hide();
     		drawAssetLayer();
     	}
