@@ -1598,7 +1598,11 @@ var infoTemplates = {
 			    assetid:graphic.attributes['ASSET_ID'],
 			}
 		}
-        
+        content += '<p id="jsonAsset" class="dform_hidden">'+JSON.stringify({
+		attributes:graphic.attributes,
+		geometry:graphic.geometry,
+		symbol:graphic.symbol,
+	})+'</p>';
         return content;
     },
     searchRadius:function(graphic, radius){
@@ -1643,7 +1647,7 @@ var infoTemplates = {
             content += '</br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm</button></div>';
         }
     },
-    queue:function(graphic){
+    /*queue:function(graphic){
         var content = '';
         var assetId = graphic.attributes.FEATURE_ID;
         content += infoTemplates.popupFields(graphic);
@@ -1668,7 +1672,7 @@ var infoTemplates = {
 		}
 	    content += '<p id="jsonAsset" class="dform_hidden">'+JSON.stringify(graphic)+'</p>';
         return content;
-    },
+    },*/
     
     popupFields:function(graphic){
         var content = '';
@@ -1869,5 +1873,49 @@ function applyAssetListener(){
     	}
     	//KS triger redraw
     });
+}
+
+var _selectedAssetGraphics = [];
+var _latestGraphic = {};
+
+function assetGraphicQueueInteraction(selectedAssetGraphics, aGraphic){
+    var graphicUniqueID = aGraphic['attributes']['FEATURE_ID'];
+    var isDuplicate = [];
+    selectedAssetGraphics.forEach(function(currentGraphic){
+        var currentGraphicUniqueID = currentGraphic['attributes']['FEATURE_ID'];
+        if (graphicUniqueID === currentGraphicUniqueID){
+            isDuplicate.push(currentGraphic);
+        }
+    });
+    if (isDuplicate.length > 0){
+        //KS Remove graphic(s)
+        isDuplicate.forEach(function(currentGraphic){
+            selectedAssetGraphics.splice(selectedAssetGraphics.indexOf(currentGraphic),1);
+        });
+    }else{
+        //KS add graphic
+        selectedAssetGraphics.push(aGraphic);
+    }
+}
+
+function parseGraphicJSON(closestElement){
+    var jsonHTML = closestElement.parent().parent().find('#jsonAsset');
+    var jsonText = jsonHTML.text();
+    var parsedJSON = JSON.parse(jsonText);
+    //KS: TODO validate is a varable
+    return parsedJSON;
+}
+
+function prepareConfirmObject(selectedAssetGraphics){
+    var params = [selectedAssetGraphics];
+    var mapping = {
+        'txt_confirm_lat':['geometry','y'],
+        'txt_confirm_lon':['geometry','x'],
+        'txt_confirm_assetid':['attributes','FEATURE_ID'],
+        'txt_confirm_sitecode':['attributes','SITE_CODE'],
+        'txt_sitename':['attributes','SITE_NAME'],
+    }
+    params.push(mapping);
+    return params;
 }
 /**************Code from street light - End********************/
