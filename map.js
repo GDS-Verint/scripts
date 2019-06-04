@@ -1,4 +1,4 @@
-//Last edited 10:06 4-6-19 
+//Last edited 10:18 4-6-19 
 //If max selected assets is undefined then use Luthfans draw asset layer
 /*Luthfans */
 var luthfan = true;
@@ -1666,6 +1666,7 @@ var infoTemplates = {
 			    assetid:graphic.attributes['ASSET_ID'],
 			}
 		}
+	    content += '<p id=jsonAsset class="dform_hidden">'+JSON.stringify(graphic)+'</p>';
         return content;
     },
     
