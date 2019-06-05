@@ -1520,6 +1520,10 @@ _KDF_mapReady.done(function(){
 		var assetId = $(this).attr('data-asset_id');
 		if (assetId){
 			addToQueue(assetId);
+			
+			_latestGraphic = parseGraphicJSON($(this));
+			assetGraphicQueueInteraction(_selectedAssetGraphics, _latestGraphic);
+			
 			esrimap.infoWindow.hide();
 			drawAssetLayer();
 		}
@@ -1546,6 +1550,10 @@ var triggerFunction = {
 		var assetId = $(this).attr('data-asset_id');
 		if (assetId){
 			addToQueue(assetId);
+			
+			_latestGraphic = parseGraphicJSON($(this));
+			assetGraphicQueueInteraction(_selectedAssetGraphics, _latestGraphic);
+			
 			esrimap.infoWindow.hide();
 			drawAssetLayer();
 		}
@@ -1705,7 +1713,7 @@ $(document).on('click','#dform_widget_button_but_no_map',function() {
 	}
 });
 
-function addToQueue(assetID, optAssetField){
+function addToQueue(assetID, optAssetField, assetObj){
     if (optAssetField === undefined) optAssetField = getMapParams().selectQueueAssetAttribute;
 	var assetFields = isAssetSelected(assetID, optAssetField);
 	var queueMax = getMapParams().selectQueueSize;
@@ -1868,7 +1876,11 @@ function applyAssetListener(){
     	var assetId = $(this).attr('data-asset_id');
     	if (assetId){
     		addToQueue(assetId);
-    		esrimap.infoWindow.hide();
+		
+		_latestGraphic = parseGraphicJSON($(this));
+		assetGraphicQueueInteraction(_selectedAssetGraphics, _latestGraphic);
+    		
+		esrimap.infoWindow.hide();
     		drawAssetLayer();
     	}
     	//KS triger redraw
