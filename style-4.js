@@ -497,7 +497,7 @@ function txtaLength(){
         //KS: won't show up if there isnt a limit
         var message = $(this).parent().find("> .txta-length-message");
         if (currentLength >= maxLength){
-            message.html("You have ran out of characters")
+            message.html("You have reached the maximum number of characters")
         }else{
             message.html((maxLength-currentLength)+" characters left")
         }
