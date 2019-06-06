@@ -1511,7 +1511,9 @@ _KDF_mapReady.done(function(){
 			drawAssetLayer();
 		}
 	});
-	
+	$(formName()).on('_map_selectQueueInteraction', function(){
+	    drawAssetLayer();
+	});
 });
 
 var triggerFunction = {
@@ -1935,6 +1937,10 @@ $(document).on('click','.mapConfirm',function() {
 	_latestGraphic = parseGraphicJSON($(this));
 	_selectedAssetGraphics = [_latestGraphic];
 	var confirmParams = prepareConfirmObject(_selectedAssetGraphics);
+	var selectedAssetArrays = getSelectFilter('userSelect', true, true);
+	selectedAssetArrays.forEach(function(assetFilter){
+		assetFilter.selectedAssets = [];
+	});
 	//KS TODO Daire's function call here eg - compileConfirmOne-to-many(confirmParams[0]/*, confirmParams[1]*/);
     }catch(error){
 	console.groupCollapsed('Confirm error');
