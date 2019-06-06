@@ -1956,6 +1956,9 @@ $(document).on('click','.mapConfirm',function() {
 			console.groupEnd()
 		    }
 	}
+    //KS: calling Daire's function
+	try{refreshAssets(prepareConfirmObject(_selectedAssetGraphics));}catch(error){console.log(error)}
+    
     KDF.gotoNextPage();
     drawAssetLayer()
  });
