@@ -1912,11 +1912,11 @@ function parseGraphicJSON(closestElement){
 function prepareConfirmObject(selectedAssetGraphics){
     var params = [selectedAssetGraphics];
     var mapping = {
-        'txt_confirm_lat':['geometry','y'],
-        'txt_confirm_lon':['geometry','x'],
-        'txt_confirm_assetid':['attributes','FEATURE_ID'],
-        'txt_confirm_sitecode':['attributes','SITE_CODE'],
-        'txt_sitename':['attributes','SITE_NAME'],
+        'txt_confirm_lat_c':['geometry','y'],
+        'txt_confirm_lon_c':['geometry','x'],
+        'txt_confirm_assetid_c':['attributes','FEATURE_ID'],
+        'txt_confirm_sitecode_c':['attributes','SITE_CODE'],
+        'txt_sitename_c':['attributes','SITE_NAME'],
     }
     params.push(mapping);
     return params;
@@ -2000,6 +2000,7 @@ function addAssets(selectedAssetDetails) {
         txt_confirm_lon_c: ["geometry", "x"],
         txt_confirm_sitecode_c: ["attributes", "SITE_CODE"],
         txt_sitename_c: ["attributes", "SITE_NAME"]
+	txt_street_id_c:["attributes", "SITE_NAME"]
     };
     selectedAssetDetails = [[millDrive, millPlace], mapping];
     
@@ -2008,5 +2009,25 @@ function addAssets(selectedAssetDetails) {
 
 function removeAssets() {
     $('.otom_delete').click();
+}
+
+function refreshAssets(selectedAssetDetails) {
+    removeAssets();
+    selectedAssetDetails[0].forEach(function(item, index) {
+        if (index === 0) {
+            Object.keys(selectedAssetDetails[1]).forEach(function(key) {
+                var fieldName = key.substring(0, key.lastIndexOf('_c'));
+                console.log(fieldName);
+                mappingItem = selectedAssetDetails[1][key];
+                KDF.setVal(fieldName, item[mappingItem[0]][mappingItem[1]]);
+            });
+        }
+        $('#dform_widget_button_but_add_asset').click();
+        Object.keys(selectedAssetDetails[1]).forEach(function(key) {
+            mappingItem = selectedAssetDetails[1][key];
+            console.log('otom_assetdetails['+index+']['+key+']');
+            KDF.setVal('otom_assetdetails['+index+']['+key+']', item[mappingItem[0]][mappingItem[1]]);
+        });
+    });
 }
 /**************Code from street light - End********************/
