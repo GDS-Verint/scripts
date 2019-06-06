@@ -1511,9 +1511,6 @@ _KDF_mapReady.done(function(){
 			drawAssetLayer();
 		}
 	});
-	$(formName()).on('_map_selectQueueInteraction', function(){
-	    drawAssetLayer();
-	});
 });
 
 var triggerFunction = {
