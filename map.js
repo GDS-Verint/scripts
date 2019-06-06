@@ -1941,6 +1941,7 @@ $(document).on('click','.mapConfirm',function() {
 	selectedAssetArrays.forEach(function(assetFilter){
 		assetFilter.selectedAssets = [];
 	});
+	KDF.hideWidget('but_continue_selected');
 	//KS TODO Daire's function call here eg - compileConfirmOne-to-many(confirmParams[0]/*, confirmParams[1]*/);
     }catch(error){
 	console.groupCollapsed('Confirm error');
