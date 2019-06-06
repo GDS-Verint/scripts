@@ -2000,7 +2000,7 @@ function addAssets(selectedAssetDetails) {
         txt_confirm_lon_c: ["geometry", "x"],
         txt_confirm_sitecode_c: ["attributes", "SITE_CODE"],
         txt_sitename_c: ["attributes", "SITE_NAME"],
-	//KS: retrived from reverse-geocode not the asset txt_street_id_c:["attributes", "SITE_NAME"]
+	//KS: retrived from reverse-geocode not the asset txt_street_id_c: ["attributes", "SITE_NAME"]
     };
     selectedAssetDetails = [[millDrive, millPlace], mapping];
     
