@@ -612,23 +612,6 @@ $('#dform_container').on('click','.mapConfirm',function(){
 });
 var faultReportingSearchResults = new Object();
 var streetAddress='';
-
-$(document).on('click','.mapConfirm',function() {
-    KDF.setVal('txt_issuestreet',KDF.getVal('le_gis_rgeo_desc'));
-	//KS making the confirm values populate when location is confirmed
-    if(getMapParams().confirmIntergration != undefined){
-	    var confirm = getMapParams().confirmIntergration;
-	    if (confirm.lon != undefined && confirm.lat != undefined && confirm.assetid != undefined && confirm.sitecode != undefined){
-		    KDF.setVal('txt_confirm_lon', confirm.lon);
-		    KDF.setVal('txt_confirm_lat', confirm.lat);
-		    KDF.setVal('txt_confirm_assetid', confirm.assetid);
-		    KDF.setVal('txt_confirm_sitecode', confirm.sitecode);
-	    }else{
-		console.log('getMapParams().confirmIntergration defined but one of the values within is not')    
-	    }
-    }
-    KDF.gotoNextPage();
- });
  
 $(document).on('click','#dform_widget_button_but_search',function() {
 	
@@ -1875,6 +1858,9 @@ function applyAssetListener(){
         //convert to the one which looks at parent element and filters 
     	var assetId = $(this).attr('data-asset_id');
     	if (assetId){
+		//KS remove graphics without assets (i.e. reporting locations only)
+		removeConfirmNonAssets(_selectedAssetGraphics);
+		
     		addToQueue(assetId);
 		
 		_latestGraphic = parseGraphicJSON($(this));
@@ -1929,5 +1915,67 @@ function prepareConfirmObject(selectedAssetGraphics){
     }
     params.push(mapping);
     return params;
+}
+
+$(document).on('click','.mapConfirm',function() {
+    KDF.setVal('txt_issuestreet',KDF.getVal('le_gis_rgeo_desc'));
+	//KS making the confirm values populate when location is confirmed
+    if(getMapParams().confirmIntergration != undefined){
+	    var confirm = getMapParams().confirmIntergration;
+	    if (confirm.lon != undefined && confirm.lat != undefined && confirm.assetid != undefined && confirm.sitecode != undefined){
+		    KDF.setVal('txt_confirm_lon', confirm.lon);
+		    KDF.setVal('txt_confirm_lat', confirm.lat);
+		    KDF.setVal('txt_confirm_assetid', confirm.assetid);
+		    KDF.setVal('txt_confirm_sitecode', confirm.sitecode);
+	    }else{
+		console.log('getMapParams().confirmIntergration defined but one of the values within is not')    
+	    }
+    }
+    try{
+	_latestGraphic = parseGraphicJSON($(this));
+	_selectedAssetGraphics = [_latestGraphic];
+	var confirmParams = prepareConfirmObject(_selectedAssetGraphics);
+	//KS TODO Daire's function call here eg - compileConfirmOne-to-many(confirmParams[0]/*, confirmParams[1]*/);
+    }catch(error){
+	console.groupCollapsed('Confirm error');
+    	console.log(error)
+	console.log('$(this)');console.log($(this));
+	console.log('_latestGraphic');console.log(_latestGraphic.toString());
+	console.log('_selectedAssetGraphics');console.log(_selectedAssetGraphics.toString());
+	console.groupEnd()
+    }
+    KDF.gotoNextPage();
+ });
+
+function writeLocationAsGraphic(lon, lat, sitecode, desc){
+    var graphicTemplate = {
+    	attributes:{
+    		ASSET_ID: "",
+    		FEATURE_ID: "",
+    		SITE_CODE: sitecode,
+    		SITE_NAME: desc,
+    	},
+    	geometry: {
+    		type: "point", 
+    		x: lon, 
+    		y: lat, 
+    		spatialReference: new SpatialReference(27700),
+    	}
+    };
+    var json = JSON.stringify(graphicTemplate);
+    $("#jsonAsset").text(json);
+}
+
+function removeConfirmNonAssets(selectedAssetGraphics, optAssetFieldName){
+    if (optAssetFieldName === undefined){optAssetFieldName = 'FEATURE_ID';}
+    var graphicsToRemove = [];
+    selectedAssetGraphics.forEach(function(aGraphic){
+        if (aGraphic['attributes'][optAssetFieldName] === undefined || aGraphic['attributes'][optAssetFieldName] === ''){
+            graphicsToRemove.push(aGraphic)
+        }
+    });
+    graphicsToRemove.forEach(function(aGraphic){
+        selectedAssetGraphics.splice(selectedAssetGraphics.indexOf(aGraphic),1);
+    });
 }
 /**************Code from street light - End********************/
