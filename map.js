@@ -1957,6 +1957,7 @@ $(document).on('click','.mapConfirm',function() {
 		    }
 	}
     KDF.gotoNextPage();
+    drawAssetLayer()
  });
 
 function writeLocationAsGraphic(lon, lat, sitecode, desc){
