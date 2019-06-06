@@ -1502,6 +1502,9 @@ _KDF_mapReady.done(function(){
 		console.log('click .queueButton triggered')
 		var assetId = $(this).attr('data-asset_id');
 		if (assetId){
+			//KS remove graphics without assets (i.e. reporting locations only)
+			removeConfirmNonAssets(_selectedAssetGraphics);
+			
 			addToQueue(assetId);
 			
 			_latestGraphic = parseGraphicJSON($(this));
@@ -1531,6 +1534,9 @@ var triggerFunction = {
 		console.log('click .queueButton triggered')
 		var assetId = $(this).attr('data-asset_id');
 		if (assetId){
+			//KS remove graphics without assets (i.e. reporting locations only)
+			removeConfirmNonAssets(_selectedAssetGraphics);
+			
 			addToQueue(assetId);
 			
 			_latestGraphic = parseGraphicJSON($(this));
@@ -1930,24 +1936,26 @@ $(document).on('click','.mapConfirm',function() {
 		console.log('getMapParams().confirmIntergration defined but one of the values within is not')    
 	    }
     }
-    try{
-	_latestGraphic = parseGraphicJSON($(this));
-	_selectedAssetGraphics = [_latestGraphic];
-	var confirmParams = prepareConfirmObject(_selectedAssetGraphics);
-	var selectedAssetArrays = getSelectFilter('userSelect', true, true);
-	selectedAssetArrays.forEach(function(assetFilter){
-		assetFilter.selectedAssets = [];
-	});
-	KDF.hideWidget('but_continue_selected');
-	//KS TODO Daire's function call here eg - compileConfirmOne-to-many(confirmParams[0]/*, confirmParams[1]*/);
-    }catch(error){
-	console.groupCollapsed('Confirm error');
-    	console.log(error)
-	console.log('$(this)');console.log($(this));
-	console.log('_latestGraphic');console.log(_latestGraphic.toString());
-	console.log('_selectedAssetGraphics');console.log(_selectedAssetGraphics.toString());
-	console.groupEnd()
-    }
+	if ($(this).hasClass('noMap')){
+		    try{
+			_latestGraphic = parseGraphicJSON($(this));
+			_selectedAssetGraphics = [_latestGraphic];
+			var confirmParams = prepareConfirmObject(_selectedAssetGraphics);
+			var selectedAssetArrays = getSelectFilter('userSelect', true, true);
+			selectedAssetArrays.forEach(function(assetFilter){
+				assetFilter.selectedAssets = [];
+			});
+			KDF.hideWidget('but_continue_selected');
+			//KS TODO Daire's function call here eg - compileConfirmOne-to-many(confirmParams[0]/*, confirmParams[1]*/);
+		    }catch(error){
+			console.groupCollapsed('Confirm error');
+			console.log(error)
+			console.log('$(this)');console.log($(this));
+			console.log('_latestGraphic');console.log(_latestGraphic.toString());
+			console.log('_selectedAssetGraphics');console.log(_selectedAssetGraphics.toString());
+			console.groupEnd()
+		    }
+	}
     KDF.gotoNextPage();
  });
 
@@ -1981,5 +1989,24 @@ function removeConfirmNonAssets(selectedAssetGraphics, optAssetFieldName){
     graphicsToRemove.forEach(function(aGraphic){
         selectedAssetGraphics.splice(selectedAssetGraphics.indexOf(aGraphic),1);
     });
+}
+
+function addAssets(selectedAssetDetails) {
+    const millDrive = {attributes: {OBJECTID: 14689644, SITE_NAME: "Granton Mill Drive", NUMBER: 100015, FEATURE_ID: "GRJ15", SITE_CODE: "ABC123"}, geometry: {x: 12345, y: 54321}, symbol: {} };
+    const millPlace = {attributes: {OBJECTID: 14689826, SITE_NAME: "Granton Mill Place", NUMBER: 100008, FEATURE_ID: "GRP08", SITE_CODE: "ABC124"}, geometry: {x: 12344, y: 54320}, symbol: {} };
+    const mapping = {
+        txt_confirm_assetid_c: ["attributes", "FEATURE_ID"],
+        txt_confirm_lat_c: ["geometry", "y"],
+        txt_confirm_lon_c: ["geometry", "x"],
+        txt_confirm_sitecode_c: ["attributes", "SITE_CODE"],
+        txt_sitename_c: ["attributes", "SITE_NAME"]
+    };
+    selectedAssetDetails = [[millDrive, millPlace], mapping];
+    
+    refreshAssets(selectedAssetDetails);
+}
+
+function removeAssets() {
+    $('.otom_delete').click();
 }
 /**************Code from street light - End********************/
