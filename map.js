@@ -2064,7 +2064,7 @@ function noMapConfirm(SITE_CODE, SITE_NAME, x, y, optLastStreetSearched, optSour
 	if (optSource === undefined){console.log('noMapConfirm(..., optSource) undefined'), optSource='nomap'}
 	if (optSource === undefined){console.log('noMapConfirm(..., optSource) undefined'), optLastStreetSearched=_lastStreetSearched}
 	
-	optLastStreetSearched = {
+	optLastStreetSearched = [{
 			attributes:{
 				ASSET_ID: "",
 				FEATURE_ID: "",
@@ -2077,7 +2077,9 @@ function noMapConfirm(SITE_CODE, SITE_NAME, x, y, optLastStreetSearched, optSour
 				y: y, 
 				spatialReference: new SpatialReference(27700),
 			}
-	};
+	}];
+	
+	_lastStreetSearched = optLastStreetSearched;
 	
 	return optLastStreetSearched;
 }
