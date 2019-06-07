@@ -663,6 +663,7 @@ function postcodeSearch(searchInput) {
     var xcoord;
     var ycoord;
     var USRN;
+    var desc;
     
 	$.ajax({url: esriServiceURL, dataType: 'json', crossDomain: true}).done(function(response) {
         //console.log('Response below:')
@@ -674,6 +675,7 @@ function postcodeSearch(searchInput) {
                  xcoord=value.location.x;
                  ycoord=value.location.y;
                  USRN=value.attributes.USRN;
+		 desc = value.address;
            });
            
            if (typeof KDF.getVal('txt_confirm_sitecode') !== 'undefined') {
@@ -691,6 +693,7 @@ function postcodeSearch(searchInput) {
 			scrollTop: $("[data-name='le_gis']").parent('.box').offset().top
 		}, 1000);
 		KDF.hideWidget('ahtm_no-map_message');
+		noMapConfirm(USRN, desc, xcoord, ycoord, _lastStreetSearched, 'nomap');
         } else {
             KDF.showWidget('html_nosearchfound');
 		    hideLoading();
@@ -965,7 +968,8 @@ $(document).on('change','#dform_widget_fault_reporting_search_results' , functio
               
                if (selectResult == faultReportingSearchResults.site_name) {
                 esrimap.centerAndZoom(new Point(faultReportingSearchResults.xCoord, faultReportingSearchResults.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
-                //KDF.showWidget('but_no_map');
+                noMapConfirm(faultReportingSearchResults.USRN, faultReportingSearchResults.site_name, faultReportingSearchResults.xCoord, faultReportingSearchResults.yCoord, _lastStreetSearched, 'nomap');
+		       //KDF.showWidget('but_no_map');
 		canContinueWithoutMap = true;
 		$([document.documentElement, document.body]).animate({
 			scrollTop: $("[data-name='le_gis']").parent('.box').offset().top
@@ -1041,7 +1045,7 @@ function processResult(searchInput){
 	$.ajax({url: esriServiceURL, dataType: 'json', crossDomain: true, method: 'GET'
 	}).done(function(response) {
 	    //console.log(response);
-	   	if(response.length === 2){
+	   if(response.candidates.length == 0){
     		KDF.showWidget('html_nosearchfound');
     		hideLoading();
 	    } else {
@@ -1080,7 +1084,9 @@ function processResult(searchInput){
     	              
     	              //KDF.setStreetID(resultAssetArray.LOCATOR_DESCRIPTION,false,'');
     	              esrimap.centerAndZoom(new Point(resultAssetArray.xCoord, resultAssetArray.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
-		              //KDF.showWidget('but_no_map');
+		      noMapConfirm(resultAssetArray.USRN, resultAssetArray.site_name, resultAssetArray.xCoord, resultAssetArray.yCoord, _lastStreetSearched, 'nomap');
+        
+			      //KDF.showWidget('but_no_map');
 			      canContinueWithoutMap = true;
 			      $([document.documentElement, document.body]).animate({
 					scrollTop: $("[data-name='le_gis']").parent('.box').offset().top
@@ -1688,7 +1694,25 @@ $(document).on('click','#dform_widget_button_but_no_map',function() {
 		if (typeof KDF.getVal('txt_confirm_sitecode') !== 'undefined') {
 	        KDF.customdata('get_streetid_usrn', 'create', true, true, {'USRN': KDF.getVal('txt_confirm_sitecode')});
 		}
+		
+		
 		KDF.gotoNextPage();
+		_selectedAssetGraphics = [];
+		_latestGraphic = {};
+
+		esrimap.infoWindow.hide()
+
+		getSelectFilter('userSelect', true, true).forEach(function(assetFilter){
+			assetFilter.selectedAssets = [];
+		});
+		KDF.hideWidget('but_continue_selected');
+
+		try{refreshAssets(prepareConfirmObject(_lastStreetSearched));}catch(error){console.log(error)}
+		//Should I clear the other selected?
+		drawAssetLayer();
+		
+		
+		
 	}else{
 		console.log('canContinueWithoutMap != true');
 		KDF.showWidget('ahtm_no-map_message');
@@ -1880,6 +1904,7 @@ function applyAssetListener(){
 
 var _selectedAssetGraphics = [];
 var _latestGraphic = {};
+var _lastStreetSearched = {};
 
 function assetGraphicQueueInteraction(selectedAssetGraphics, aGraphic){
     var graphicUniqueID = aGraphic['attributes']['FEATURE_ID'];
@@ -2033,5 +2058,27 @@ function refreshAssets(selectedAssetDetails) {
             KDF.setVal('otom_assetdetails['+index+']['+key+']', item[mappingItem[0]][mappingItem[1]]);
         });
     });
+}
+
+function noMapConfirm(SITE_CODE, SITE_NAME, x, y, optLastStreetSearched, optSource){
+	if (optSource === undefined){console.log('noMapConfirm(..., optSource) undefined'), optSource='nomap'}
+	if (optSource === undefined){console.log('noMapConfirm(..., optSource) undefined'), optLastStreetSearched=_lastStreetSearched}
+	
+	optLastStreetSearched = {
+			attributes:{
+				ASSET_ID: "",
+				FEATURE_ID: "",
+				SITE_CODE: SITE_CODE,
+				SITE_NAME: SITE_NAME,
+			},
+			geometry: {
+				type: "point", 
+				x: x, 
+				y: y, 
+				spatialReference: new SpatialReference(27700),
+			}
+	};
+	
+	return optLastStreetSearched;
 }
 /**************Code from street light - End********************/
