@@ -537,7 +537,8 @@ function noResultsFound(){
 function selectResult(){
     //KS: when there is no results, add a non-selectable option to say such
 	var text = 'Please select a result…';
-    if ($(this).children().length > 0){
+    //KS: BUG-FIX so that it works with 'No results returned' adding an option
+    if ($(this).children(':not([hidden])').length > 0){
 	    $(this).find('> option:first').attr('hidden', '').text('Please select a result…')
     }
 	//KS: trigger: '_style_selectResult, [element, selectResult]'
