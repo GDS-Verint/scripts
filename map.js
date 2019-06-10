@@ -689,9 +689,13 @@ function postcodeSearch(searchInput) {
     		
     		//KDF.showWidget('but_no_map');
 		canContinueWithoutMap = true;
+		try{
 		$([document.documentElement, document.body]).animate({
 			scrollTop: $("[data-name='le_gis']").parent('.box').offset().top
 		}, 1000);
+		}catch(error){
+			console.log('Unable to scroll to GIS widget')
+		}
 		KDF.hideWidget('ahtm_no-map_message');
 		noMapConfirm(USRN, desc, xcoord, ycoord, _lastStreetSearched, 'nomap');
         } else {
