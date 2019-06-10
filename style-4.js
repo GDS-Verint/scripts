@@ -594,22 +594,30 @@ function paramElementChange(possibleToChange){
     }
 }
 
-function simpleColorCheck(bgColor, fgIfWhite, fgIfNot){
+function simpleColorCheck(origBgColor, fgIfWhite, altFg){
     //KS: if white, use a non-white colour, if non-white use white
-	if (bgColor == undefined) bgColor = 'white';//KS Fixes when text hidden
+    var bgColor = origBgColor;//KS: for info in trigger - could just use the param
+    if (origBgColor === undefined) {bgColor = 'white';}//KS Fixes when text hidden
     var whiteDef = ['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)', 'white', '#fff', '#ffffff'];
+    var choosenFg;
     if ($.inArray(bgColor.toLowerCase(), whiteDef) != -1){
-        return fgIfWhite;
+        choosenFg = fgIfWhite;
     } else {
-        return fgIfNot;
+        choosenFg = altFg;
     }
+    //KS: trigger: '_style_simpleColorCheck, [origBgColor, bgColor, choosenForeground, forgroundIfWhite, alternitiveForground]'
+    $(formName()).trigger('_style_simpleColorCheck',[origBgColor, bgColor, choosenFg, fgIfWhite, altFg]);
 	
+    return choosenFg;
 }
-function requiredColorCheck(jQueryObject){
-    var color = simpleColorCheck(jQueryObject.css("background-color"),'#b03535', 'white');
+function requiredColorCheck(jQueryObject, defaultColor, altColor){
+    if (defaultColor === undefined){defaultColor = '#b03535';}
+    if (altColor === undefined){defaultColor = 'white';}
 	
-	//KS: trigger: '_style_colorChecked, [element]'
-	$(formName()).trigger('_style_colorChecked',[jQueryObject]);
+    var color = simpleColorCheck(jQueryObject.css("background-color"), defaultColor, altColor);
+	
+	//KS: trigger: '_style_colorChecked, [element, defaultColor, altColor]'
+	$(formName()).trigger('_style_colorChecked',[jQueryObject, defaultColor, altColor]);
 	
     return color;
 }
