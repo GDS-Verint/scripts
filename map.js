@@ -49,7 +49,7 @@ var site_name_temp = '';
                        //var centerpoint = new Point(parseInt(long), parseInt(lan), new esri.SpatialReference({wkid: 27700}));
 		               // esrimap.centerAndZoom(centerpoint, 6);
                            
-                       luthfancallInfoWindow2(parseInt(lan), parseInt(long));
+                       if (luthfan) luthfancallInfoWindow2(parseInt(lan), parseInt(long));
                        
                      });
                            
@@ -1596,40 +1596,49 @@ var infoTemplates = {
         console.groupCollapsed(graphic.attributes.OBJECTID);
         console.log('graphic');console.log(graphic);
         console.log('graphic.attributes');console.log(graphic.attributes);
-        
+        console.log('graphic.attributes.description');console.log(graphic.attributes['description']);
         var content = '';
         
-        content += infoTemplates.popupFields(graphic);
-    	
-    	if (getMapParams().popupConfirmText){
-    		if (getMapParams().popupConfirmText instanceof Function){
-    			//KS it is a function, call it and display what the results of the function is - need to pass assetid
-    			content += getMapParams().popupConfirmText(graphic);
-    		}else{
-    			content += '</br><button id="" class="mapConfirm btn-continue" data-asset_id="">'+getMapParams().popupConfirmText+'</button></div>';
-    		}
-    	}else{
-    		//KS default text
-    		content += '</br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm</button></div>';
-    	}
-    	
-    	console.log(content)
-        console.groupEnd()
-        
-        if(getMapParams().confirmIntergration != undefined){
-			getMapParams().confirmIntergration = {
-			    lat:graphic.geometry['y'],
-			    lon:graphic.geometry['x'],
-			    sitecode:graphic.attributes['SITE_CODE'],
-			    assetid:graphic.attributes['ASSET_ID'],
+	if (graphic.attributes['description'] === undefined){//KS Not the case marker journey - likely assets/location
+		content += infoTemplates.popupFields(graphic);
+
+		if (getMapParams().popupConfirmText){
+			if (getMapParams().popupConfirmText instanceof Function){
+				//KS it is a function, call it and display what the results of the function is - need to pass assetid
+				content += getMapParams().popupConfirmText(graphic);
+			}else{
+				content += '</br><button id="" class="mapConfirm btn-continue" data-asset_id="">'+getMapParams().popupConfirmText+'</button></div>';
 			}
+		}else{
+			//KS default text
+			content += '</br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm</button></div>';
 		}
-        content += '<p id="jsonAsset" class="dform_hidden">'+JSON.stringify({
-		attributes:graphic.attributes,
-		geometry:graphic.geometry,
-		symbol:graphic.symbol,
-	})+'</p>';
+
+		if(getMapParams().confirmIntergration != undefined){
+				getMapParams().confirmIntergration = {
+				    lat:graphic.geometry['y'],
+				    lon:graphic.geometry['x'],
+				    sitecode:graphic.attributes['SITE_CODE'],
+				    assetid:graphic.attributes['ASSET_ID'],
+				}
+			}
+		content += '<p id="jsonAsset" class="dform_hidden">'+JSON.stringify({
+			attributes:graphic.attributes,
+			geometry:graphic.geometry,
+			symbol:graphic.symbol,
+		})+'</p>';
+	}else{//KS Case marker journey
+		content += infoTemplates.caseMarkerTemplate(graphic);
+	}
+	    
+	console.log(content)
+	console.groupEnd()
+
         return content;
+    },
+    caseMarkerTemplate:function(graphic){
+    	var content = graphic.attributes.description;
+	return content;
     },
     searchRadius:function(graphic, radius){
         var point = graphic.geometry;
