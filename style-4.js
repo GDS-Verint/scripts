@@ -612,7 +612,7 @@ function simpleColorCheck(origBgColor, fgIfWhite, altFg){
 }
 function requiredColorCheck(jQueryObject, defaultColor, altColor){
     if (defaultColor === undefined){defaultColor = '#b03535';}
-    if (altColor === undefined){defaultColor = 'white';}
+    if (altColor === undefined){altColor = 'white';}
 	
     var color = simpleColorCheck(jQueryObject.css("background-color"), defaultColor, altColor);
 	
