@@ -1495,6 +1495,9 @@ _KDF_mapReady.done(function(){
 	if (getMapParams().geolocateButton) addGeolocateButton($("[data-type='gis']"));
 	if (getMapParams().geolocateAuto) setTimeout(function(){geolocate()}, 10);
 	console.log('triggerFunction:');console.log(triggerFunction);
+	
+	esrimap.infoWindow.customShow = 
+	
 	$(formName()).on('_map_selectQueueInteraction', function(event, assetID, type, queueMax, queueSize, queueWithAsset){
 		console.log('_map_selectQueueInteraction triggered')
 		var selectLeft = queueMax - queueSize;
@@ -1524,6 +1527,23 @@ _KDF_mapReady.done(function(){
 			drawAssetLayer();
 		}
 	});
+	
+	esrimap.infoWindow.show = (function(_super) {
+	//KS: for referance https://stackoverflow.com/a/49862009
+        return function() {
+            // Extend it to log the value for example that is passed
+            var width = $('#dform_widget_gis_le_gis').width();
+            if (width > 720){//KS desktop
+
+            }else{//KS mobile
+                setTimeout(function() {//KS: needs to be called after the return - and we don't have much time left. Otherwise will cause infinite loop
+                    esrimap.infoWindow.maximize();
+                }, 10);
+            }
+            //esrimap.infoWindow.maximize();
+            return _super.apply(this, arguments);
+        };         
+    })(esrimap.infoWindow.show);
 });
 
 var triggerFunction = {
