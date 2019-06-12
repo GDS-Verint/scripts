@@ -1,3 +1,4 @@
+//Last edited 1909 11/6/19
 //If max selected assets is undefined then use Luthfans draw asset layer
 /*Luthfans */
 var luthfan = true;
@@ -48,16 +49,13 @@ var site_name_temp = '';
                        //var centerpoint = new Point(parseInt(long), parseInt(lan), new esri.SpatialReference({wkid: 27700}));
 		               // esrimap.centerAndZoom(centerpoint, 6);
                            
-                       luthfancallInfoWindow2(parseInt(lan), parseInt(long));
+                       if (luthfan) luthfancallInfoWindow2(parseInt(lan), parseInt(long));
                        
                      });
                            
             	esrimap.addLayer(caseLayer);
-
-
        }); 
-       		
-             console.log(esrimap)
+             //console.log(esrimap)
 }
 
 $(document).on('keypress','#dform_widget_txt_postcode',function() {
@@ -486,11 +484,13 @@ function assetLayerClick(event){
 //KS: use this to get status
 var mapScriptStatus = jQuery.Deferred();
 
-var Map, Point, SimpleMarkerSymbol, PictureMarkerSymbol, Graphic, GraphicsLayer, InfoWindow, Circle, Units, GeometryService, SpatialReference, Color, Popup, Geocoder, OverviewMap, Identify, Find, InfoTemplate, PictureMarkerSymbol;
+var Map, Point, SimpleMarkerSymbol, PictureMarkerSymbol, Graphic, GraphicsLayer, InfoWindow, Circle, Units, GeometryService, SpatialReference, Color, Popup, Geocoder, OverviewMap, Identify, Find, InfoTemplate, PictureMarkerSymbol, Dom, On, Config, WebMercatorUtils, Connect;
 
-require(["esri/map", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/graphic", "esri/layers/GraphicsLayer", "esri/dijit/InfoWindow", "esri/geometry/Circle", "esri/units", "esri/tasks/GeometryService", "esri/SpatialReference", "esri/Color", "esri/dijit/Popup", "esri/dijit/Geocoder", "esri/dijit/OverviewMap", "esri/tasks/identify", "esri/tasks/find", "esri/InfoTemplate", "esri/symbols/PictureMarkerSymbol", "dojo/domReady!"],
-	function(classMap, classPoint, classSimpleMarkerSymbol, classPictureMarkerSymbol, classGraphic, classGraphicsLayer, classInfoWindow, classCircle, classUnits, classGeometryService, classSpatialReference, classColor, classPopup, classGeocoder, classOverviewMap, classIdentify, classFind, classInfoTemplate, classPictureMarkerSymbol) {
-		Map=classMap; Point=classPoint; SimpleMarkerSymbol=classSimpleMarkerSymbol; PictureMarkerSymbol=classPictureMarkerSymbol; Graphic=classGraphic; GraphicsLayer=classGraphicsLayer; InfoWindow=classInfoWindow; Circle=classCircle; Units=classUnits; GeometryService=classGeometryService; SpatialReference=classSpatialReference; Color=classColor; Popup=classPopup; Geocoder=classGeocoder; OverviewMap=classOverviewMap; Identify=classIdentify; Find=classFind; InfoTemplate=classInfoTemplate; PictureMarkerSymbol=classPictureMarkerSymbol;
+require(["esri/map", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/graphic", "esri/layers/GraphicsLayer", "esri/dijit/InfoWindow", "esri/geometry/Circle", "esri/units", "esri/tasks/GeometryService", "esri/SpatialReference", "esri/Color", "esri/dijit/Popup", "esri/dijit/Geocoder", "esri/dijit/OverviewMap", "esri/tasks/identify", "esri/tasks/find", "esri/InfoTemplate", "esri/symbols/PictureMarkerSymbol", "dojo/dom", "dojo/on", "esri/config", "esri/geometry/webMercatorUtils", 'dojo/_base/connect', "dojo/domReady!"],
+	function(classMap, classPoint, classSimpleMarkerSymbol, classPictureMarkerSymbol, classGraphic, classGraphicsLayer, classInfoWindow, classCircle, classUnits, classGeometryService, classSpatialReference, classColor, classPopup, classGeocoder, classOverviewMap, classIdentify, classFind, classInfoTemplate, classPictureMarkerSymbol,classDom, classOn, classConfig, classWebMercatorUtils, classMapView, classConnect) {
+		Map=classMap; Point=classPoint; SimpleMarkerSymbol=classSimpleMarkerSymbol; PictureMarkerSymbol=classPictureMarkerSymbol; Graphic=classGraphic; GraphicsLayer=classGraphicsLayer; InfoWindow=classInfoWindow; Circle=classCircle; Units=classUnits; GeometryService=classGeometryService; SpatialReference=classSpatialReference; Color=classColor; Popup=classPopup; Geocoder=classGeocoder; OverviewMap=classOverviewMap; Identify=classIdentify; Find=classFind; InfoTemplate=classInfoTemplate; PictureMarkerSymbol=classPictureMarkerSymbol; Dom=classDom; On=classOn; Config=classConfig; WebMercatorUtils=classWebMercatorUtils; Connect=classConnect;
+		/*MapView=classMapView;*/
+	
 		mapScriptStatus.resolve();//KS allows you to identify when classes are loaded
 		//Trig: When all the classes are loaded. A better method that can be used in a function is mapScriptStatus.done()
 		$(formName()).trigger('_map_classesLoaded');
@@ -590,19 +590,19 @@ function removeSelectedAssets(graphicLayer){
 function getAssetInfoFromCoord(point){
     
 }
-$('#dform_container').off('_KDF_mapReady').on('_KDF_mapReady', function(event, kdf, type, name, map, positionLayer, markerLayer, marker, projection) {
+$('#dform_container').on('_KDF_mapReady', function(event, kdf, type, name, map, positionLayer, markerLayer, marker, projection) {
 	//KS currently not working with map like _KDF_search is in style-4.js is
 	console.log('Script side _KDF_mapReady tiggered');
 	if (getMapParams().geolocateButton){
 		addGeolocateButton($("[data-type='gis']"));
 	}
 	if (getMapParams().geolocateAuto){
-		geolocate();
+		setTimeout(function(){geolocate()}, 1);
 	}
 	hardcodeLegend();//KS won't work unless legend is defined in map params
 	//KS to avoid the bug with customerFeilds not being constructed at _KDF_ready
 	/*if (typeof regexSearch = 'function')*/ 
-	regexSearch("[0-9A-Za-z ]{2,}");
+	//regexSearch("[0-9A-Za-z ]{2,}");
 	//KS Show 'May take longer' message based on user journey	
 	
 	
@@ -615,23 +615,6 @@ $('#dform_container').on('click','.mapConfirm',function(){
 });
 var faultReportingSearchResults = new Object();
 var streetAddress='';
-
-$(document).on('click','.mapConfirm',function() {
-    KDF.setVal('txt_issuestreet',KDF.getVal('le_gis_rgeo_desc'));
-	//KS making the confirm values populate when location is confirmed
-    if(getMapParams().confirmIntergration != undefined){
-	    var confirm = getMapParams().confirmIntergration;
-	    if (confirm.lon != undefined && confirm.lat != undefined && confirm.assetid != undefined && confirm.sitecode != undefined){
-		    KDF.setVal('txt_confirm_lon', confirm.lon);
-		    KDF.setVal('txt_confirm_lat', confirm.lat);
-		    KDF.setVal('txt_confirm_assetid', confirm.assetid);
-		    KDF.setVal('txt_confirm_sitecode', confirm.sitecode);
-	    }else{
-		console.log('getMapParams().confirmIntergration defined but one of the values within is not')    
-	    }
-    }
-    KDF.gotoNextPage();
- });
  
 $(document).on('click','#dform_widget_button_but_search',function() {
 	
@@ -683,6 +666,7 @@ function postcodeSearch(searchInput) {
     var xcoord;
     var ycoord;
     var USRN;
+    var desc;
     
 	$.ajax({url: esriServiceURL, dataType: 'json', crossDomain: true}).done(function(response) {
         //console.log('Response below:')
@@ -694,6 +678,7 @@ function postcodeSearch(searchInput) {
                  xcoord=value.location.x;
                  ycoord=value.location.y;
                  USRN=value.attributes.USRN;
+		 desc = value.address;
            });
            
            if (typeof KDF.getVal('txt_confirm_sitecode') !== 'undefined') {
@@ -705,7 +690,17 @@ function postcodeSearch(searchInput) {
     		var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: getMapParams().WKID}));
     		esrimap.centerAndZoom(centerpoint, 6);
     		
-    		KDF.showWidget('but_no_map');
+    		//KDF.showWidget('but_no_map');
+		canContinueWithoutMap = true;
+		try{
+		$([document.documentElement, document.body]).animate({
+			scrollTop: $("[data-name='le_gis']").parent('.box').offset().top
+		}, 1000);
+		}catch(error){
+			console.log('Unable to scroll to GIS widget')
+		}
+		KDF.hideWidget('ahtm_no-map_message');
+		noMapConfirm(USRN, desc, xcoord, ycoord, _lastStreetSearched, 'nomap');
         } else {
             KDF.showWidget('html_nosearchfound');
 		    hideLoading();
@@ -849,6 +844,7 @@ function getAssetInfo(globalX, globalY) {
 	});
 }    
 
+
 function callInfoWindow(content, marker, map){
     console.groupCollapsed('infowindow content:');
     console.log(content);
@@ -875,9 +871,13 @@ function callInfoWindow(content, marker, map){
         }
 
 	//var centerpoint = new Point(marker.geometry.x, marker.geometry.y, new esri.SpatialReference({wkid: getMapParams().WKID}));
+	 if (typeof esrimap.getLayer("graphicsLayer2") !== 'undefined') {
+           esrimap.getLayer("graphicsLayer2").show();
+       }
 
 	map.infoWindow.setTitle('');
 	map.infoWindow.setContent(content);
+	map.infoWindow.anchor = "right";
 	map.infoWindow.show(marker);
 	//esrimap.centerAndZoom(centerpoint, 18);
 	//popupOrZoomTo(map, centerpoint);
@@ -961,8 +961,6 @@ function zoomChanged(evt){
 				var xminE = esrimap.extent.xmin;
 				var yminE = esrimap.extent.ymin;
 				getOpenCaseMarker(xmaxE, xminE, ymaxE, yminE);
-
-				 console.log(esrimap.layerIds.length);
 			}
 	    }else{
 	        //KS remove assets if above extent - aesthetic only
@@ -986,7 +984,13 @@ $(document).on('change','#dform_widget_fault_reporting_search_results' , functio
               
                if (selectResult == faultReportingSearchResults.site_name) {
                 esrimap.centerAndZoom(new Point(faultReportingSearchResults.xCoord, faultReportingSearchResults.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
-                KDF.showWidget('but_no_map');
+                noMapConfirm(faultReportingSearchResults.USRN, faultReportingSearchResults.site_name, faultReportingSearchResults.xCoord, faultReportingSearchResults.yCoord, _lastStreetSearched, 'nomap');
+		       //KDF.showWidget('but_no_map');
+		canContinueWithoutMap = true;
+		$([document.documentElement, document.body]).animate({
+			scrollTop: $("[data-name='le_gis']").parent('.box').offset().top
+		}, 1000);
+		KDF.hideWidget('ahtm_no-map_message');
                 
                    if (typeof KDF.getVal('txt_confirm_sitecode') !== 'undefined') {
             	     KDF.setVal('txt_confirm_sitecode', faultReportingSearchResults.USRN);
@@ -1056,8 +1060,8 @@ function processResult(searchInput){
 
 	$.ajax({url: esriServiceURL, dataType: 'json', crossDomain: true, method: 'GET'
 	}).done(function(response) {
-	    console.log(response);
-	   	if(response.candidates.length == 0){
+	    //console.log(response);
+	   if(response.candidates.length == 0){
     		KDF.showWidget('html_nosearchfound');
     		hideLoading();
 	    } else {
@@ -1096,13 +1100,20 @@ function processResult(searchInput){
     	              
     	              //KDF.setStreetID(resultAssetArray.LOCATOR_DESCRIPTION,false,'');
     	              esrimap.centerAndZoom(new Point(resultAssetArray.xCoord, resultAssetArray.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
-		                KDF.showWidget('but_no_map');
+		      noMapConfirm(resultAssetArray.USRN, resultAssetArray.site_name, resultAssetArray.xCoord, resultAssetArray.yCoord, _lastStreetSearched, 'nomap');
+        
+			      //KDF.showWidget('but_no_map');
+			      canContinueWithoutMap = true;
+			      $([document.documentElement, document.body]).animate({
+					scrollTop: $("[data-name='le_gis']").parent('.box').offset().top
+				}, 1000);
+			      KDF.hideWidget('ahtm_no-map_message');
 	              });
 				  
 	               // centreOnEsriResult('', '', xmax, xmin, ymax, ymin, '', '');
 	          }  else {
 	               $('label[for=dform_widget_fault_reporting_search_results]').html('<label for="dform_widget_fault_reporting_search_results">Multiple results, please select one:</label>');
-	               $('#dform_widget_fault_reporting_search_results').append($('<option>', {value: 'Please select a location',text: 'Please select'}))
+	               $('#dform_widget_fault_reporting_search_results').append($('<option value="Please select a location" disabled>Please select</option>'))
 	               $.each(resultAssetArray, function(key, resultAssetArray2 ) {
 	                   console.log(resultAssetArray2.site_name);
     		    	   $('#dform_widget_fault_reporting_search_results').append($('<option>', {value: resultAssetArray2.site_name,text: resultAssetArray2.site_name}))
@@ -1138,28 +1149,13 @@ function setInfoWindowContent(content, xcoord, ycoord) {
 		esrimap.centerAndZoom(centerpoint, esrimap.getLevel());//KS:herts update
 	}
 }
-	
-function showLoading(){
-    //console.log('call a')
-	KDF.showWidget('ahtm_cool_loading_gif');
-	changeAllLayersOpacity('0.2');
-	esrimap.disableMapNavigation();
-	esrimap.hideZoomSlider();
-}
-
-function hideLoading(error){
-    //console.log('call b')
-	KDF.hideWidget('ahtm_cool_loading_gif');
-	changeAllLayersOpacity('0.9');
-	esrimap.enableMapNavigation();
-	esrimap.showZoomSlider();
-}
 
 function searchBegin(){
         
        //KDF.showWidget('ahtm_report_without_map');
       
-       KDF.hideWidget('but_no_map');
+       //KDF.hideWidget('but_no_map');
+	canContinueWithoutMap = false;
        KDF.hideMessages();
        searchInput = KDF.getVal('txt_postcode');
        $('#dform_widget_fault_reporting_search_results').empty();
@@ -1404,6 +1400,8 @@ function geolocateLogic(lonLatWkid){
 		console.log("Couldn't geolocate - point was undefined")	
 	}
 }
+
+
 function addGeolocateButton(le_gis){
 	var locateCharacter = (getMapParams().locateChar) ? getMapParams().locateChar : '⌕';
 	var parent = le_gis.find('> .esriMapContainer')
@@ -1501,3 +1499,645 @@ function hardcodeLegend(){
 	}
 }
 
+/**************Code from street light - Start******************/
+var canContinueWithoutMap = false;
+
+//KS: a garenteed way to implement _KDF_mapReady
+var _KDF_ready = jQuery.Deferred();
+var _KDF_mapReady = jQuery.Deferred();
+
+_KDF_ready.done(function(){
+	//KS: will be called when _KDF_ready is resolved - please define content of functions elseware (no function(){} within here)
+	//regexSearch("[0-9A-Za-z ]{2,}");
+	
+	
+});
+_KDF_mapReady.done(function(){
+	//KS: will be called when _KDF_mapReady is resolved - please define content of functions elseware (no function(){} within here)
+	addLoadingWidget()
+	addSelectedAssetWidget()
+	if (getMapParams().geolocateButton) addGeolocateButton($("[data-type='gis']"));
+	if (getMapParams().geolocateAuto) setTimeout(function(){geolocate()}, 10);
+	console.log('triggerFunction:');console.log(triggerFunction);
+	
+	esrimap.infoWindow.customShow = 
+	
+	$(formName()).on('_map_selectQueueInteraction', function(event, assetID, type, queueMax, queueSize, queueWithAsset){
+		console.log('_map_selectQueueInteraction triggered')
+		var selectLeft = queueMax - queueSize;
+		//alert('Can choose '+selectLeft+ ' more');
+		if (queueSize > 0){
+			$('#dform_widget_button_but_continue_selected').text('Continue with '+/*queueSize+*/' selected');
+			selectedAssetsJSONDump('selected_assets_json');
+			console.log('queueWithAsset');console.log(queueWithAsset);
+			KDF.showWidget('but_continue_selected');
+		} else {
+			KDF.hideWidget('but_continue_selected');
+		}
+	});
+	$(document).on('click', '.queueButton', function(){
+		console.log('click .queueButton triggered')
+		var assetId = $(this).attr('data-asset_id');
+		if (assetId){
+			//KS remove graphics without assets (i.e. reporting locations only)
+			removeConfirmNonAssets(_selectedAssetGraphics);
+			
+			addToQueue(assetId);
+			
+			_latestGraphic = parseGraphicJSON($(this));
+			assetGraphicQueueInteraction(_selectedAssetGraphics, _latestGraphic);
+			
+			esrimap.infoWindow.hide();
+			drawAssetLayer();
+		}
+	});
+	
+	esrimap.infoWindow.show = (function(_super) {
+	//KS: for referance https://stackoverflow.com/a/49862009
+        return function() {
+            // Extend it to log the value for example that is passed
+            var width = $('#dform_widget_gis_le_gis').width();
+            if (width > 720){//KS desktop
+
+            }else{//KS mobile
+                setTimeout(function() {//KS: needs to be called after the return - and we don't have much time left. Otherwise will cause infinite loop
+                    esrimap.infoWindow.maximize();
+                }, 10);
+            }
+            //esrimap.infoWindow.maximize();
+            return _super.apply(this, arguments);
+        };         
+    })(esrimap.infoWindow.show);
+});
+
+var triggerFunction = {
+	'_map_selectQueueInteraction':function(event, assetID, type, queueMax, queueSize, queueWithAsset){
+		console.log('_map_selectQueueInteraction triggered')
+		var selectLeft = queueMax - queueSize;
+		//alert('Can choose '+selectLeft+ ' more');
+		if (queueSize > 0){
+			$('#dform_widget_button_but_continue_selected').text('Continue with '+/*queueSize+*/' selected');
+			selectedAssetsJSONDump('selected_assets_json');
+			console.log('queueWithAsset');console.log(queueWithAsset);
+			KDF.showWidget('but_continue_selected');
+		} else {
+			KDF.hideWidget('but_continue_selected');
+		}
+	},
+	'click .queueButton':function(){
+		console.log('click .queueButton triggered')
+		var assetId = $(this).attr('data-asset_id');
+		if (assetId){
+			//KS remove graphics without assets (i.e. reporting locations only)
+			removeConfirmNonAssets(_selectedAssetGraphics);
+			
+			addToQueue(assetId);
+			
+			_latestGraphic = parseGraphicJSON($(this));
+			assetGraphicQueueInteraction(_selectedAssetGraphics, _latestGraphic);
+			
+			esrimap.infoWindow.hide();
+			drawAssetLayer();
+		}
+	},
+	
+};
+
+
+var infoTemplates = {
+    default:function(graphic){
+        /*Example:
+        On show, for maximizing
+        require(["dojo/_base/connect", ... ], function(connect, ... ) {
+          connect.connect(popup,"onShow",function(){
+            console.log('info window is showing');
+            if (functionIfMobile()){
+                popup.maximize();
+            } else {
+                popup
+            }});});*/
+        
+        console.groupCollapsed(graphic.attributes.OBJECTID);
+        console.log('graphic');console.log(graphic);
+        console.log('graphic.attributes');console.log(graphic.attributes);
+        console.log('graphic.attributes.description');console.log(graphic.attributes['description']);
+        var content = '';
+        
+	if (graphic.attributes['description'] === undefined){//KS Not the case marker journey - likely assets/location
+		content += infoTemplates.popupFields(graphic);
+
+		if (getMapParams().popupConfirmText){
+			if (getMapParams().popupConfirmText instanceof Function){
+				//KS it is a function, call it and display what the results of the function is - need to pass assetid
+				content += getMapParams().popupConfirmText(graphic);
+			}else{
+				content += '</br><button id="" class="mapConfirm btn-continue" data-asset_id="">'+getMapParams().popupConfirmText+'</button></div>';
+			}
+		}else{
+			//KS default text
+			content += '</br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm</button></div>';
+		}
+
+		if(getMapParams().confirmIntergration != undefined){
+				getMapParams().confirmIntergration = {
+				    lat:graphic.geometry['y'],
+				    lon:graphic.geometry['x'],
+				    sitecode:graphic.attributes['SITE_CODE'],
+				    assetid:graphic.attributes['ASSET_ID'],
+				}
+			}
+		content += '<p id="jsonAsset" class="dform_hidden">'+JSON.stringify({
+			attributes:graphic.attributes,
+			geometry:graphic.geometry,
+			symbol:graphic.symbol,
+		})+'</p>';
+	}else{//KS Case marker journey
+		content += infoTemplates.caseMarkerTemplate(graphic);
+	}
+	    
+	console.log(content)
+	console.groupEnd()
+
+        return content;
+    },
+    caseMarkerTemplate:function(graphic){
+    	var content = graphic.attributes.description;
+	return content;
+    },
+    searchRadius:function(graphic, radius){
+        var point = graphic.geometry;
+        
+        var circleGeometry = new Circle(centerpoint,{"radius": radius, "numberOfPoints": 4, "radiusUnit": Units.METERS, "type": "extent"});
+    
+    	var xmaxE = circleGeometry.getExtent().xmax;
+    	var ymaxE = circleGeometry.getExtent().ymax;
+    	var xminE = circleGeometry.getExtent().xmin;
+    	var yminE = circleGeometry.getExtent().ymin;
+    	
+    	var esriAssetUrl = getCommunalAssetURl() + '&geometry=%7B%22xmin%22%3A' + circleGeometry.getExtent().xmin + '%2C%22ymin%22%3A' + circleGeometry.getExtent().ymin + '%2C%22xmax%22%3A' + circleGeometry.getExtent().xmax + '%2C%22ymax%22%3A' + circleGeometry.getExtent().ymax + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A'+getMapParams().WKID+'%7D%7D';
+    	console.log(esriAssetUrl)
+    	$.ajax({url: esriAssetUrl, dataType: 'jsonp', crossDomain: true}).done(function(response) {
+    	    return response;
+    	}).fail(function() {
+    		KDF.showError('It looks like the connection to our mapping system has failed, please try to log the fault again');
+    		return false;
+    	});
+	
+	
+	    /*console.log(response);
+		var defaultSymbol = new SimpleMarkerSymbol(getMapParams().markerSymbol)
+		
+		response.features.forEach(function(asset){
+		    var graphic = new Graphic(new Point(Number(asset.geometry.x), Number(asset.geometry.y), new esri.SpatialReference(getMapParams().WKID)), defaultSymbol, asset.attributes);
+		    var notUsed = true;
+		    if (notUsed){ eachPoints.push(graphic); }
+		});
+	}*/
+        
+    },
+    assetsWithinRange:function(graphic, radius){
+        //KS: will be used to prevent assets being displayed if within range of other assets.
+        var content = '';
+        if (radius == undefined) radius = 100;
+        content += infoTemplates.popupFields(graphic);
+        if (infoTemplates.searchRadius(graphic, radius).features > 0){
+            content += '<p>Another asset is within '+radius+'m, so you cannot report here</p>'
+        }else{
+            content += '</br><button id="" class="mapConfirm btn-continue" data-asset_id="">Confirm</button></div>';
+        }
+    },
+    /*queue:function(graphic){
+        var content = '';
+        var assetId = graphic.attributes.FEATURE_ID;
+        content += infoTemplates.popupFields(graphic);
+        
+        if (isAssetSelected(assetId).length > 0){
+    		//KS display remove from select
+    		content += '</br><button id="queueRemove" class="btn-orange queueButton queueRemove" data-asset_id="'+assetId+'">Deselect '+assetId+'</button></div>';
+    	}else{
+    		content += '</br><button id="queueAdd" class="btn-continue queueButton queueAdd" data-asset_id="'+assetId+'">Select '+assetId+'</button></div>';
+    		//KS display add to queue
+    	}
+        
+		//Trig[content, esriServiceURL]: provides the content of the asset response and the url used to return it.
+		//$(formName()).trigger('_map_assetInfoReturned',[content, esriServiceURL]);
+        if(getMapParams().confirmIntergration != undefined){
+			getMapParams().confirmIntergration = {
+			    lat:graphic.geometry['y'],
+			    lon:graphic.geometry['x'],
+			    sitecode:graphic.attributes['SITE_CODE'],
+			    assetid:graphic.attributes['ASSET_ID'],
+			}
+		}
+	    content += '<p id="jsonAsset" class="dform_hidden">'+JSON.stringify(graphic)+'</p>';
+        return content;
+    },*/
+    
+    popupFields:function(graphic){
+        var content = '';
+        if(getMapParams().popupFields){//KS object is defined (test with empty object, will return true but we might want that, considering default is null)
+    		getMapParams().popupFields.forEach(function(field){
+    			content += '<b>'+field[0]+'</b>'+ graphic.attributes[field[1]]+"</br>";
+    	    });
+        }
+        return content;
+    },
+};
+
+
+$(document).on('click','#dform_widget_button_but_no_map',function() {
+	if(canContinueWithoutMap){
+		KDF.hideWidget('ahtm_no-map_message');
+		if (typeof KDF.getVal('txt_confirm_sitecode') !== 'undefined') {
+	        KDF.customdata('get_streetid_usrn', 'create', true, true, {'USRN': KDF.getVal('txt_confirm_sitecode')});
+		}
+		
+		
+		KDF.gotoNextPage();
+		_selectedAssetGraphics = [];
+		_latestGraphic = {};
+
+		esrimap.infoWindow.hide()
+
+		getSelectFilter('userSelect', true, true).forEach(function(assetFilter){
+			assetFilter.selectedAssets = [];
+		});
+		KDF.hideWidget('but_continue_selected');
+
+		try{refreshAssets(prepareConfirmObject(_lastStreetSearched));}catch(error){console.log(error)}
+		//Should I clear the other selected?
+		drawAssetLayer();
+		
+		
+		
+	}else{
+		console.log('canContinueWithoutMap != true');
+		KDF.showWidget('ahtm_no-map_message');
+		/*KS: for smoother scrolling, but focus causes issues
+		
+		$([document.documentElement, document.body]).animate({
+			scrollTop: $("[data-name='ahtm_no-map_message']").offset().top
+		}, 1000);*/
+		$('#dform_widget_txt_postcode').focus()
+	}
+});
+
+function addToQueue(assetID, optAssetField, assetObj){
+    if (optAssetField === undefined) optAssetField = getMapParams().selectQueueAssetAttribute;
+	var assetFields = isAssetSelected(assetID, optAssetField);
+	var queueMax = getMapParams().selectQueueSize;
+	var queueSize = 0;
+	var selectQueues = getSelectFilter('userSelect', true, true);
+	selectQueues.forEach(function(queue){
+		queueSize += queue.selectedAssets.length;
+	});
+
+	if (assetFields.length > 0){
+	    console.log(assetFields)
+		//KS within select, must remove
+		assetFields.forEach(function(queueWithAsset){//KS remove element
+			queueWithAsset.selectedAssets.splice(queueWithAsset.selectedAssets.indexOf(assetID),1);
+			
+			queueSize -= 1;
+			
+			$(formName()).trigger('_map_selectQueueInteraction',[assetID, 'removed', queueMax, queueSize, queueWithAsset]);
+		});
+	}else{
+		//KS not selected, add to select queue (if can add more)
+		if (queueMax >= queueSize +1){
+			//KS: can  add
+			console.log(selectQueues);
+			selectQueues[0].selectedAssets.push(assetID);
+			
+			$(formName()).trigger('_map_selectQueueInteraction',[assetID, 'pushed', queueMax, queueSize+1, selectQueues[0]]);
+		}else{
+			//KS queue is full, remove last (may be from other form)
+			if (selectQueues[0].selectedAssets.length > 0){
+				//KS can remove to make room for new asset
+				selectQueues[0].selectedAssets.shift()
+				selectQueues[0].selectedAssets.push(assetID);
+				
+				$(formName()).trigger('_map_selectQueueInteraction',[assetID, 'shiftThenPushed', queueMax, queueSize, selectQueues[0]]);
+			} else{
+				console.log('No room in primary selectStorage to add asset as there are to many secondary assets');
+				
+				/*$(formName()).trigger('_map_selectQueueInteraction',[assetID, 'secondaryFull', selectQueues[0]]);*/
+			}
+		}
+	}
+}
+
+function isAssetSelected(asset, optSpecificField){
+	//KS the =true means match all if none is supplied
+	//KS to identify if we should add or remove asset from select list
+	var userSelectedAssets = getSelectFilter('userSelect', true);//KS get the user selected assets
+	console.log('asset');console.log(asset);
+	var arraysContaining = [];//KS need to do returnParam.length to check in response
+	userSelectedAssets.forEach(function(selectedAssetFilter){
+	    if (selectedAssetFilter.selectedAssets.indexOf(asset) > -1){
+	        if ((optSpecificField && optSpecificField==selectedAssetFilter.uniqueField) || !optSpecificField){
+	            arraysContaining.push(selectedAssetFilter);
+	        }
+	    }
+	    //console.log(selectedAssetFilter.selectedAssets);
+	    //if ((!optSpecificField && optSpecificField==selectedAssetFilter.uniqueField) || !optSpecificField){
+	    //    arraysContaining.push(selectedAssetFilter);
+	    //}
+	});
+	return arraysContaining;
+}
+
+
+function selectedAssetsJSONDump(optTable, optInsert){
+    if (optInsert === undefined) optInsert = false;
+	var selectedAssets = JSON.stringify(getSelectFilter('userSelect', true));
+	if (optTable){
+		//KS: 
+		if (optInsert){
+			console.log('TODO insert json data dump into table');
+			console.log(selectedAssets);
+		}else{
+			KDF.setVal('selected_assets_json', selectedAssets);
+			console.log(selectedAssets);
+		}
+	}else{
+		return selectedAssets;
+	}
+}
+
+function getSelectFilter(type, isAssumedThere, optCreateIfNot, outputAsArray){
+    if (isAssumedThere === undefined) isAssumedThere = false;
+    if (optCreateIfNot === undefined) optCreateIfNot = false;
+    if (outputAsArray === undefined) outputAsArray = false;
+	//KS the type we're looking for explicitly - if assumed there then will presume if there is any, it's either has the type or is the first one - returns empty if there are none in this case. If not assumed then it will only return when type:val=type
+	var storage = getMapParams().selectStorage;
+	var caseSelects = [];
+	if (storage.length > 0){
+		storage.forEach(function(filter){
+			if (filter.type && filter.type == type) caseSelects.push(filter);
+		});
+		if (caseSelects.length == 0 && isAssumedThere){
+			caseSelects.push(storage[0]);
+		}
+	}else{
+		if (optCreateIfNot){
+			console.log('There was no filters within the getMapParams().selectStorage, but you will create one');
+			storage.push(JSON.parse(JSON.stringify(getMapParams().selectStorageDefaultUserSelect)))
+			caseSelects.push(getMapParams().selectStorage[0])
+			console.log(storage)
+		} else {
+			console.log('There was no filters within the getMapParams().selectStorage, and you will not create one');
+		}
+		
+	}
+	if (outputAsArray){
+	    var caseArray = [];
+	    caseSelects.forEach(function(select){
+	        caseArray = caseArray.concat(select.selectedAssets);
+	        //KS TODO ensure there are no duplicates
+	        //console.log(caseArray)
+	    });
+	    return caseArray;
+	}else{
+	    return caseSelects;
+	}
+	
+}
+
+function showLoading(){
+    //console.log('call a')
+	//KDF.showWidget('ahtm_cool_loading_gif');
+	$('.map-buffer').removeClass('visibility-hidden');
+	changeAllLayersOpacity('0.2');
+	esrimap.disableMapNavigation();
+	esrimap.hideZoomSlider();
+}
+function hideLoading(error){
+    //console.log('call b')
+	//KDF.hideWidget('ahtm_cool_loading_gif');
+	$('.map-buffer').addClass('visibility-hidden');
+	changeAllLayersOpacity('0.9');
+	esrimap.enableMapNavigation();
+	esrimap.showZoomSlider();
+}
+function addLoadingWidget(){
+    var element = '<div class="map-buffer lds-spinner visibility-hidden"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>';
+    var parent = $('[data-type="gis"] .esriMapContainer').first();
+    if (parent.find('.map-buffer').length < 1){//KS only adds one
+        parent.prepend(element)
+    }
+}
+function addSelectedAssetWidget(){
+    var element = $('<div data-type="textarea" data-name="selected_assets_json" data-active="false" data-agentonly="false" class="container dform_widget  dform_widget_field dform_widget_type_textarea dform_widget_selected_assets_json dform_widget_ dform_hidden txta-gov"><div><label for="dform_widget_selected_assets_json">Selected assets JSON</label></div><div class="txta-length"><textarea id="dform_widget_selected_assets_json" name="selected_assets_json" class="dform_persist" rows="10" cols="100" data-customalias="selected_assets_json"></textarea><div class="txta-length-message"></div></div></div>');
+    var sibling = $('[data-type="gis"]').first().parent();
+    if (sibling.parent().find('.dform_widget_selected_assets_json').length < 1){
+        element.insertAfter(sibling);
+    } else {
+        console.log("Didn't insert a 'selected asset json widget' as there already was one there");
+    }
+}
+
+function applyAssetListener(){
+	//KS: pretty sure this is unused, since thre is one being used just like it
+    $('.queueButton').off().on('click',function(){
+        //alert('.queueButton triggered')
+        //convert to the one which looks at parent element and filters 
+    	var assetId = $(this).attr('data-asset_id');
+    	if (assetId){
+		//KS remove graphics without assets (i.e. reporting locations only)
+		removeConfirmNonAssets(_selectedAssetGraphics);
+		
+    		addToQueue(assetId);
+		
+		_latestGraphic = parseGraphicJSON($(this));
+		assetGraphicQueueInteraction(_selectedAssetGraphics, _latestGraphic);
+    		
+		esrimap.infoWindow.hide();
+    		drawAssetLayer();
+    	}
+    	//KS triger redraw
+    });
+}
+
+var _selectedAssetGraphics = [];
+var _latestGraphic = {};
+var _lastStreetSearched = {};
+
+function assetGraphicQueueInteraction(selectedAssetGraphics, aGraphic){
+    var graphicUniqueID = aGraphic['attributes']['FEATURE_ID'];
+    var isDuplicate = [];
+    selectedAssetGraphics.forEach(function(currentGraphic){
+        var currentGraphicUniqueID = currentGraphic['attributes']['FEATURE_ID'];
+        if (graphicUniqueID === currentGraphicUniqueID){
+            isDuplicate.push(currentGraphic);
+        }
+    });
+    if (isDuplicate.length > 0){
+        //KS Remove graphic(s)
+        isDuplicate.forEach(function(currentGraphic){
+            selectedAssetGraphics.splice(selectedAssetGraphics.indexOf(currentGraphic),1);
+        });
+    }else{
+        //KS add graphic
+        selectedAssetGraphics.push(aGraphic);
+    }
+}
+
+function parseGraphicJSON(closestElement){
+    var jsonHTML = closestElement.parent().parent().find('#jsonAsset');
+    var jsonText = jsonHTML.text();
+    var parsedJSON = JSON.parse(jsonText);
+    //KS: TODO validate is a varable
+    return parsedJSON;
+}
+
+function prepareConfirmObject(selectedAssetGraphics){
+    var params = [selectedAssetGraphics];
+    var mapping = {
+        'txt_confirm_lat_c':['geometry','y'],
+        'txt_confirm_lon_c':['geometry','x'],
+        'txt_confirm_assetid_c':['attributes','FEATURE_ID'],
+        'txt_confirm_sitecode_c':['attributes','SITE_CODE'],
+        'txt_sitename_c':['attributes','SITE_NAME'],
+    }
+    params.push(mapping);
+    return params;
+}
+
+$(document).on('click','.mapConfirm',function() {
+    KDF.setVal('txt_issuestreet',KDF.getVal('le_gis_rgeo_desc'));
+	//KS making the confirm values populate when location is confirmed
+    if(getMapParams().confirmIntergration != undefined){
+	    var confirm = getMapParams().confirmIntergration;
+	    if (confirm.lon != undefined && confirm.lat != undefined && confirm.assetid != undefined && confirm.sitecode != undefined){
+		    KDF.setVal('txt_confirm_lon', confirm.lon);
+		    KDF.setVal('txt_confirm_lat', confirm.lat);
+		    KDF.setVal('txt_confirm_assetid', confirm.assetid);
+		    KDF.setVal('txt_confirm_sitecode', confirm.sitecode);
+	    }else{
+		console.log('getMapParams().confirmIntergration defined but one of the values within is not')    
+	    }
+    }
+	if ($(this).hasClass('noMap')){
+		    try{
+			_latestGraphic = parseGraphicJSON($(this));
+			_selectedAssetGraphics = [_latestGraphic];
+			var confirmParams = prepareConfirmObject(_selectedAssetGraphics);
+			var selectedAssetArrays = getSelectFilter('userSelect', true, true);
+			selectedAssetArrays.forEach(function(assetFilter){
+				assetFilter.selectedAssets = [];
+			});
+			KDF.hideWidget('but_continue_selected');
+			//KS TODO Daire's function call here eg - compileConfirmOne-to-many(confirmParams[0]/*, confirmParams[1]*/);
+		    }catch(error){
+			console.groupCollapsed('Confirm error');
+			console.log(error)
+			console.log('$(this)');console.log($(this));
+			console.log('_latestGraphic');console.log(_latestGraphic.toString());
+			console.log('_selectedAssetGraphics');console.log(_selectedAssetGraphics.toString());
+			console.groupEnd()
+		    }
+	}
+    //KS: calling Daire's function
+	try{refreshAssets(prepareConfirmObject(_selectedAssetGraphics));}catch(error){console.log(error)}
+    
+    KDF.gotoNextPage();
+    drawAssetLayer()
+ });
+
+function writeLocationAsGraphic(lon, lat, sitecode, desc){
+    var graphicTemplate = {
+    	attributes:{
+    		ASSET_ID: "",
+    		FEATURE_ID: "",
+    		SITE_CODE: sitecode,
+    		SITE_NAME: desc,
+    	},
+    	geometry: {
+    		type: "point", 
+    		x: lon, 
+    		y: lat, 
+    		spatialReference: new SpatialReference(27700),
+    	}
+    };
+    var json = JSON.stringify(graphicTemplate);
+    $("#jsonAsset").text(json);
+}
+
+function removeConfirmNonAssets(selectedAssetGraphics, optAssetFieldName){
+    if (optAssetFieldName === undefined){optAssetFieldName = 'FEATURE_ID';}
+    var graphicsToRemove = [];
+    selectedAssetGraphics.forEach(function(aGraphic){
+        if (aGraphic['attributes'][optAssetFieldName] === undefined || aGraphic['attributes'][optAssetFieldName] === ''){
+            graphicsToRemove.push(aGraphic)
+        }
+    });
+    graphicsToRemove.forEach(function(aGraphic){
+        selectedAssetGraphics.splice(selectedAssetGraphics.indexOf(aGraphic),1);
+    });
+}
+
+function addAssets(selectedAssetDetails) {
+    const millDrive = {attributes: {OBJECTID: 14689644, SITE_NAME: "Granton Mill Drive", NUMBER: 100015, FEATURE_ID: "GRJ15", SITE_CODE: "ABC123"}, geometry: {x: 12345, y: 54321}, symbol: {} };
+    const millPlace = {attributes: {OBJECTID: 14689826, SITE_NAME: "Granton Mill Place", NUMBER: 100008, FEATURE_ID: "GRP08", SITE_CODE: "ABC124"}, geometry: {x: 12344, y: 54320}, symbol: {} };
+    const mapping = {
+        txt_confirm_assetid_c: ["attributes", "FEATURE_ID"],
+        txt_confirm_lat_c: ["geometry", "y"],
+        txt_confirm_lon_c: ["geometry", "x"],
+        txt_confirm_sitecode_c: ["attributes", "SITE_CODE"],
+        txt_sitename_c: ["attributes", "SITE_NAME"]
+	//KS: retrived from reverse-geocode not the asset  txt_street_id_c:["attributes", "SITE_NAME"]
+    };
+    selectedAssetDetails = [[millDrive, millPlace], mapping];
+    
+    refreshAssets(selectedAssetDetails);
+}
+
+function removeAssets() {
+    $('.otom_delete').click();
+}
+
+function refreshAssets(selectedAssetDetails) {
+    removeAssets();
+    selectedAssetDetails[0].forEach(function(item, index) {
+        if (index === 0) {
+            Object.keys(selectedAssetDetails[1]).forEach(function(key) {
+                var fieldName = key.substring(0, key.lastIndexOf('_c'));
+                console.log(fieldName);
+                mappingItem = selectedAssetDetails[1][key];
+                KDF.setVal(fieldName, item[mappingItem[0]][mappingItem[1]]);
+            });
+        }
+        $('#dform_widget_button_but_add_asset').click();
+        Object.keys(selectedAssetDetails[1]).forEach(function(key) {
+            mappingItem = selectedAssetDetails[1][key];
+            console.log('otom_assetdetails['+index+']['+key+']');
+            KDF.setVal('otom_assetdetails['+index+']['+key+']', item[mappingItem[0]][mappingItem[1]]);
+        });
+    });
+}
+
+function noMapConfirm(SITE_CODE, SITE_NAME, x, y, optLastStreetSearched, optSource){
+	if (optSource === undefined){console.log('noMapConfirm(..., optSource) undefined'), optSource='nomap'}
+	if (optSource === undefined){console.log('noMapConfirm(..., optSource) undefined'), optLastStreetSearched=_lastStreetSearched}
+	
+	optLastStreetSearched = [{
+			attributes:{
+				ASSET_ID: "",
+				FEATURE_ID: "",
+				SITE_CODE: SITE_CODE,
+				SITE_NAME: SITE_NAME,
+			},
+			geometry: {
+				type: "point", 
+				x: x, 
+				y: y, 
+				spatialReference: new SpatialReference(27700),
+			}
+	}];
+	
+	_lastStreetSearched = optLastStreetSearched;
+	
+	return optLastStreetSearched;
+}
+/**************Code from street light - End********************/
