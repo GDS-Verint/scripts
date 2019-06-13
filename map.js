@@ -1378,7 +1378,7 @@ function geolocateLogic(lonLatWkid){
 		console.log(point)
 		var withinExtent = isPointWithinSquare([point.x, point.y], getMapParams().extent);
 		
-		if (KDF.getVal('rad_viewmode') === 'R') {
+		if (KDF.getVal('rad_viewmode') === 'R' || KDF.getVal('rad_viewmode') === 'U') { /*add U mode */
 			console.log('masuk R mode');
 			var centerpoint = new Point(KDF.getVal('le_gis_lon'), KDF.getVal('le_gis_lat'), new esri.SpatialReference({
 				wkid: 27700
@@ -1418,6 +1418,10 @@ function addGeolocateButton(le_gis){
 }
 
 function getOpenCaseMarker(xmax, xmin, ymax, ymin){
+	if (KDF.getVal('rad_viewmode') === 'R' || KDF.getVal('rad_viewmode') === 'U') { /*add U mode */
+			return;
+    	} 
+	
        if (KDF.getVal('txt_eventcode')) { 
                  
                  //console.log('mantap')
