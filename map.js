@@ -690,7 +690,6 @@ function postcodeSearch(searchInput) {
     		var centerpoint = new Point(xcoord, ycoord, new esri.SpatialReference({wkid: getMapParams().WKID}));
     		esrimap.centerAndZoom(centerpoint, 6);
     		
-    		//KDF.showWidget('but_no_map');
 		canContinueWithoutMap = true;
 		try{
 		$([document.documentElement, document.body]).animate({
@@ -985,7 +984,6 @@ $(document).on('change','#dform_widget_fault_reporting_search_results' , functio
                if (selectResult == faultReportingSearchResults.site_name) {
                 esrimap.centerAndZoom(new Point(faultReportingSearchResults.xCoord, faultReportingSearchResults.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
                 noMapConfirm(faultReportingSearchResults.USRN, faultReportingSearchResults.site_name, faultReportingSearchResults.xCoord, faultReportingSearchResults.yCoord, _lastStreetSearched, 'nomap');
-		       //KDF.showWidget('but_no_map');
 		canContinueWithoutMap = true;
 		$([document.documentElement, document.body]).animate({
 			scrollTop: $("[data-name='le_gis']").parent('.box').offset().top
@@ -1102,7 +1100,6 @@ function processResult(searchInput){
     	              esrimap.centerAndZoom(new Point(resultAssetArray.xCoord, resultAssetArray.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
 		      noMapConfirm(resultAssetArray.USRN, resultAssetArray.site_name, resultAssetArray.xCoord, resultAssetArray.yCoord, _lastStreetSearched, 'nomap');
         
-			      //KDF.showWidget('but_no_map');
 			      canContinueWithoutMap = true;
 			      $([document.documentElement, document.body]).animate({
 					scrollTop: $("[data-name='le_gis']").parent('.box').offset().top
@@ -1154,7 +1151,6 @@ function searchBegin(){
         
        //KDF.showWidget('ahtm_report_without_map');
       
-       //KDF.hideWidget('but_no_map');
 	canContinueWithoutMap = false;
        KDF.hideMessages();
        searchInput = KDF.getVal('txt_postcode');
@@ -1758,22 +1754,21 @@ $(document).on('click','#dform_widget_button_but_no_map',function() {
 		
 		
 		KDF.gotoNextPage();
-		_selectedAssetGraphics = [];
-		_latestGraphic = {};
+		if (getMapParams().selectQueueSize > 1){//KS needed for multiple select
+			_selectedAssetGraphics = [];
+			_latestGraphic = {};
 
-		esrimap.infoWindow.hide()
+			esrimap.infoWindow.hide()
 
-		getSelectFilter('userSelect', true, true).forEach(function(assetFilter){
-			assetFilter.selectedAssets = [];
-		});
-		KDF.hideWidget('but_continue_selected');
+			getSelectFilter('userSelect', true, true).forEach(function(assetFilter){
+				assetFilter.selectedAssets = [];
+			});
+			KDF.hideWidget('but_continue_selected');
 
-		try{refreshAssets(prepareConfirmObject(_lastStreetSearched));}catch(error){console.log(error)}
-		//Should I clear the other selected?
-		drawAssetLayer();
-		
-		
-		
+			try{refreshAssets(prepareConfirmObject(_lastStreetSearched));}catch(error){console.log(error)}
+			//Should I clear the other selected?
+			drawAssetLayer();
+		}
 	}else{
 		console.log('canContinueWithoutMap != true');
 		KDF.showWidget('ahtm_no-map_message');
