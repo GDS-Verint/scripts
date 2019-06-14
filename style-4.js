@@ -191,8 +191,7 @@ function applyNewStyle(){
     //KS:- if there is no function name the it presumes the function name is the selector excluding the first (.)
     var elementsToUpdate = [
         //KS: single class name
-        ['.rad-gov'], ['.chk-gov'], ['.mchk-gov'], ['.warning-notice'], ['.info-notice'], ['.txta-gov'], ['.file-gov'], ['.search-gov'], ['.detail-gov'], ['.search-no-results'], ['.
-	'],
+        ['.rad-gov'], ['.chk-gov'], ['.mchk-gov'], ['.warning-notice'], ['.info-notice'], ['.txta-gov'], ['.file-gov'], ['.search-gov'], ['.detail-gov'], ['.search-no-results'], ['.required-notice'],
         //KS: grouped class names
         ['.file-gov[class*="file-limit-"]','file-limit'],
         ['[data-type="text"] div:first-child .dform_hidden','txt-hidden'],
