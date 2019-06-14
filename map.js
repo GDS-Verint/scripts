@@ -719,7 +719,6 @@ function getAssetInfo(globalX, globalY) {
  	} 
 	
    //clearPreviousLayer();
-	console.log('jkasdfjksdff')
    var point = new Point([globalX, globalY]);
    var centerpoint = new Point(globalX, globalY, new esri.SpatialReference({wkid: getMapParams().WKID}));
 
@@ -738,7 +737,7 @@ function getAssetInfo(globalX, globalY) {
 		esriServiceURL = getCommunalAssetURl() + '&geometry=%7B%22xmin%22%3A' + xminE + '%2C%22ymin%22%3A' + yminE + '%2C%22xmax%22%3A' + xmaxE + '%2C%22ymax%22%3A' + ymaxE + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A'+getMapParams().WKID+'%7D%7D';
 		//console.log(esriServiceURL);
 
-			$.ajax({url: esriServiceURL, dataType: 'jsonp', crossDomain: true}).done(function(response) {
+			$.ajax({url: esriServiceURL}).done(function(response) {
 				//console.log('Response below: k')
 				//console.log(response)
 				
