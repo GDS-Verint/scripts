@@ -850,6 +850,15 @@ KS: Custom gov radio buttons - Start
 .rad-gov label{
     text-transform: lowercase;
 }
+.rad-gov.rad-uppercase label{
+    text-transform: uppercase;
+}
+.rad-gov.rad-none label{
+    text-transform: none;
+}
+.rad-gov.rad-lowercase label{
+    text-transform: lowercase;
+}
 
 /*KS: Custom gov radio buttons - End
 -----------------------------------------------*/
