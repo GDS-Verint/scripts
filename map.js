@@ -58,7 +58,7 @@ var site_name_temp = '';
              //console.log(esrimap)
 }
 
-$(document).on('keypress','#dform_widget_txt_postcode',function() {
+$(document).off('keypress','#dform_widget_txt_postcode').on('keypress','#dform_widget_txt_postcode',function() {
   if (event.keyCode == 13) {
     event.preventDefault();
     searchBegin();
