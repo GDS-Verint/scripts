@@ -853,6 +853,9 @@ KS: Custom gov radio buttons - Start
 .rad-gov.rad-uppercase label{
     text-transform: uppercase;
 }
+.rad-gov.rad-capitalize label{
+    text-transform: capitalize;
+}
 .rad-gov.rad-none label{
     text-transform: none;
 }
