@@ -1100,9 +1100,9 @@ function processResult(searchInput){
 		      noMapConfirm(resultAssetArray.USRN, resultAssetArray.site_name, resultAssetArray.xCoord, resultAssetArray.yCoord, _lastStreetSearched, 'nomap');
         
 			      canContinueWithoutMap = true;
-			      $([document.documentElement, document.body]).animate({
+			      /*$([document.documentElement, document.body]).animate({
 					scrollTop: $("[data-name='le_gis']").parent('.box').offset().top
-				}, 1000);
+				}, 1000);*/
 			      KDF.hideWidget('ahtm_no-map_message');
 	              });
 				  
@@ -1117,9 +1117,6 @@ function processResult(searchInput){
     		           KDF.showWidget('fault_reporting_search_results');
 	               });
 	          }
-	         
-	    
-	   
 	    faultReportingSearchResults = resultAssetArray;
 	    
 	   
