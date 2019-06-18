@@ -1479,6 +1479,7 @@ abbr{
     background-color: #000 !important;
     border-color: #000 !important;
     color: #fff !important;
+    border: 0 !important;
 }
 
 
