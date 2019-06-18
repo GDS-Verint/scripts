@@ -3,17 +3,18 @@ function toggleDebugStyle(){debugStyle = !debugStyle;} var debugStyle = false;
 applyStyle(['recommended']);
 //KS: see 'Non-recommended defaults' within 'defaultNewStyle(elements)' for optional defaults */
 function commonRegex(){
-	regexSearch("[0-9A-Za-z ]{2,}");
-	regexSearch('[0-9A-Za-z ]{1,}',
+	regexSearch("^([0-9A-Za-z][0-9A-Za-z ]{0,})(\S{1}$)");
+	regexSearch('^([0-9A-Za-z ]{0,})(\S{1}$)',
 		    '.dform_widget_searchfield.txt-gov [data-customalias="forename"]');
 	regexSearch('^(([gG][iI][rR] {0,}0[aA]{2})|((([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y]?[0-9][0-9]?)|(([a-pr-uwyzA-PR-UWYZ][0-9][a-hjkstuwA-HJKSTUW])|([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) {0,}[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))$',
 		    '[name="txt_postcode"] input');
 	regexSearch('^(EH|eh|eH|Eh)[A-Za-z0-9\s]{0,6}$',
 	 	    '.dform_widget_searchfield.txt-gov [data-customalias="postcode"]');//KS: Fikri to provide a more comprehensive version
 	
-	regexSearch('[0-9A-Za-z ]{1,}',
+	//KS: to quickly chnage the create new individual validation
+	regexSearch('^([0-9A-Za-z ]{0,})(\S{1}$)',
 		    '#dform_widget_txt_c_forename, #dform_widget_txt_c_addressnumber');
-	regexSearch('[0-9A-Za-z ]{2,}',
+	regexSearch('^([0-9A-Za-z][0-9A-Za-z ]{0,})(\S{1}$)',
 		    '#dform_widget_txt_c_surname, #dform_widget_txt_c_addressline1, #dform_widget_txt_c_town');
 	regexSearch('^(([gG][iI][rR] {0,}0[aA]{2})|((([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y]?[0-9][0-9]?)|(([a-pr-uwyzA-PR-UWYZ][0-9][a-hjkstuwA-HJKSTUW])|([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) {0,}[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))$',
 		    '#dform_widget_txt_c_postcode');
