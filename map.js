@@ -781,7 +781,7 @@ function getAssetInfo(globalX, globalY) {
 							if (getMapParams().formName === 'road_sign') {
 								var bisa=value.attributes;
 
-								content = '<b>Asset ID</b> : ' + bisa.ASSET_ID + '</br><b>Location : </b>' + 
+								content = '<b>Sign ID</b> : ' + bisa.FEATURE_ID + '</br><b>Location : </b>' + 
 								bisa.LOCATION + '</br><b>Site Name : </b>' + bisa.SITE_NAME + '</br><b>Type Name : </b>' + bisa.TYPE_NAME
 								+ '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Report this sign</button></div>' ;
 							}
@@ -1001,6 +1001,7 @@ $(document).on('change','#dform_widget_fault_reporting_search_results' , functio
     	             KDF.setVal('txt_confirm_lon', '');
     	              KDF.setVal('txt_confirm_lat', '');
     	              KDF.setVal('txt_confirm_assetid', '');
+		       KDF.setVal('txt_confirm_featureid', '');
             	   
             	   //KDF.setStreetID(faultReportingSearchResults.LOCATOR_DESCRIPTION,false,'');
                }
@@ -1097,6 +1098,7 @@ function processResult(searchInput){
     	             KDF.setVal('txt_confirm_lon', '');
     	              KDF.setVal('txt_confirm_lat', '');
     	               KDF.setVal('txt_confirm_assetid', '');
+			KDF.setVal('txt_confirm_featureid', '');
     	              
     	              //KDF.setStreetID(resultAssetArray.LOCATOR_DESCRIPTION,false,'');
     	              esrimap.centerAndZoom(new Point(resultAssetArray.xCoord, resultAssetArray.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
@@ -1654,6 +1656,7 @@ var infoTemplates = {
 				    lon:graphic.geometry['x'],
 				    sitecode:graphic.attributes['SITE_CODE'],
 				    assetid:graphic.attributes['ASSET_ID'],
+				    featureid:graphic.attributes['FEATURE_ID'],
 				}
 			}
 		content += '<p id="jsonAsset" class="dform_hidden">'+JSON.stringify({
@@ -2023,6 +2026,7 @@ $(document).on('click','.mapConfirm',function() {
 		    KDF.setVal('txt_confirm_lon', confirm.lon);
 		    KDF.setVal('txt_confirm_lat', confirm.lat);
 		    KDF.setVal('txt_confirm_assetid', confirm.assetid);
+		    KDF.setVal('txt_confirm_featureid', confirm.featureid);
 		    KDF.setVal('txt_confirm_sitecode', confirm.sitecode);
 	    }else{
 		console.log('getMapParams().confirmIntergration defined but one of the values within is not')    
