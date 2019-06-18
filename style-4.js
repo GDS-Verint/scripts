@@ -707,7 +707,7 @@ Number.isInteger = Number.isInteger || function(value) {
 TO MERGE under structure
 */
 
-$("button[data-action='propertysearch'], button[data-action='streetsearch'], button[data-action='customersearch']").off("click").on("click", function(e) {
+$('#dform_container').off("click").on("click", "button[data-action='propertysearch'], button[data-action='streetsearch'], button[data-action='customersearch']", function(e) {
 	KDF.hideMessages();
 	var valid = 0;
 $(this).closest('.searchwidget').find(".dform_widget_searchfield:visible :input").each(function() {
