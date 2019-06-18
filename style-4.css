@@ -62,9 +62,9 @@ KS: searches - Start
     color: white !important;
     
 }
-.cs-gov button, .ss-gov button, .ps-gov button, .os-gov button, .search-gov button {
+/*.cs-gov button, .ss-gov button, .ps-gov button, .os-gov button, .search-gov button {
     border: none !important;
-}
+}*/
 .search-gov .dform_widgeterror{
     box-shadow: none !important;
     border-color: #b03535 !important;
@@ -1479,7 +1479,6 @@ abbr{
     background-color: #000 !important;
     border-color: #000 !important;
     color: #fff !important;
-    border: 0 !important;
 }
 
 
