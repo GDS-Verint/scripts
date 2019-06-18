@@ -2005,7 +2005,8 @@ function prepareConfirmObject(selectedAssetGraphics){
     var mapping = {
         'txt_confirm_lat_c':['geometry','y'],
         'txt_confirm_lon_c':['geometry','x'],
-        'txt_confirm_assetid_c':['attributes','FEATURE_ID'],
+        'txt_confirm_assetid_c':['attributes','ASSET_ID'],
+	'txt_confirm_featureid_c':['attributes','FEATURE_ID'],
         'txt_confirm_sitecode_c':['attributes','SITE_CODE'],
         'txt_sitename_c':['attributes','SITE_NAME'],
     }
