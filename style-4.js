@@ -723,7 +723,7 @@ $(this).closest('.searchwidget').find(".dform_widget_searchfield:visible :input"
 	} else {
 	  e.preventDefault();
 	  $(this).parents('.searchwidget').addClass('dform_widgeterror');
-	  $(this).parents('.searchwidget').find('.dform_validationMessage').text("Please complete some search fields before attempting search");
-	  $(this).parents('.searchwidget').find('.dform_validationMessage').show();
+	  $(this).parents('.searchwidget').find('> .dform_validationMessage').text("Please complete some search fields before attempting search");
+	  $(this).parents('.searchwidget').find('> .dform_validationMessage').show();
 	}
 });
