@@ -691,13 +691,14 @@ function postcodeSearch(searchInput) {
     		esrimap.centerAndZoom(centerpoint, 6);
     		
 		canContinueWithoutMap = true;
+		/*
 		try{
 		$([document.documentElement, document.body]).animate({
 			scrollTop: $("[data-name='le_gis']").parent('.box').offset().top
 		}, 1000);
 		}catch(error){
 			console.log('Unable to scroll to GIS widget')
-		}
+		}*/
 		KDF.hideWidget('ahtm_no-map_message');
 		noMapConfirm(USRN, desc, xcoord, ycoord, _lastStreetSearched, 'nomap');
         } else {
@@ -984,9 +985,11 @@ $(document).on('change','#dform_widget_fault_reporting_search_results' , functio
                 esrimap.centerAndZoom(new Point(faultReportingSearchResults.xCoord, faultReportingSearchResults.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);
                 noMapConfirm(faultReportingSearchResults.USRN, faultReportingSearchResults.site_name, faultReportingSearchResults.xCoord, faultReportingSearchResults.yCoord, _lastStreetSearched, 'nomap');
 		canContinueWithoutMap = true;
+		/*
 		$([document.documentElement, document.body]).animate({
 			scrollTop: $("[data-name='le_gis']").parent('.box').offset().top
 		}, 1000);
+		*/
 		KDF.hideWidget('ahtm_no-map_message');
                 
                    if (typeof KDF.getVal('txt_confirm_sitecode') !== 'undefined') {
@@ -1372,10 +1375,20 @@ function geolocateLogic(lonLatWkid){
 		
 		if (KDF.getVal('rad_viewmode') === 'R' || KDF.getVal('rad_viewmode') === 'U') { /*add U mode */
 			console.log('masuk R mode');
-			var centerpoint = new Point(KDF.getVal('le_gis_lon'), KDF.getVal('le_gis_lat'), new esri.SpatialReference({
+
+			if (KDF.getVal('txt_confirm_assetid').length > 1) {
+				var centerpoint = new Point(parseInt(KDF.getVal('txt_confirm_lon')), parseInt(KDF.getVal('txt_confirm_lat')), new esri.SpatialReference({
 				wkid: 27700
-			}));
-			esrimap.centerAndZoom(centerpoint, 9);
+				}));
+				esrimap.centerAndZoom(centerpoint, 9);
+			}
+			else {
+				var centerpoint = new Point(KDF.getVal('le_gis_lon'), KDF.getVal('le_gis_lat'), new esri.SpatialReference({
+					wkid: 27700
+				}));
+				esrimap.centerAndZoom(centerpoint, 9);
+			}
+
     	} else {
 
 			if (withinExtent){
@@ -1392,6 +1405,7 @@ function geolocateLogic(lonLatWkid){
 		console.log("Couldn't geolocate - point was undefined")	
 	}
 }
+
 
 
 function addGeolocateButton(le_gis){
