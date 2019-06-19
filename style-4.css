@@ -1565,5 +1565,11 @@ abbr{
 .actionList{
     display: none;
 }
+
+#dform_container .sizer.content{
+	margin-left: 10px;
+	margin-right: -10px;
+	left: -10px;
+}
 /*CPE overrite - END*/
 /*Edinburgh portal adaption END*/
