@@ -1578,7 +1578,7 @@ abbr{
     font-family: 'SpartaIcons';
     font-style: normal;
     font-weight: all;
-    src: url('/dformresources/themes/fonts/SpartaIcons/spartaicons-webfont.eot?#iefix');/*IE only accepts one src - the ? makes ie think the rest of the fontface is a query*/
-    src: url('/dformresources/themes/fonts/SpartaIcons/spartaicons-webfont.eot') format('embedded-opentype'),
+    src: url('/dformresources/themes/fonts/SpartaIcons/spartaicons-webfont.eot');/*IE only accepts one src - the ? makes ie think the rest of the fontface is a query*/
+    src: url('/dformresources/themes/fonts/SpartaIcons/spartaicons-webfont.eot?#iefix') format('embedded-opentype'),
          url('/dformresources/themes/fonts/SpartaIcons/spartaicons-webfont.woff') format("woff");
 }
