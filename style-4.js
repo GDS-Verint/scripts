@@ -29,7 +29,7 @@ function defineDefaultStyle(){
     //KS: adds the recommended default styling - and acts a single location to change them
 	//KS: for the love of StackExchange don't put 'all' or 'recommended' in here
     var recommended = [
-        'mchk','chk','rad','txt','dt','eml','num','pas','tel','time','txta','sel','file','btn','search','highlightRequired','search-no-results','field-label-right-align','txta-length','txta-length-listener','detailToggle','noResultsFound','selectResult','txt-enter-trigger-btn',
+        'mchk','chk','rad','txt','dt','eml','num','pas','tel','time','txta','sel','file','btn','search','highlightRequired','search-no-results','field-label-right-align','txta-length','txta-length-listener','detailToggle','noResultsFound','selectResult','txt-enter-trigger-btn','search-empty-search'
     ];
     if (debugStyle) console.debug('@defineDefaultStyle() the defined recommended styles that will be used ['+recommended.toString()+']')
     defaultNewStyle(recommended);
@@ -178,6 +178,9 @@ function defaultNewStyle(elements){
 			break;
 		    case'txt-enter-trigger-btn':
 			listenerFunctions['txt-enter-trigger-btn']();
+			break;
+		   case'search-empty-search':
+			listenerFunctions['search-empty-search']()
 			break;
 		    default:
 			validStyle = false;
@@ -489,6 +492,32 @@ var listenerFunctions = {
 		//KS: trigger: '_style_listenerAdded, [listenerName]'
 		$(formName()).trigger('_style_listenerAdded',['txt-enter-trigger-btn']);	
 	},
+	'search-empty-search':function(){
+		//KS: prevent search error when all feilds are empty and none are required. Inital code by Daire - made to work by KS
+		var message = "Please complete some search fields before attempting search";
+		$(formName()).find('button[data-type="searchwidget"]').off("click").on("click", function(e) {
+			KDF.hideMessages();
+			var valid = 0;
+			$(this).closest('.searchwidget').find(".dform_widget_searchfield:visible :input").each(function() {
+			  if ($(this).val() !== "" || $(this).parents('.dform_widget_searchfield').attr('data-required') == 'true'){
+				valid += 1;
+			  }
+			});
+			if (valid > 0) {
+			  $(this).parents('.searchwidget').removeClass('dform_widgeterror');
+			  $(this).parents('.searchwidget').find('.dform_validationMessage').empty();
+			  $(this).parents('.searchwidget').find('.dform_validationMessage').hide();
+			  KDF.searchwidget($(this).data("action"), $(this).data("widgetname"));
+			} else {
+			  e.preventDefault();
+			  $(this).parents('.searchwidget').addClass('dform_widgeterror');
+			  $(this).parents('.searchwidget').find('> .dform_validationMessage').text(message);
+			  $(this).parents('.searchwidget').find('> .dform_validationMessage').show();
+			  $(this).parents('.searchwidget').find(".dform_widget_searchfield:visible :input").first().focus();
+			}
+		});
+	},
+	
 }
 
 
@@ -718,11 +747,12 @@ Number.isInteger = Number.isInteger || function(value) {
 /*
 TO MERGE under structure
 */
+//$(formName()).find('button[data-type="searchwidget"]').off("click");
 
-$('#dform_container').off("click").on("click", "button[data-action='propertysearch'], button[data-action='streetsearch'], button[data-action='customersearch']", function(e) {
+/*$(formName()).find('button[data-type="searchwidget"]').off("click").on("click", function(e) {
 	KDF.hideMessages();
 	var valid = 0;
-$(this).closest('.searchwidget').find(".dform_widget_searchfield:visible :input").each(function() {
+	$(this).closest('.searchwidget').find(".dform_widget_searchfield:visible :input").each(function() {
 	  if ($(this).val() !== "" || $(this).parents('.dform_widget_searchfield').attr('data-required') == 'true'){
 		valid += 1;
 	  }
@@ -737,5 +767,6 @@ $(this).closest('.searchwidget').find(".dform_widget_searchfield:visible :input"
 	  $(this).parents('.searchwidget').addClass('dform_widgeterror');
 	  $(this).parents('.searchwidget').find('> .dform_validationMessage').text("Please complete some search fields before attempting search");
 	  $(this).parents('.searchwidget').find('> .dform_validationMessage').show();
+	  $(this).parents('.searchwidget').find(".dform_widget_searchfield:visible :input").first().focus();
 	}
-});
+});*/
