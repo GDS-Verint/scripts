@@ -648,6 +648,7 @@ function simpleColorCheck(origBgColor, fgIfWhite, altFg){
     } else {
         choosenFg = altFg;
     }
+	
     //KS: trigger: '_style_simpleColorCheck, [origBgColor, bgColor, choosenForeground, forgroundIfWhite, alternitiveForground]'
     $(formName()).trigger('_style_simpleColorCheck',[origBgColor, bgColor, choosenFg, fgIfWhite, altFg]);
 	
