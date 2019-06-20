@@ -641,7 +641,7 @@ function simpleColorCheck(origBgColor, fgIfWhite, altFg){
     //KS: if white, use a non-white colour, if non-white use white
     var bgColor = origBgColor;//KS: for info in trigger - could just use the param
     if (origBgColor === undefined) {bgColor = 'white';}//KS Fixes when text hidden
-    var whiteDef = ['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)', 'white', '#fff', '#ffffff'];
+    var whiteDef = ['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)', 'white', '#fff', '#ffffff', 'transparent'];
     var choosenFg;
     if ($.inArray(bgColor.toLowerCase(), whiteDef) != -1){
         choosenFg = fgIfWhite;
@@ -745,28 +745,5 @@ Number.isInteger = Number.isInteger || function(value) {
 
 
 /*
-TO MERGE under structure
+CODE TO MERGE under structure
 */
-//$(formName()).find('button[data-type="searchwidget"]').off("click");
-
-/*$(formName()).find('button[data-type="searchwidget"]').off("click").on("click", function(e) {
-	KDF.hideMessages();
-	var valid = 0;
-	$(this).closest('.searchwidget').find(".dform_widget_searchfield:visible :input").each(function() {
-	  if ($(this).val() !== "" || $(this).parents('.dform_widget_searchfield').attr('data-required') == 'true'){
-		valid += 1;
-	  }
-	});
-	if (valid > 0) {
-	  $(this).parents('.searchwidget').removeClass('dform_widgeterror');
-	  $(this).parents('.searchwidget').find('.dform_validationMessage').empty();
-	  $(this).parents('.searchwidget').find('.dform_validationMessage').hide();
-	  KDF.searchwidget($(this).data("action"), $(this).data("widgetname"));
-	} else {
-	  e.preventDefault();
-	  $(this).parents('.searchwidget').addClass('dform_widgeterror');
-	  $(this).parents('.searchwidget').find('> .dform_validationMessage').text("Please complete some search fields before attempting search");
-	  $(this).parents('.searchwidget').find('> .dform_validationMessage').show();
-	  $(this).parents('.searchwidget').find(".dform_widget_searchfield:visible :input").first().focus();
-	}
-});*/
