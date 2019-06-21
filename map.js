@@ -308,8 +308,8 @@ function luthfanDrawAssetLayer(){//TODO update URL
                      KDF.unlock();
                     
                     if (typeof KDF.getVal('txt_confirm_lat') != 'undefined' && KDF.getVal('txt_confirm_lon') != 'undefined') {
-                        KDF.setVal('txt_confirm_lat', lan.toString());
-                        KDF.setVal('txt_confirm_lon', long.toString());
+                        KDF.setVal('txt_confirm_lat', parseInt(lan));
+                        KDF.setVal('txt_confirm_lon', parseInt(long));
                     }
                     
                     if (typeof KDF.getVal('txt_confirm_sitecode') != 'undefined') {
