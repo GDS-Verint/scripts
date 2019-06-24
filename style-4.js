@@ -42,7 +42,7 @@ applyStyle(['recommended']);
 	 	    '.dform_widget_searchfield.txt-gov [data-customalias="postcode"]');//KS: Fikri to provide a more comprehensive version
 }*/
 
-function defineDefaultStyle(){
+/*function defineDefaultStyle(){
 	//KS: can define listeners here, but can't later on, need to call 
     //KS: adds the recommended default styling - and acts a single location to change them
 	//KS: for the love of StackExchange don't put 'all' or 'recommended' in here
@@ -53,7 +53,7 @@ function defineDefaultStyle(){
     defaultNewStyle(recommended);
 	//KS: trigger: '_style_defultsProvided, [arrayOfRecomendedStyles]'
 	$(formName()).trigger('_style_defultsProvided',[recommended]);
-}
+}*/
 
 function defaultNewStyle(elements){
     //KS: adds styling to elemnts in an inefficent mannor but without the need to access custom.css
