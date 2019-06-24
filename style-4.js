@@ -3,7 +3,7 @@ var styleGroup = {
 	//KS: please don't put the group name within the list - it will cause recursion. And if there is a group name, be sure it won't loop back to itself through other groups
 	'recommended':[
         	'mchk','chk','rad','txt','dt','eml','num','pas','tel','time','txta','sel','file','btn','search',
-		'highlightRequired','search-no-results','field-label-right-align','txta-length','txta-length-listener','detailToggle','noResultsFound','selectResult','txt-enter-trigger-btn','search-empty-search'
+		'highlightRequired','search-no-results','field-label-right-align','txta-length','txta-length-listener','detailToggle','noResultsFound','selectResult','txt-enter-trigger-btn','search-empty-search','globalRegex'
     	],
 	'enhancement':[//KS: mostly as a test to show how to add another
 		'highlightRequired','search-no-results','field-label-right-align','txta-length','txta-length-listener','noResultsFound','selectResult','txt-enter-trigger-btn','search-empty-search'
@@ -12,13 +12,27 @@ var styleGroup = {
 	'all':styleGroup.recommended,//KS: for backwards compatability
 	//Object.getOwnPropertyNames(styleGroup)
 }
+var regexsToApply = [//KS: Need to change per client - easier to hardcode the change
+	['[0-9A-Za-z ]{2,}'],
+	['[0-9A-Za-z ]{1,}',
+	    '.dform_widget_searchfield.txt-gov [data-customalias="forename"]'],
+	['^(([gG][iI][rR] {0,}0[aA]{2})|((([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y]?[0-9][0-9]?)|(([a-pr-uwyzA-PR-UWYZ][0-9][a-hjkstuwA-HJKSTUW])|([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) {0,}[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))$',
+	    '[name="txt_postcode"] input'],
+	['^(EH|eh|eH|Eh)[A-Za-z0-9\s]{0,6}$',
+	    '.dform_widget_searchfield.txt-gov [data-customalias="postcode"]'],
+];
 
+
+function setRegex(arrayOfRegexArrays){
+	//arrayOfRegexArrays example: [['[0-9A-Za-z ]{2,}'],['[0-9A-Za-z ]{1,}','[data-customalias="forename"]']]
+	regexsToApply = arrayOfRegexArrays;
+}
 
 function toggleDebugStyle(){debugStyle = !debugStyle;} var debugStyle = false;
 /*  //KS: put in _KDF_ready - uses all the reccomended styles - can add optional
 applyStyle(['recommended']);
 //KS: see 'Non-recommended defaults' within 'defaultNewStyle(elements)' for optional defaults */
-function commonRegex(){
+/*function commonRegex(){
 	regexSearch("[0-9A-Za-z ]{2,}");
 	regexSearch('[0-9A-Za-z ]{1,}',
 		    '.dform_widget_searchfield.txt-gov [data-customalias="forename"]');
@@ -26,19 +40,7 @@ function commonRegex(){
 		    '[name="txt_postcode"] input');
 	regexSearch('^(EH|eh|eH|Eh)[A-Za-z0-9\s]{0,6}$',
 	 	    '.dform_widget_searchfield.txt-gov [data-customalias="postcode"]');//KS: Fikri to provide a more comprehensive version
-	
-	/*/KS: to quickly chnage the create new individual validation
-	regexSearch('^([0-9A-Za-z ]{0,})(\S{1}$)',
-		    '#dform_widget_txt_c_forename, #dform_widget_txt_c_addressnumber');
-	regexSearch('^([0-9A-Za-z][0-9A-Za-z ]{0,})(\S{1}$)',
-		    '#dform_widget_txt_c_surname, #dform_widget_txt_c_addressline1, #dform_widget_txt_c_town');
-	regexSearch('^(([gG][iI][rR] {0,}0[aA]{2})|((([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y]?[0-9][0-9]?)|(([a-pr-uwyzA-PR-UWYZ][0-9][a-hjkstuwA-HJKSTUW])|([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) {0,}[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))$',
-		    '#dform_widget_txt_c_postcode');
-	regexSearch('^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-		    '#dform_widget_eml_c_email');
-	regexSearch('^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$',
-		    '#dform_widget_tel_c_telephone');*/
-}
+}*/
 
 function defineDefaultStyle(){
 	//KS: can define listeners here, but can't later on, need to call 
@@ -76,11 +78,11 @@ function defaultNewStyle(elements){
 			validStyle = false;
 		} else{
 			switch(element){
-			    case "all":
+			    /*case "all":
 			    case"recommended":
 				validStyle = false;
 				defineDefaultStyle();
-				break;
+				break;*/
 			    case "mchk":$("[data-type='multicheckbox']").addClass('mchk-gov');break;
 			    case "chk":$("[data-type='checkbox']").addClass('chk-gov');break;
 			    case "rad":$("[data-type='radio']").addClass('rad-gov');break;
@@ -185,7 +187,7 @@ function defaultNewStyle(elements){
 			    case "field-text-align-right":
 				$("[data-type='text'], [data-type='date'], [data-type='email'], [data-type='number'], [data-type='password'], [data-type='tel'], [data-type='time']").addClass('text-align-right');
 				break;
-					//KS: LISTENERS - if after _KDF_ready, apply them with addStyleListeners(['a_listenerFunctions_property','it_supports_lists'])
+				//KS: LISTENERS - if after _KDF_ready, apply them with addStyleListeners(['a_listenerFunctions_property','it_supports_lists'])
 			    case'txta-length-listener':
 				listenerFunctions['txta-length-listener']();
 				break;
@@ -203,6 +205,15 @@ function defaultNewStyle(elements){
 				break;
 			   case'search-empty-search':
 				listenerFunctions['search-empty-search']()
+				break;
+			    case 'globalRegex':
+				regexsToApply.forEach(function(element){
+					if (element.length == 1){
+						regexSearch(element[0]);
+					}else{
+						regexSearch(element[0],element[1]);
+					}
+				});
 				break;
 			    default:
 				validStyle = false;
@@ -247,9 +258,6 @@ function applyNewStyle(){
             }
         }
     });
-	
-	//KS: needs to be applied after styles are added
-	commonRegex();
 	
 	//KS: trigger: '_style_styleApplied, [elementSelectorsUsed, hadDefaultsInArray]'
 	$(formName()).trigger('_style_styleApplied',[elementsToUpdate, (hasDefaultsInArguments) ? arguments[0] : false]);
