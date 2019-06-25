@@ -171,7 +171,7 @@ function luthfanHighlightMissingAsset(globalX, globalY){//Override if luthfan = 
 	});
 }
 function luthfanDrawAssetLayer(){//TODO update URL
-	    
+    if (getMapParams().selectQueueSize > 1){return;/*KS: quick fix for multiselect*/}
     // if flytipping & overflowing litter bin then return false | litter & flytipping form speisifc
       if (KDF.getVal('rad_problem_option_OSM')) {
         if (KDF.getVal('rad_problem_option_OSM') === 'OS03' ) {
