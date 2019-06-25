@@ -181,7 +181,7 @@ function luthfanDrawAssetLayer(){//TODO update URL
     
 	// dog fouling
     if (KDF.getVal('txt_formname')) {
-        if (KDF.getVal('txt_formname') === 'dog_fouling') {
+        if (KDF.getVal('txt_formname') === 'dog_fouling' || KDF.getVal('txt_formname') === 'foliage') {
             return false;
         }
     }
@@ -191,8 +191,7 @@ function luthfanDrawAssetLayer(){//TODO update URL
         if (KDF.getVal('rad_sign_type') === 'unlit' ) {
             return false;
         }
-    }
-    
+    }    
     
     KDF.hideMessages();
     
@@ -230,22 +229,14 @@ function luthfanDrawAssetLayer(){//TODO update URL
 
     //var esriAssetUrl = 'https://edinburghcouncilmaps.info/arcgis/rest/services/CouncilAssets/ConfirmAssets2/MapServer/7/query?f=pjson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=27700&outFields=*&outSR=27700&transformForward=false' + '&geometry=%7B%22xmin%22%3A' + xminE + '%2C%22ymin%22%3A' + yminE + '%2C%22xmax%22%3A' + xmaxE + '%2C%22ymax%22%3A' + ymaxE + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A27700%7D%7D';
 
-    $.ajax({url: esriAssetUrl, dataType: 'jsonp', crossDomain: true
-	}).done(function(response) {
-	    //console.log(response.features);
+    $.ajax({url: esriAssetUrl, dataType: 'json'}).done(function(response) {
+	    console.log(response);
 
 	    require([ "esri/symbols/SimpleMarkerSymbol", "esri/graphic", "esri/Color", "dojo/domReady!" ],
         function(SimpleMarkerSymbol,  Graphic,  Color) {
 
 		assetLayer = new esri.layers.GraphicsLayer({id:"asset_layer"});
-        /*
-        var infoTemplate = new InfoTemplate();
-        
-         infoTemplate.setTitle("hello there");
-         infoTemplate.setContent("please pop up");
-
-        assetLayer.setInfoTemplate(infoTemplate);
-        */
+    
         var redColor = Color.fromArray([0, 204, 153]);
 			    //KS: use defind object to create marker
 				sms = new SimpleMarkerSymbol(specifics.markerSymbol);
@@ -308,8 +299,8 @@ function luthfanDrawAssetLayer(){//TODO update URL
                      KDF.unlock();
                     
                     if (typeof KDF.getVal('txt_confirm_lat') != 'undefined' && KDF.getVal('txt_confirm_lon') != 'undefined') {
-                        KDF.setVal('txt_confirm_lat', parseInt(lan));
-                        KDF.setVal('txt_confirm_lon', parseInt(long));
+                        KDF.setVal('txt_confirm_lat', lan.toString());
+                        KDF.setVal('txt_confirm_lon', long.toString());
                     }
                     
                     if (typeof KDF.getVal('txt_confirm_sitecode') != 'undefined') {
@@ -714,10 +705,10 @@ function postcodeSearch(searchInput) {
 
 function getAssetInfo(globalX, globalY) {
 	var assetRadius = 15;
-
+	console.log(assetRadius);
 	if (KDF.getVal('rad_issue_WINT') == 'RW16') {
 		assetRadius = 100;		
- 	} 
+ 	}
 	
    //clearPreviousLayer();
    var point = new Point([globalX, globalY]);
@@ -738,15 +729,16 @@ function getAssetInfo(globalX, globalY) {
 		esriServiceURL = getCommunalAssetURl() + '&geometry=%7B%22xmin%22%3A' + xminE + '%2C%22ymin%22%3A' + yminE + '%2C%22xmax%22%3A' + xmaxE + '%2C%22ymax%22%3A' + ymaxE + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A'+getMapParams().WKID+'%7D%7D';
 		//console.log(esriServiceURL);
 
-			$.ajax({url: esriServiceURL}).done(function(response) {
+			$.ajax({url: esriServiceURL,  dataType: 'json'}).done(function(response) {
 				//console.log('Response below: k')
 				//console.log(response)
 				
 				hideLoading();
-				console.groupCollapsed('Feature responces:')
+				//console.groupCollapsed('Feature responces:')
 				console.log('Actual responce (we should implement the closest one soon):');
-				console.log(response)
+				console.log(response.features);
 				$.each(response.features, function( key, value ) {
+					console.log('helo');
 					//KS implementation of dynamicly displayed properties
 					content = ''; //KS otherwise will display all resukts - maybe update when we're using PopUp
 					if (KDF.getVal('asset_popup_fields')){
@@ -811,7 +803,7 @@ function getAssetInfo(globalX, globalY) {
 					}
 
 				});
-				console.groupEnd() 
+				//console.groupEnd() 
 				
 				//var newlayer = new GraphicsLayer();
 				//var markerSymbol = new PictureMarkerSymbol('/dformresources/content/map-blue.png', 64, 64);
@@ -851,22 +843,26 @@ function callInfoWindow(content, marker, map){
         if(content == null || content==''){
 
 			if (KDF.getVal('rad_issue_WINT') == 'RW16') {
-				content = '<p class="paragraph-medium">Valid new grit bin location</p><button id="mapConfirm" class="mapConfirm btn-continue" data-asset_id="">Confirm new location</button>'
+				content = '<p class="paragraph-normal">Valid new grit bin location</p><button id="mapConfirm" class="mapConfirm btn-continue" data-asset_id="">Confirm new location</button>'
 
         	} else {
+        		content = '<div><p class="paragraph-normal">No grit bin found</b><br><button id="" class="mapConfirm btn-continue" data-asset_id="">CONFIRM ANYWAY</button></p></div>';
+        		/*
         		if(getMapParams().defaultPopupContent){
 					content = (getMapParams().defaultPopupContent instanceof Function) ? getMapParams().defaultPopupContent() : getMapParams().defaultPopupContent;
 				} else{
 					content = '<u><b>Asset not found.</b></u></br></br><u><b>If you believe there is an asset here please click below button to report.</b></u>'
 				+ '</br></br><button id="" class="mapConfirm btn-continue" data-asset_id="">Report this location</button></div>';
-				}
+				}*/
         	}
         } else {
         	console.log('helo')
         	if (KDF.getVal('rad_issue_WINT') == 'RW16') {
-				content = '<p class="paragraph-medium">Another asset is within 100m, so you cannot report here</p>';
+				content = '<p class="paragraph-normal">You are unable to request a new grit bin at this location because an existing grit bin is within 100m of this location</p>';
 				
-        	} 
+        	} else {
+        		content = '<div><p class="paragraph-normal">No grit bin found</b><br><button id="" class="mapConfirm btn-continue" data-asset_id="">CONFIRM ANYWAY</button></p></div>';
+        	}
         }
 
 	//var centerpoint = new Point(marker.geometry.x, marker.geometry.y, new esri.SpatialReference({wkid: getMapParams().WKID}));
@@ -883,7 +879,6 @@ function callInfoWindow(content, marker, map){
 	//KS BUG that bypasses 
 	//drawAssetLayer();
 	
-		
 }
 
 function luthfancallInfoWindow(content, lat, long){
@@ -1067,15 +1062,18 @@ function processResult(searchInput){
     		hideLoading();
 	    } else {
 	        $.each(response.candidates, function( key, value ) {
-                resultAssetArray[value.attributes.STREET_DESCRIPTOR] = new Object();
-                resultAssetArray[value.attributes.STREET_DESCRIPTOR]['site_name'] = value.attributes.LOCATOR_DESCRIPTION;
-                resultAssetArray[value.attributes.STREET_DESCRIPTOR]['xCoord'] = value.location.x;
-                resultAssetArray[value.attributes.STREET_DESCRIPTOR]['yCoord'] = value.location.y;
-				resultAssetArray[value.attributes.STREET_DESCRIPTOR]['USRN']= value.attributes.USRN;
+	        	//console.log(key)
+                //resultAssetArray[value.attributes.STREET_DESCRIPTOR] = new Object();
+                
+				resultAssetArray[key] = new Object();
+                resultAssetArray[key]['site_name'] = value.attributes.LOCATOR_DESCRIPTION;
+                resultAssetArray[key]['xCoord'] = value.location.x;
+                resultAssetArray[key]['yCoord'] = value.location.y;
+				resultAssetArray[key]['USRN']= value.attributes.USRN;
           
 	         });
 	        
-	        console.log(resultAssetArray);
+	       // console.log(resultAssetArray);
     		
 	    } 
 	        
@@ -1115,10 +1113,16 @@ function processResult(searchInput){
 	          }  else {
 	               $('label[for=dform_widget_fault_reporting_search_results]').html('<label for="dform_widget_fault_reporting_search_results">Multiple results, please select one:</label>');
 	               $('#dform_widget_fault_reporting_search_results').append($('<option value="Please select a location" disabled>Please select</option>'))
-	               $.each(resultAssetArray, function(key, resultAssetArray2 ) {
+	               console.log(resultAssetArray)
+	               $.each(resultAssetArray, function(index, resultAssetArray2 ) {
 	                   console.log(resultAssetArray2.site_name);
+	                   console.log(index);
+
     		    	   $('#dform_widget_fault_reporting_search_results').append($('<option>', {value: resultAssetArray2.site_name,text: resultAssetArray2.site_name}))
-    		        
+    		        	if(index == 0){
+    		        			esrimap.centerAndZoom(new Point(resultAssetArray2.xCoord, resultAssetArray2.yCoord, new esri.SpatialReference({ wkid: 27700 })), 6);	
+    		        	}
+
     		           KDF.showWidget('fault_reporting_search_results');
 	               });
 	          }
@@ -1374,7 +1378,8 @@ function geolocateLogic(lonLatWkid){
 		var point = new Point(lonLatWkid.x, lonLatWkid.y, new SpatialReference(lonLatWkid.WKID));
 		console.log(point)
 		var withinExtent = isPointWithinSquare([point.x, point.y], getMapParams().extent);
-		
+		console.log('hai muncul gak')
+		console.log(KDF.getVal('le_gis_lon'));
 		if (KDF.getVal('rad_viewmode') === 'R' || KDF.getVal('rad_viewmode') === 'U') { /*add U mode */
 			console.log('masuk R mode');
 
@@ -1385,6 +1390,7 @@ function geolocateLogic(lonLatWkid){
 				esrimap.centerAndZoom(centerpoint, 9);
 			}
 			else {
+				console.log('non asset')
 				var centerpoint = new Point(KDF.getVal('le_gis_lon'), KDF.getVal('le_gis_lat'), new esri.SpatialReference({
 					wkid: 27700
 				}));
