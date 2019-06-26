@@ -228,7 +228,7 @@ function luthfanDrawAssetLayer(){//TODO update URL
     }
 
     //var esriAssetUrl = 'https://edinburghcouncilmaps.info/arcgis/rest/services/CouncilAssets/ConfirmAssets2/MapServer/7/query?f=pjson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=27700&outFields=*&outSR=27700&transformForward=false' + '&geometry=%7B%22xmin%22%3A' + xminE + '%2C%22ymin%22%3A' + yminE + '%2C%22xmax%22%3A' + xmaxE + '%2C%22ymax%22%3A' + ymaxE + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A27700%7D%7D';
-  if (esriAssetUrl == ''){
+  if (esriAssetUrl != ''){
     $.ajax({url: esriAssetUrl, dataType: 'json'}).done(function(response) {
 	    console.log(response);
 
