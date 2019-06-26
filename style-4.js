@@ -9,7 +9,10 @@ var styleGroup = {
 		'highlightRequired','search-no-results','field-label-right-align','txta-length','txta-length-listener','noResultsFound','selectResult','txt-enter-trigger-btn','search-empty-search'
 	],
 	
-	'all':styleGroup.recommended,//KS: for backwards compatability
+	'all':[
+        	'mchk','chk','rad','txt','dt','eml','num','pas','tel','time','txta','sel','file','btn','search',
+		'highlightRequired','search-no-results','field-label-right-align','txta-length','txta-length-listener','detailToggle','noResultsFound','selectResult','txt-enter-trigger-btn','search-empty-search','globalRegex'
+    	],//KS: for backwards compatability
 	//Object.getOwnPropertyNames(styleGroup)
 }
 var regexsToApply = [//KS: Need to change per client - easier to hardcode the change
