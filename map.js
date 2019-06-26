@@ -172,27 +172,7 @@ function luthfanHighlightMissingAsset(globalX, globalY){//Override if luthfan = 
 }
 function luthfanDrawAssetLayer(){//TODO update URL
     if (getMapParams().selectQueueSize > 1){return;/*KS: quick fix for multiselect*/}
-    // if flytipping & overflowing litter bin then return false | litter & flytipping form speisifc
-      if (KDF.getVal('rad_problem_option_OSM')) {
-        if (KDF.getVal('rad_problem_option_OSM') === 'OS03' ) {
-            return false;
-        }
-    } 
-    
-	// dog fouling
-    if (KDF.getVal('txt_formname')) {
-        if (KDF.getVal('txt_formname') === 'dog_fouling' || KDF.getVal('txt_formname') === 'foliage') {
-            return false;
-        }
-    }
-    
-    // road sign unlit
-    if (KDF.getVal('rad_sign_type')) {
-        if (KDF.getVal('rad_sign_type') === 'unlit' ) {
-            return false;
-        }
-    }    
-    
+	
     KDF.hideMessages();
     
     var esriAssetUrl='';
@@ -227,7 +207,11 @@ function luthfanDrawAssetLayer(){//TODO update URL
         esriAssetUrl = 'https://edinburghcouncilmaps.info/arcgis/rest/services/CouncilAssets/ConfirmAssets2/MapServer/' + KDF.getVal('asset_layer') + '/query?f=pjson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=27700&outFields=*&outSR=27700&transformForward=false' + '&geometry=%7B%22xmin%22%3A' + xminE + '%2C%22ymin%22%3A' + yminE + '%2C%22xmax%22%3A' + xmaxE + '%2C%22ymax%22%3A' + ymaxE + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A27700%7D%7D';;
     }
 
-    //var esriAssetUrl = 'https://edinburghcouncilmaps.info/arcgis/rest/services/CouncilAssets/ConfirmAssets2/MapServer/7/query?f=pjson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometryType=esriGeometryEnvelope&inSR=27700&outFields=*&outSR=27700&transformForward=false' + '&geometry=%7B%22xmin%22%3A' + xminE + '%2C%22ymin%22%3A' + yminE + '%2C%22xmax%22%3A' + xmaxE + '%2C%22ymax%22%3A' + ymaxE + '%2C%22spatialReference%22%3A%7B%22wkid%22%3A27700%7D%7D';
+	//If has no assets - ensure it has no URL
+	if ((KDF.getVal('rad_problem_option_OSM') && KDF.getVal('rad_problem_option_OSM') === 'OS03') || (KDF.getVal('rad_sign_type') && KDF.getVal('rad_sign_type') === 'unlit')) {
+		esriAssetUrl='';
+	} 
+
   if (esriAssetUrl != ''){
     $.ajax({url: esriAssetUrl, dataType: 'json'}).done(function(response) {
 	    console.log(response);
