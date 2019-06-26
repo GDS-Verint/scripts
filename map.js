@@ -181,9 +181,9 @@ function luthfanDrawAssetLayer(){//TODO update URL
         esrimap.removeLayer(esrimap.getLayer("asset_layer"));
     }
     
-    /*if (typeof esrimap.getLayer("case_marker_layer") !== 'undefined') {
-        esrimap.removeLayer(esrimap.getLayer("case_marker_layer"));
-    }*/
+    if(esrimap.getLayer('case_marker_layer') !== undefined){
+	    esrimap.removeLayer(esrimap.getLayer('case_marker_layer'));
+    }
 
     var xmaxE = esrimap.extent.xmax;
     var ymaxE = esrimap.extent.ymax;
@@ -311,7 +311,7 @@ function luthfanDrawAssetLayer(){//TODO update URL
 	}).fail(function() {
 	    KDF.showError('It looks like the connection to our mapping system has failed, please try to log the fault again');
 	});
-  }else if(esrimap.getLayer('case_marker_layer') !== undefined){esrimap.removeLayer(esrimap.getLayer('case_marker_layer'));}
+  }
 }
 
 function keatonDrawAssetLayer(layersToKeep){
