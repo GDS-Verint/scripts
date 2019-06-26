@@ -176,21 +176,19 @@ function luthfanDrawAssetLayer(){//TODO update URL
     KDF.hideMessages();
     
     var esriAssetUrl='';
-    
+    /*
     if (typeof esrimap.getLayer("asset_layer") !== 'undefined') {
         esrimap.removeLayer(esrimap.getLayer("asset_layer"));
     }
     
     if (typeof esrimap.getLayer("case_marker_layer") !== 'undefined') {
         esrimap.removeLayer(esrimap.getLayer("case_marker_layer"));
-    }
+    }*/
 
     var xmaxE = esrimap.extent.xmax;
     var ymaxE = esrimap.extent.ymax;
     var xminE = esrimap.extent.xmin;
     var yminE = esrimap.extent.ymin;
-    
-    //console.log(xmaxE + ' ' + ymaxE + ' ' + xminE + ' ' + yminE);
     
     var infoWindowContent;
     
