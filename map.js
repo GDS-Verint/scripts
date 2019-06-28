@@ -1572,6 +1572,7 @@ _KDF_mapReady.done(function(){
 });
 
 var triggerFunction = {
+	//KS: not being used - hardcoded in _KDF_mapReady deffered object.done
 	'_map_selectQueueInteraction':function(event, assetID, type, queueMax, queueSize, queueWithAsset){
 		console.log('_map_selectQueueInteraction triggered')
 		var selectLeft = queueMax - queueSize;
@@ -1938,7 +1939,7 @@ function addSelectedAssetWidget(){
     }
 }
 
-function applyAssetListener(){
+function applyAssetListener(){//KS: isn't being used - likely hardcoded with the _KDF_mapReady deffered object .done
 	//KS: pretty sure this is unused, since thre is one being used just like it
     $('.queueButton').off().on('click',function(){
         //alert('.queueButton triggered')
