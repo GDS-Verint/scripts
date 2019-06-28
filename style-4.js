@@ -1,3 +1,15 @@
+/*Last production version of the form was commited Jun 20, 2019
+* This is has chnages to make maintainance easier, which isn't working as expected
+:::       ::: ::::::::::: :::::::::        :::     ::: :::::::::: :::::::::   ::::::::  :::::::::::  ::::::::  ::::    ::: 
+:+:       :+:     :+:     :+:    :+:       :+:     :+: :+:        :+:    :+: :+:    :+:     :+:     :+:    :+: :+:+:   :+: 
++:+       +:+     +:+     +:+    +:+       +:+     +:+ +:+        +:+    +:+ +:+            +:+     +:+    +:+ :+:+:+  +:+ 
++#+  +:+  +#+     +#+     +#++:++#+        +#+     +:+ +#++:++#   +#++:++#:  +#++:++#++     +#+     +#+    +:+ +#+ +:+ +#+ 
++#+ +#+#+ +#+     +#+     +#+               +#+   +#+  +#+        +#+    +#+        +#+     +#+     +#+    +#+ +#+  +#+#+# 
+ #+#+# #+#+#      #+#     #+#                #+#+#+#   #+#        #+#    #+# #+#    #+#     #+#     #+#    #+# #+#   #+#+# 
+  ###   ###   ########### ###                  ###     ########## ###    ###  ########  ###########  ########  ###    #### 
+*/
+
+
 var styleGroup = {
 	//KS: I recommend creating at least one new group per client - then it will make it easier to maintain
 	//KS: please don't put the group name within the list - it will cause recursion. And if there is a group name, be sure it won't loop back to itself through other groups
