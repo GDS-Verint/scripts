@@ -1085,6 +1085,7 @@ KS: Custom gov multi-checkbox - Start
     width: fit-content !important;
     width: intrinsic !important;
     width: -moz-max-content !important; 
+    display: inline-block !important;
 }
 .text-align-right > .one,.text-align-right > .two,.text-align-right > .three,.text-align-right > .four,.text-align-right > .five,.text-align-right > .six,.text-align-right > .seven,.text-align-right > .eight,.text-align-right > .nine,.text-align-right > .ten,.text-align-right > .eleven,.text-align-right > legend{
     text-align: right !important;
