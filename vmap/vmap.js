@@ -52,12 +52,10 @@ VMap.prototype.zoomLevelChanged = function zoomLevelChanged(evt, zoomChanged) {
  */
 VMap.prototype.drawDynamicLayer = function drawDynamicLayer(layerConfig) {
   //layerConfig {url, code, id}
-  var layersCodes = [];
-  layersCodes = [layerConfig.code];
   var layer = new esri.layers.ArcGISDynamicMapServiceLayer(layerConfig.url, {
     id: layerConfig.id
   });
-  layer.setVisibleLayers(layersCodes);
+  layer.setVisibleLayers(layerConfig.codes);
   layer.setOpacity(0.9);
   this.getMapParams().map.addLayer(layer);
 };
@@ -162,34 +160,34 @@ VMap.prototype.setInfoWindow = function setInfoWindow(infoWindowConfig) {
  * @param  {} layerConfig
  * @param  {} featureSetHandler
  */
-VMap.prototype.findFeaturesNear = function findFeaturesNear(marker, layerConfig, featureSetHandler) {
+VMap.prototype.findFeaturesNear = function findFeaturesNear(marker, layerConfig, featureSetHandler, errorCallback) {
   var assetClick = this.getMapParams().assetClick;
   var wkid = this.getMapParams().WKID;
   var map = this.getMapParams().map;
   var queryLayerConfig = layerConfig;
-
   require([
     "esri/InfoTemplate",
     "esri/layers/FeatureLayer",
     "esri/geometry/Circle",
-    "esri/geometry/Point",
     "esri/tasks/query",
     "esri/SpatialReference"
-  ], function(InfoTemplate, FeatureLayer, Circle, Point, Query, SpatialReference) {
+  ], function(InfoTemplate, FeatureLayer, Circle, Query, SpatialReference) {
     var infoTemplate = new InfoTemplate("Attributes", "${*}");
     var featureLayer = new FeatureLayer(queryLayerConfig.url, {
       mode: FeatureLayer.MODE_ONDEMAND,
       infoTemplate: infoTemplate,
       outFields: ["*"]
     });
-    var point = new Point([marker.geometry.x, marker.geometry.y]);
 
-    var circle = new Circle(point, {
+    var circle = new Circle(marker.geometry, {
       radius: assetClick.radius,
       radiusUnit: assetClick.radiusUnit
     });
-    circle.spatialReference = new SpatialReference(wkid);
 
+    if (queryLayerConfig.wkid) {
+      circle.spatialReference = new SpatialReference(queryLayerConfig.wkid);
+    }
+    
     var query = new Query();
     query.geometry = circle;
     query.spatialRelationship = Query.SPATIAL_REL_INTERSECTS;
@@ -198,6 +196,8 @@ VMap.prototype.findFeaturesNear = function findFeaturesNear(marker, layerConfig,
 
     featureLayer.queryFeatures(query, function(featureSet) {
       featureSetHandler(marker, featureSet);
+    }, function(error) {
+      errorCallback(error);
     });
   });
 };
@@ -246,12 +246,12 @@ VMap.prototype.removePoints = function removePoints(layerId) {
 /**
  * convertLonLat
  * Convert Lon Lat from one projection to another using Proj4js
- * config {coordinates: {x:, y:}, inputProjection:, outputProjection:, resultCallBack:}
+ * config {coordinates: {x:, y:}, inputProjection:, outputProjection:, successCallBack:}
  * @param  {} config
  */
 VMap.prototype.convertLonLat = function convertLonLat(config) {
   var result = proj4(config.inputProjection.projection, config.outputProjection.projection, config.coordinates);
-  config.resultCallBack(result);
+  config.successCallBack(result);
 };
 
 VMap.prototype.addSearch = function addSearch() {

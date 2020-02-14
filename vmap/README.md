@@ -46,7 +46,7 @@ Draw Dynamic Layer function accepts a layer configuration object. This creates a
 ``` javascript
   const layerConfig = {
     url: vmap.getMapParams().hostUrl + "/webmaps/rest/services/appservices/highwaysassets/MapServer",
-    code: 0,
+    codes: [0],
     id: "highwaysAssetLayer"
   };
   vmap.drawDynamicLayer(layerConfig);
@@ -90,10 +90,9 @@ $("#dform_sheff_map").off("_KDF_mapClicked").on("_KDF_mapClicked", function(even
     // Assets Street light
     const streetLightLayerConfig = {
       url: vmap.getMapParams().hostUrl + "/webmaps/rest/services/appservices/highwaysassets/MapServer/0",
-      code: 0,
-      id: "streetLightAssetLayer"
+      wkid: 27700 //wkid is option will use maps wkid if not provided
     };
-    vmap.findFeaturesNear(marker, streetLightLayerConfig, streetLightFeatureSetHandler);
+    vmap.findFeaturesNear(marker, streetLightLayerConfig, streetLightFeatureSetHandler, errorHandler);
 });
 
 function streetLightFeatureSetHandler(marker, featureSet) {
@@ -107,6 +106,9 @@ function streetLightFeatureSetHandler(marker, featureSet) {
     console.log('No feature returned');
   }
   
+}
+function errorHandler(error) {
+  console.error(error);
 }
 ```
 
