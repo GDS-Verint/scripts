@@ -53,6 +53,23 @@ Draw Dynamic Layer function accepts a layer configuration object. This creates a
 }
 ```
 
+### removeLayer
+Remove Layer using Layer Id.
+``` javascript
+  const layerConfig = {
+    id: "highwaysAssetLayer"
+  };
+  vmap.removeLayer(layerConfig);
+}
+```
+
+### removeAllLayers
+Remove all map Layers
+``` javascript
+  vmap.removeAllLayers();
+}
+```
+
 ### addPoint
 Add point function accepts a point configuration object
 ``` javascript

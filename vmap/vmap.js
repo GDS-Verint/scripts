@@ -59,6 +59,27 @@ VMap.prototype.drawDynamicLayer = function drawDynamicLayer(layerConfig) {
   layer.setOpacity(0.9);
   this.getMapParams().map.addLayer(layer);
 };
+
+/**
+ * removeLayer
+ * Remove a map layer for a given layerId
+ * config {id}
+ * @param  {} layerConfig
+ */
+VMap.prototype.removeLayer = function removeLayer(layerConfig) {
+  //layerConfig {id}
+  var layer = this.getMapParams().map.getLayer(layerConfig.id);
+  this.getMapParams().map.removeLayer(layer);
+};
+
+/**
+ * removeAllLayers
+ * Removes all map layers
+ */
+VMap.prototype.removeAllLayers = function removeAllLayers() {
+  this.getMapParams().map.removeAllLayers();
+};
+
 /**
  * loadCaseMarkers
  * Takes custom action response object and creates case marker layer for given response
@@ -71,7 +92,7 @@ VMap.prototype.loadCaseMarkers = function loadCaseMarkers(response, selectedCase
   var map = this.getMapParams().map;
   var mapParams = this.getMapParams();
   map.graphics.clear();
-  require([
+    require([
     "esri/geometry/Point",
     "esri/symbols/PictureMarkerSymbol",
     "esri/graphic",
